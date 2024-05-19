@@ -8,5 +8,10 @@
     "require": {
         "php": "^8.2",
         "friendsofphp/php-cs-fixer": "^3.50"
+    },
+    "autoload": {
+        "files": [
+            "functions/base.php"
+        ]
     }
 }
