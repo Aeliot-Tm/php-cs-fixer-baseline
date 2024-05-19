@@ -12,6 +12,9 @@
     "autoload": {
         "files": [
             "functions/base.php"
-        ]
+        ],
+        "psr-4": {
+            "Aeliot\\PhpCsFixerBaseline\\": "src/"
+        }
     }
 }
