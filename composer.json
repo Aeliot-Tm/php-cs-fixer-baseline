@@ -1,0 +1,12 @@
+{
+    "name": "aeliot/php-cs-fixer-baseline",
+    "type": "library",
+    "description": "Provide base line for CS Fixer",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.2",
+        "friendsofphp/php-cs-fixer": "^3.50"
+    }
+}
