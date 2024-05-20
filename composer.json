@@ -9,12 +9,20 @@
         "php": "^8.2",
         "friendsofphp/php-cs-fixer": "^3.50"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^11.1"
+    },
     "autoload": {
         "files": [
             "functions/base.php"
         ],
         "psr-4": {
             "Aeliot\\PhpCsFixerBaseline\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aeliot\\PhpCsFixerBaseline\\Test\\": "tests/"
         }
     }
 }
