@@ -36,6 +36,10 @@
         "sort-packages": true
     },
     "scripts": {
+        "cs-check": "@cs-fixer-check",
+        "cs-fix": "@cs-fixer-fix",
+        "cs-fixer-check": "vendor/bin/php-cs-fixer fix --dry-run",
+        "cs-fixer-fix": "vendor/bin/php-cs-fixer fix -vv",
         "phpstan": [
             "@phpstan-clear",
             "@phpstan-analyse"
