@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+require_once getcwd() . '/vendor/autoload.php';
+
+/** @var PhpCsFixer\Finder $finder */
+$finder = require $argv[0];
+
+/** @var array<string,array{hash: int}> $hashes */
+$hashes = [];
+
+foreach ($finder as $path) {
+    $pathName = $path->getPathname();
+    $hashes[$pathName] = [
+        'hash' => cs_fixer_get_path_hash($pathName),
+    ];
+}
+
+/** @var PhpCsFixer\Config $config */
+$config = require $argv[0];
+
+cs_fixer_put_baseline($hashes, $config);
+echo sprintf("Ok, %s files added to baseline\n", count($hashes));
