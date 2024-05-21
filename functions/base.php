@@ -20,7 +20,7 @@ function cs_fixer_get_baseline(): array
     $path = cs_fixer_get_baseline_file_path();
 
     return file_exists($path)
-        ? json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR)
+        ? json_decode(file_get_contents($path), true, 512, \JSON_THROW_ON_ERROR)
         : [];
 }
 
@@ -50,7 +50,7 @@ function cs_fixer_get_config_hash(PhpCsFixer\Config $config): int
 
     ksort($data);
 
-    return crc32(json_encode($data, JSON_THROW_ON_ERROR));
+    return crc32(json_encode($data, \JSON_THROW_ON_ERROR));
 }
 
 /**
@@ -65,5 +65,5 @@ function cs_fixer_put_baseline(array $hashes, PhpCsFixer\Config $config): void
         'hashes' => $hashes,
     ];
     $path = cs_fixer_get_baseline_file_path();
-    file_put_contents($path, json_encode($baseline, JSON_THROW_ON_ERROR | \JSON_PRETTY_PRINT));
+    file_put_contents($path, json_encode($baseline, \JSON_THROW_ON_ERROR | \JSON_PRETTY_PRINT));
 }

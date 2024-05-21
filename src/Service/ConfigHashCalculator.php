@@ -8,7 +8,6 @@ final class ConfigHashCalculator
 {
     public function calculate(Config $config): int
     {
-
         $rules = $config->getRules();
         sort($rules);
 
@@ -19,6 +18,6 @@ final class ConfigHashCalculator
 
         ksort($data);
 
-        return crc32(json_encode($data, JSON_THROW_ON_ERROR));
+        return crc32(json_encode($data, \JSON_THROW_ON_ERROR));
     }
 }

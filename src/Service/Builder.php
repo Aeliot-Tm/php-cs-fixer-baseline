@@ -10,7 +10,6 @@ use PhpCsFixer\Finder;
 
 final class Builder
 {
-
     private ConfigHashCalculator $configHashCalculator;
     private FileCacheCalculator $fileCacheCalculator;
 

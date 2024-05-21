@@ -11,7 +11,7 @@ final class Reader
     public function read(string $path): BaselineFile
     {
         $json = file_exists($path)
-            ? json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR)
+            ? json_decode(file_get_contents($path), true, 512, \JSON_THROW_ON_ERROR)
             : [];
 
         $content = new BaselineContent();
