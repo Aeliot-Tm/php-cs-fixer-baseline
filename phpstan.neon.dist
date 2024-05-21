@@ -1,0 +1,12 @@
+includes:
+	- phpstan-baseline.neon
+
+parameters:
+    level: 6
+    reportUnmatchedIgnoredErrors: false
+
+    paths:
+        - src/
+
+    parallel:
+        processTimeout: 300.0

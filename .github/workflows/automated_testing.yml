@@ -21,6 +21,34 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
+  phpstan:
+    name: Static analyze with PHPStan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - uses: actions/checkout@v4
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: "${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v3
+
+      - name: Static analyze with PHPStan
+        run: |
+          composer run phpstan-clear && \
+          composer run phpstan-analyse -- --no-progress
+
   phpunit:
     name: 'Tests: Unit'
     runs-on: ubuntu-latest
