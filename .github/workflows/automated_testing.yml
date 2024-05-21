@@ -123,3 +123,16 @@ jobs:
 
       - name: Run all PHPUnit tests
         run: composer run phpunit
+
+  remove-vendors:
+    name: Remove archived vendors
+    needs:
+      - cs-fixer
+      - phpstan
+      - phpunit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: geekyeggo/delete-artifact@v5
+        with:
+          name: vendors-archived
