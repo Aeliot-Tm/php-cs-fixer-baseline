@@ -21,8 +21,8 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
-  cs-fixer:
-    name: Check code style with CS Fixer
+  install-vendors:
+    name: Install vendors
     runs-on: ubuntu-latest
 
     steps:
@@ -43,12 +43,42 @@ jobs:
 
       - name: Install dependencies
         uses: ramsey/composer-install@v3
+
+      - name: Archive vendor files
+        run: tar -cvf vendors.tar vendor
+
+      - name: Upload installed vendors
+        uses: actions/upload-artifact@v4
+        with:
+          name: vendors-archived
+          path: vendors.tar
+
+  cs-fixer:
+    name: Check code style with CS Fixer
+    needs: install-vendors
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - uses: actions/checkout@v4
+
+      - name: Download installed vendors
+        uses: actions/download-artifact@v4
+        with:
+          name: vendors-archived
+
+      - name: Extract archived vendor files
+        run: tar -xvf vendors.tar
 
       - name: Check code style
         run: composer run cs-fixer-check -- --show-progress=none
 
   phpstan:
     name: Static analyze with PHPStan
+    needs: install-vendors
     runs-on: ubuntu-latest
 
     steps:
@@ -58,17 +88,13 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v4
+      - name: Download installed vendors
+        uses: actions/download-artifact@v4
         with:
-          path: vendor
-          key: "${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}"
-          restore-keys: |
-            ${{ runner.os }}-php-
+          name: vendors-archived
 
-      - name: Install dependencies
-        uses: ramsey/composer-install@v3
+      - name: Extract archived vendor files
+        run: tar -xvf vendors.tar
 
       - name: Static analyze with PHPStan
         run: |
@@ -77,6 +103,7 @@ jobs:
 
   phpunit:
     name: 'Tests: Unit'
+    needs: install-vendors
     runs-on: ubuntu-latest
 
     steps:
@@ -86,17 +113,13 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v4
+      - name: Download installed vendors
+        uses: actions/download-artifact@v4
         with:
-          path: vendor
-          key: "${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}"
-          restore-keys: |
-            ${{ runner.os }}-php-
+          name: vendors-archived
 
-      - name: Install dependencies
-        uses: ramsey/composer-install@v3
+      - name: Extract archived vendor files
+        run: tar -xvf vendors.tar
 
-      - name: 'Run all PHPUnit tests'
+      - name: Run all PHPUnit tests
         run: composer run phpunit
