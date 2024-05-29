@@ -28,6 +28,9 @@
             "Aeliot\\PhpCsFixerBaseline\\Test\\": "tests/"
         }
     },
+    "bin": [
+        "bin/pcsf-baseline"
+    ],
     "config": {
         "allow-plugins": {
             "composer/*": true,
