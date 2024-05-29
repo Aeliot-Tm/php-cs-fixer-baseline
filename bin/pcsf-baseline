@@ -6,7 +6,7 @@ use Aeliot\PhpCsFixerBaseline\Service\Saver;
 
 require_once getcwd() . '/vendor/autoload.php';
 
-$baselinePath = require $argv[1];
+$baselinePath = $argv[1];
 /** @var PhpCsFixer\Config $config */
 $config = require $argv[2];
 /** @var PhpCsFixer\Finder $finder */
