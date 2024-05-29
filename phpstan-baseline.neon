@@ -1,26 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$configHash of method Aeliot\\\\PhpCsFixerBaseline\\\\Model\\\\BaselineContent\\:\\:setConfigHash\\(\\) expects string, int given\\.$#"
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
-			path: src/Service/Builder.php
+			path: tests/Unit/Service/FilterTest.php
 
 		-
-			message: "#^Method Aeliot\\\\PhpCsFixerBaseline\\\\Service\\\\FileCacheCalculator\\:\\:calculate\\(\\) should return string but returns int\\.$#"
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
-			path: src/Service/FileCacheCalculator.php
-
-		-
-			message: "#^Negated boolean expression is always true\\.$#"
-			count: 1
-			path: src/Service/FilterFactory.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: src/Service/FilterFactory.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between string\\|null and int will always evaluate to false\\.$#"
-			count: 1
-			path: src/Service/FilterFactory.php
+			path: tests/Unit/Service/ReaderTest.php
