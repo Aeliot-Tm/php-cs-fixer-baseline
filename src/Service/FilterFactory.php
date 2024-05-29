@@ -15,7 +15,7 @@ final class FilterFactory
         $comparator = new FileComparator();
 
         return static function (\SplFileInfo $file) use ($isSameConfig, $baseline, $comparator): bool {
-            return !$isSameConfig || $comparator->isInBaseLine($baseline, $file);
+            return !$isSameConfig || !$comparator->isInBaseLine($baseline, $file);
         };
     }
 }
