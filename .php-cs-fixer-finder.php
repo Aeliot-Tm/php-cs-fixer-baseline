@@ -7,7 +7,7 @@ return $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
     ->exclude(['var', 'vendor'])
     ->append([
-        'bin/dev/php-cs-fixer-update-baseline',
+        'bin/pcsf-baseline',
     ]);
 
 
