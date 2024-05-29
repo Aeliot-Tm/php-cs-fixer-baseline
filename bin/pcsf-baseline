@@ -32,11 +32,30 @@ $absolutePathMaker = static function (string $path) use ($projectPath): string {
     return $projectPath . '/' . $path;
 };
 
-$baselinePath = $absolutePathMaker($argv[1] ?? $projectPath . '/.php-cs-fixer-baseline.json');
+$options = (static function () use ($absolutePathMaker): array {
+    $values = [];
+    $options = getopt('b:c:f:', ['baseline', 'config', 'finder']);
+    $defaults = [
+        '.php-cs-fixer-baseline.json' => ['b', 'baseline'],
+        '.php-cs-fixer.dist.php' => ['c', 'config'],
+        '.php-cs-fixer-finder.php' => ['f', 'finder'],
+    ];
+
+    foreach ($defaults as $default => [$short, $long]) {
+        if (isset($options['b'], $options['baseline'])) {
+            throw new InvalidArgumentException(sprintf('%s is duplicated', $long));
+        }
+        $values[$long] = $absolutePathMaker($options[$short] ?? $options[$long] ?? $default);
+    }
+
+    return $values;
+})();
+
+$baselinePath = $options['baseline'];
 /** @var PhpCsFixer\Config $config */
-$config = require $absolutePathMaker($argv[2] ?? $projectPath . '/.php-cs-fixer.dist.php');
+$config = require $options['config'];
 /** @var PhpCsFixer\Finder $finder */
-$finder = require $absolutePathMaker($argv[3] ?? $projectPath . '/.php-cs-fixer-finder.php');
+$finder = require $options['finder'];
 
 $baseline = (new Builder())->create($baselinePath, $config, $finder);
 (new Saver())->save($baseline);
