@@ -15,8 +15,8 @@ final class SaverTest extends TestCase
 {
     public function testSave(): void
     {
-        $pathTMP = sys_get_temp_dir().'/pcsf-baseline-'.date('YmdHis').'-'.random_int(0, 9999).'.json';
-        $path = __DIR__.'/../../fixtures/.php-cs-fixer-baseline.json';
+        $pathTMP = sys_get_temp_dir() . '/pcsf-baseline-' . date('YmdHis') . '-' . random_int(0, 9999) . '.json';
+        $path = __DIR__ . '/../../fixtures/.php-cs-fixer-baseline.json';
 
         $baselineFile = $this->createMock(BaselineFile::class);
         $baselineFile->method('getPath')->willReturn($pathTMP);

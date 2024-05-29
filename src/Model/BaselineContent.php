@@ -47,7 +47,7 @@ final class BaselineContent implements \JsonSerializable
             $baseline['config_hash'] = $this->configHash;
         }
 
-        $hashes = array_map(static fn(FileHash $x): array => $x->jsonSerialize(), $this->hashes);
+        $hashes = array_map(static fn (FileHash $x): array => $x->jsonSerialize(), $this->hashes);
         ksort($hashes);
         $baseline['hashes'] = $hashes;
 

@@ -16,7 +16,7 @@ final class FileCacheCalculatorTest extends TestCase
         $file = $this->createMock(\SplFileInfo::class);
         $file
             ->method('getPathname')
-            ->willReturn(__DIR__.'/../../fixtures/file-for-calculation-of-hash.php');
+            ->willReturn(__DIR__ . '/../../fixtures/file-for-calculation-of-hash.php');
 
         $calculator = new FileCacheCalculator();
         self::assertSame(3067467297, $calculator->calculate($file));

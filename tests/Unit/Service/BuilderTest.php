@@ -22,7 +22,7 @@ final class BuilderTest extends TestCase
         $config->method('getRiskyAllowed')->willReturn(false);
         $config->method('getRules')->willReturn(['some_rule' => true]);
 
-        $expectedPath = realpath(__DIR__.'/../../fixtures/file-for-calculation-of-hash.php');
+        $expectedPath = realpath(__DIR__ . '/../../fixtures/file-for-calculation-of-hash.php');
 
         $files = [];
         $files[] = $file = $this->createMock(\SplFileInfo::class);
@@ -36,7 +36,6 @@ final class BuilderTest extends TestCase
 
         self::assertSame($path, $baselineFile->getPath());
         self::assertSame(1, $baselineFile->getLockedFilesCount());
-
 
         $baselineContent = $baselineFile->getContent();
         self::assertSame(1105664888, $baselineContent->getConfigHash());
