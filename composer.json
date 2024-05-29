@@ -17,9 +17,6 @@
         "phpunit/phpunit": "^11.1"
     },
     "autoload": {
-        "files": [
-            "functions/base.php"
-        ],
         "psr-4": {
             "Aeliot\\PhpCsFixerBaseline\\": "src/"
         }
