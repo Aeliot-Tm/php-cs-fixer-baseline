@@ -21,7 +21,7 @@ final class Reader
             $content->setConfigHash($configHash);
         }
 
-        foreach ($json['hashes'] as $filePath => $hash) {
+        foreach ($json['hashes'] ?? [] as $filePath => $hash) {
             $content->addHash(new FileHash($filePath, $hash['hash']));
         }
 
