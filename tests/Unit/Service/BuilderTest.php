@@ -44,6 +44,6 @@ final class BuilderTest extends TestCase
         self::assertInstanceOf(FileHash::class, $fileHash);
 
         self::assertSame($expectedPath, $fileHash->getPath());
-        self::assertSame(3067467297, $fileHash->getHash());
+        self::assertSame(4266623405, $fileHash->getHash());
     }
 }

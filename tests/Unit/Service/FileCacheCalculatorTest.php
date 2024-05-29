@@ -19,6 +19,6 @@ final class FileCacheCalculatorTest extends TestCase
             ->willReturn(__DIR__ . '/../../fixtures/file-for-calculation-of-hash.php');
 
         $calculator = new FileCacheCalculator();
-        self::assertSame(3067467297, $calculator->calculate($file));
+        self::assertSame(4266623405, $calculator->calculate($file));
     }
 }

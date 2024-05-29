@@ -17,7 +17,7 @@ final class FileComparatorTest extends TestCase
     {
         $file = $this->mockSplFileInfo();
         $baselineContent = new BaselineContent();
-        $baselineContent->addHash(new FileHash($file->getPathname(), 3067467297));
+        $baselineContent->addHash(new FileHash($file->getPathname(), 4266623405));
 
         $comparator = new FileComparator();
 
