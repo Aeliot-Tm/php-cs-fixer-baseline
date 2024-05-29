@@ -1,0 +1,71 @@
+{
+    "config_hash": 1624530864,
+    "hashes": {
+        "\/app\/src\/Model\/BaselineContent.php": {
+            "hash": 3738155494
+        },
+        "\/app\/src\/Model\/BaselineFile.php": {
+            "hash": 4274870345
+        },
+        "\/app\/src\/Model\/FileHash.php": {
+            "hash": 3484956983
+        },
+        "\/app\/src\/Service\/Builder.php": {
+            "hash": 2372865702
+        },
+        "\/app\/src\/Service\/ConfigHashCalculator.php": {
+            "hash": 2974475094
+        },
+        "\/app\/src\/Service\/FileCacheCalculator.php": {
+            "hash": 1636474985
+        },
+        "\/app\/src\/Service\/FileComparator.php": {
+            "hash": 3091382749
+        },
+        "\/app\/src\/Service\/FilterFactory.php": {
+            "hash": 1526000466
+        },
+        "\/app\/src\/Service\/Reader.php": {
+            "hash": 2505433330
+        },
+        "\/app\/src\/Service\/Saver.php": {
+            "hash": 3962257935
+        },
+        "\/app\/tests\/Unit\/Model\/BaselineContentTest.php": {
+            "hash": 1974362953
+        },
+        "\/app\/tests\/Unit\/Model\/BaselineFileTest.php": {
+            "hash": 755822591
+        },
+        "\/app\/tests\/Unit\/Model\/FileHashTest.php": {
+            "hash": 1223876925
+        },
+        "\/app\/tests\/Unit\/Service\/BuilderTest.php": {
+            "hash": 4483073
+        },
+        "\/app\/tests\/Unit\/Service\/ConfigHashCalculatorTest.php": {
+            "hash": 4208531345
+        },
+        "\/app\/tests\/Unit\/Service\/FileCacheCalculatorTest.php": {
+            "hash": 2147815292
+        },
+        "\/app\/tests\/Unit\/Service\/FileComparatorTest.php": {
+            "hash": 65770147
+        },
+        "\/app\/tests\/Unit\/Service\/FilterTest.php": {
+            "hash": 3294571790
+        },
+        "\/app\/tests\/Unit\/Service\/ReaderTest.php": {
+            "hash": 1321817109
+        },
+        "\/app\/tests\/Unit\/Service\/SaverTest.php": {
+            "hash": 3304994583
+        },
+        "\/app\/tests\/bootstrap.php": {
+            "hash": 2617998272
+        },
+        "bin\/pcsf-baseline": {
+            "hash": 1570210819
+        }
+    }
+}

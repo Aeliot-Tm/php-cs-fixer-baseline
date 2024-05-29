@@ -1,5 +1,7 @@
 <?php
 
+use Aeliot\PhpCsFixerBaseline\Service\FilterFactory;
+
 $rules = [
     '@Symfony' => true,
     '@Symfony:risky' => true,
@@ -15,5 +17,6 @@ $config = (new PhpCsFixer\Config())
 
 /** @var PhpCsFixer\Finder $finder */
 $finder = require __DIR__ . '/.php-cs-fixer-finder.php';
+$finder->filter((new FilterFactory())->createFilter(__DIR__ . '/.php-cs-fixer-baseline.json', $config));
 
 return $config->setFinder($finder);
