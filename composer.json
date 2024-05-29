@@ -9,9 +9,52 @@
         "php": "^8.2",
         "friendsofphp/php-cs-fixer": "^3.50"
     },
+    "require-dev": {
+        "dg/bypass-finals": "^1.7",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan": "^1.11",
+        "phpstan/phpstan-phpunit": "^1.4",
+        "phpunit/phpunit": "^11.1"
+    },
     "autoload": {
-        "files": [
-            "functions/base.php"
-        ]
+        "psr-4": {
+            "Aeliot\\PhpCsFixerBaseline\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aeliot\\PhpCsFixerBaseline\\Test\\": "tests/"
+        }
+    },
+    "bin": [
+        "bin/pcsf-baseline"
+    ],
+    "config": {
+        "allow-plugins": {
+            "composer/*": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "keywords": [
+        "PHP CS Fixer",
+        "baseline"
+    ],
+    "scripts": {
+        "cs-check": "@cs-fixer-check",
+        "cs-fix": "@cs-fixer-fix",
+        "cs-fixer-check": "vendor/bin/php-cs-fixer fix --dry-run",
+        "cs-fixer-fix": "vendor/bin/php-cs-fixer fix -vv",
+        "phpstan": [
+            "@phpstan-clear",
+            "@phpstan-analyse"
+        ],
+        "phpstan-analyse": "vendor/bin/phpstan analyse --memory-limit=-1",
+        "phpstan-baseline": [
+            "@phpstan-clear",
+            "@phpstan-analyse --generate-baseline phpstan-baseline.neon --allow-empty-baseline"
+        ],
+        "phpstan-clear": "vendor/bin/phpstan clear-result-cache",
+        "phpunit": "vendor/bin/phpunit"
     }
 }

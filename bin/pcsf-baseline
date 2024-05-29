@@ -1,0 +1,63 @@
+#!/usr/bin/env php
+<?php
+
+use Aeliot\PhpCsFixerBaseline\Service\Builder;
+use Aeliot\PhpCsFixerBaseline\Service\Saver;
+
+$autoloaderPath = (static function (): string {
+    $paths = [
+        __DIR__ . '/vendor/autoload.php',
+        __DIR__ . '/../vendor/autoload.php',
+        __DIR__ . '/../../vendor/autoload.php',
+    ];
+
+    foreach ($paths as $path) {
+        if (file_exists($path)) {
+            return realpath($path);
+        }
+    }
+
+    throw new RuntimeException('Cannot find autoloader');
+})();
+
+require_once $autoloaderPath;
+
+$projectPath = dirname($autoloaderPath, 2);
+
+$absolutePathMaker = static function (string $path) use ($projectPath): string {
+    if (preg_match('#^(?:[[:alpha:]]:[/\\\\]|/)#', $path)) {
+        return $path;
+    }
+
+    return $projectPath . '/' . $path;
+};
+
+$options = (static function () use ($absolutePathMaker): array {
+    $values = [];
+    $options = getopt('b:c:f:', ['baseline', 'config', 'finder']);
+    $defaults = [
+        '.php-cs-fixer-baseline.json' => ['b', 'baseline'],
+        '.php-cs-fixer.dist.php' => ['c', 'config'],
+        '.php-cs-fixer-finder.php' => ['f', 'finder'],
+    ];
+
+    foreach ($defaults as $default => [$short, $long]) {
+        if (isset($options['b'], $options['baseline'])) {
+            throw new InvalidArgumentException(sprintf('%s is duplicated', $long));
+        }
+        $values[$long] = $absolutePathMaker($options[$short] ?? $options[$long] ?? $default);
+    }
+
+    return $values;
+})();
+
+$baselinePath = $options['baseline'];
+/** @var PhpCsFixer\Config $config */
+$config = require $options['config'];
+/** @var PhpCsFixer\Finder $finder */
+$finder = require $options['finder'];
+
+$baseline = (new Builder())->create($baselinePath, $config, $finder);
+(new Saver())->save($baseline);
+
+echo sprintf("Ok, %s files added to baseline\n", $baseline->getLockedFilesCount());

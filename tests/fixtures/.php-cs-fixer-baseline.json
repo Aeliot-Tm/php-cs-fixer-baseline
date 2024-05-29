@@ -1,0 +1,8 @@
+{
+    "config_hash": 1624530864,
+    "hashes": {
+        "\/app\/tests\/fixtures\/file-for-calculation-of-hash.php": {
+            "hash": 4266623405
+        }
+    }
+}
