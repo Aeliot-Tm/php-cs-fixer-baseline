@@ -18,6 +18,7 @@ final class SaverTest extends TestCase
         $pathTMP = sys_get_temp_dir() . '/pcsf-baseline-' . date('YmdHis') . '-' . random_int(0, 9999) . '.json';
         $path = __DIR__ . '/../../fixtures/.php-cs-fixer-baseline.json';
 
+        /** @phpstan-ignore-next-line */
         $baselineFile = $this->createMock(BaselineFile::class);
         $baselineFile->method('getPath')->willReturn($pathTMP);
         $baselineFile->method('getContent')->willReturn((new Reader())->read($path)->getContent());

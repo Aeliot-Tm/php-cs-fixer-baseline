@@ -13,6 +13,9 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ConfigHashCalculator::class)]
 final class ConfigHashCalculatorTest extends TestCase
 {
+    /**
+     * @param array<string, array<string, mixed>|bool> $rules
+     */
     #[DataProvider('getDataForTestCalculate')]
     public function testCalculate(int $expectedHash, array $rules, bool $isRiskyAllowed): void
     {
@@ -25,7 +28,7 @@ final class ConfigHashCalculatorTest extends TestCase
     }
 
     /**
-     * @return iterable<array{0: int, 1: array<string,mixed>, 2: bool}>
+     * @return iterable<array{0: int, 1: array<string, array<string, mixed>|bool>, 2: bool}>
      */
     public static function getDataForTestCalculate(): iterable
     {

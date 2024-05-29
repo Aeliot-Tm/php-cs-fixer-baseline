@@ -4,9 +4,12 @@ includes:
 parameters:
     level: 6
     reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
 
     paths:
+        - bin/pcsf-baseline
         - src/
+        - tests/
 
     parallel:
         processTimeout: 300.0
