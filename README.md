@@ -4,6 +4,7 @@ It's simple baseline for [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-F
 
 **Pros:**
 - It helps to start using of PHP CS Fixer without preparing of all project.
+  Case you don't need to fix them all at the beginning. Only new & changed on each iteration.
 - It may speed up pipelines on CI for big projects.
 
 Base project has requires for it but not implemented yet: https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/6451
