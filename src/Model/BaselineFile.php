@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aeliot\PhpCsFixerBaseline\Model;
 
 final class BaselineFile

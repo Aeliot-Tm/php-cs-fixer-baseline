@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Model;
 
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
@@ -11,7 +13,7 @@ final class FileHashTest extends TestCase
 {
     public function testGetters(): void
     {
-        $hash = 'h';
+        $hash = 1;
         $path = 'p';
         $fileHash = new FileHash($path, $hash);
 

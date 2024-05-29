@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aeliot\PhpCsFixerBaseline\Model;
 
 final class BaselineContent implements \JsonSerializable
 {
-    private ?string $configHash = null;
+    private ?int $configHash = null;
     /**
      * @var array<string,FileHash>
      */
     private array $hashes = [];
 
-    public function getConfigHash(): ?string
+    public function getConfigHash(): ?int
     {
         return $this->configHash;
     }
 
-    public function setConfigHash(string $configHash): void
+    public function setConfigHash(int $configHash): void
     {
         $this->configHash = $configHash;
     }
@@ -45,7 +47,7 @@ final class BaselineContent implements \JsonSerializable
             $baseline['config_hash'] = $this->configHash;
         }
 
-        $hashes = $this->hashes;
+        $hashes = array_map(static fn(FileHash $x): array => $x->jsonSerialize(), $this->hashes);
         ksort($hashes);
         $baseline['hashes'] = $hashes;
 

@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aeliot\PhpCsFixerBaseline\Model;
 
 final class FileHash implements \JsonSerializable
 {
     public function __construct(
         private string $path,
-        private string $hash,
+        private int $hash,
     ) {
     }
 
-    public function getHash(): string
+    public function getHash(): int
     {
         return $this->hash;
     }
@@ -21,7 +23,7 @@ final class FileHash implements \JsonSerializable
     }
 
     /**
-     * @return array<string,string>
+     * @return array<string,int>
      */
     public function jsonSerialize(): array
     {

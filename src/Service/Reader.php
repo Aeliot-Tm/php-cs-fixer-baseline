@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
 use Aeliot\PhpCsFixerBaseline\Model\BaselineContent;
