@@ -38,6 +38,10 @@
         },
         "sort-packages": true
     },
+    "keywords": [
+        "PHP CS Fixer",
+        "baseline"
+    ],
     "scripts": {
         "cs-check": "@cs-fixer-check",
         "cs-fix": "@cs-fixer-fix",
