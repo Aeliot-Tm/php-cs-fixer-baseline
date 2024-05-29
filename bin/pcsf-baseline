@@ -4,13 +4,39 @@
 use Aeliot\PhpCsFixerBaseline\Service\Builder;
 use Aeliot\PhpCsFixerBaseline\Service\Saver;
 
-require_once getcwd() . '/vendor/autoload.php';
+$autoloaderPath = (static function (): string {
+    $paths = [
+        __DIR__ . '/vendor/autoload.php',
+        __DIR__ . '/../vendor/autoload.php',
+        __DIR__ . '/../../vendor/autoload.php',
+    ];
 
-$baselinePath = $argv[1];
+    foreach ($paths as $path) {
+        if (file_exists($path)) {
+            return realpath($path);
+        }
+    }
+
+    throw new RuntimeException('Cannot find autoloader');
+})();
+
+require_once $autoloaderPath;
+
+$projectPath = dirname($autoloaderPath, 2);
+
+$absolutePathMaker = static function (string $path) use ($projectPath): string {
+    if (preg_match('#^(?:[[:alpha:]]:[/\\\\]|/)#', $path)) {
+        return $path;
+    }
+
+    return $projectPath . '/' . $path;
+};
+
+$baselinePath = $absolutePathMaker($argv[1] ?? $projectPath . '/.php-cs-fixer-baseline.json');
 /** @var PhpCsFixer\Config $config */
-$config = require $argv[2];
+$config = require $absolutePathMaker($argv[2] ?? $projectPath . '/.php-cs-fixer.dist.php');
 /** @var PhpCsFixer\Finder $finder */
-$finder = require $argv[3];
+$finder = require $absolutePathMaker($argv[3] ?? $projectPath . '/.php-cs-fixer-finder.php');
 
 $baseline = (new Builder())->create($baselinePath, $config, $finder);
 (new Saver())->save($baseline);
