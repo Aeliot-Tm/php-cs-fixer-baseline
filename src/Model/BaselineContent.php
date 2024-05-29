@@ -43,7 +43,7 @@ final class BaselineContent implements \JsonSerializable
     public function jsonSerialize(): array
     {
         $baseline = [];
-        if ($this->configHash) {
+        if (null !== $this->configHash) {
             $baseline['config_hash'] = $this->configHash;
         }
 
