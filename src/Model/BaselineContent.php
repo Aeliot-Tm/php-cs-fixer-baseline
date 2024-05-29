@@ -38,7 +38,7 @@ final class BaselineContent implements \JsonSerializable
     }
 
     /**
-     * @return array<string,string|array<string,string>>
+     * @return array<string,array<string,string>|int>
      */
     public function jsonSerialize(): array
     {
