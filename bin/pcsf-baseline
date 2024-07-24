@@ -9,7 +9,13 @@ $autoloaderPath = (static function (): string {
         __DIR__ . '/vendor/autoload.php',
         __DIR__ . '/../vendor/autoload.php',
         __DIR__ . '/../../vendor/autoload.php',
+        __DIR__ . '/../../../vendor/autoload.php',
+        __DIR__ . '/../../../../vendor/autoload.php',
     ];
+
+    if (isset($GLOBALS['_composer_autoload_path'])) {
+        array_unshift($paths, $GLOBALS['_composer_autoload_path']);
+    }
 
     foreach ($paths as $path) {
         if (file_exists($path)) {
