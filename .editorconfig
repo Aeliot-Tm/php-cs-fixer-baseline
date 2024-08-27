@@ -27,3 +27,6 @@ indent_size = 4
 [composer.json]
 indent_style = space
 indent_size = 4
+
+[.phive/trust-gpg-keys.txt]
+insert_final_newline = false

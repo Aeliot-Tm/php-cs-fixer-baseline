@@ -45,6 +45,7 @@
         "cs-fix": "@cs-fixer-fix",
         "cs-fixer-check": "vendor/bin/php-cs-fixer fix --dry-run",
         "cs-fixer-fix": "vendor/bin/php-cs-fixer fix -vv",
+        "phive-install": "phive install --trust-gpg-keys $(cat .phive/trust-gpg-keys.txt)",
         "phpstan": [
             "@phpstan-clear",
             "@phpstan-analyse"
