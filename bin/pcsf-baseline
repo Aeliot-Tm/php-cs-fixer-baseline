@@ -40,7 +40,7 @@ $absolutePathMaker = static function (string $path) use ($projectPath): string {
 
 $options = (static function () use ($absolutePathMaker): array {
     $values = [];
-    $options = getopt('b:c:f:', ['baseline', 'config', 'finder']);
+    $options = getopt('b:c:f:', ['baseline:', 'config:', 'finder:']);
     $defaults = [
         '.php-cs-fixer-baseline.json' => ['b', 'baseline'],
         '.php-cs-fixer.dist.php' => ['c', 'config'],
