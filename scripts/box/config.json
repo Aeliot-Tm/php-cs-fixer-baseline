@@ -1,0 +1,32 @@
+{
+    "alias": "pcsf-baseline.phar",
+    "base-path": "/app/",
+    "chmod": "0750",
+    "directories": [
+        "src"
+    ],
+    "files": [
+        "composer.json",
+        "composer.lock",
+        "LICENSE",
+        "README.md"
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": [
+                ".github",
+                "doc",
+                "test",
+                "test_old",
+                "tests",
+                "Tests",
+                "vendor-bin"
+            ],
+            "in": "vendor"
+        }
+    ],
+    "main": "bin/pcsf-baseline",
+    "output": "pcsf-baseline.phar",
+    "stub": true
+}
