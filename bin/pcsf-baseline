@@ -5,21 +5,20 @@ use Aeliot\PhpCsFixerBaseline\Service\Builder;
 use Aeliot\PhpCsFixerBaseline\Service\Saver;
 
 $autoloaderPath = (static function (): string {
+    if (isset($GLOBALS['_composer_autoload_path'])) {
+        return $GLOBALS['_composer_autoload_path'];
+    }
+
     $paths = [
-        __DIR__ . '/vendor/autoload.php',
+        __DIR__ . '/../../../../vendor/autoload.php',
         __DIR__ . '/../vendor/autoload.php',
         __DIR__ . '/../../vendor/autoload.php',
         __DIR__ . '/../../../vendor/autoload.php',
-        __DIR__ . '/../../../../vendor/autoload.php',
     ];
-
-    if (isset($GLOBALS['_composer_autoload_path'])) {
-        array_unshift($paths, $GLOBALS['_composer_autoload_path']);
-    }
 
     foreach ($paths as $path) {
         if (file_exists($path)) {
-            return realpath($path);
+            return $path;
         }
     }
 
