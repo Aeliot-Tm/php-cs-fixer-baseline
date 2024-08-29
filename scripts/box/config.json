@@ -1,7 +1,6 @@
 {
     "alias": "pcsf-baseline.phar",
     "base-path": "/app/",
-    "chmod": "0750",
     "directories": [
         "src"
     ],
@@ -27,6 +26,5 @@
         }
     ],
     "main": "bin/pcsf-baseline",
-    "output": "pcsf-baseline.phar",
-    "stub": true
+    "output": "pcsf-baseline.phar"
 }
