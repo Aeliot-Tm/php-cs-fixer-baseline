@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 use Aeliot\PhpCsFixerBaseline\Service\Builder;
 use Aeliot\PhpCsFixerBaseline\Service\Saver;
 
