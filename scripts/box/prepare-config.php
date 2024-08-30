@@ -16,4 +16,4 @@ $config = json_decode(file_get_contents($configPath), true, 512, \JSON_THROW_ON_
 
 $config['base-path'] = dirname($configPath, 2);
 
-file_put_contents($config, json_encode($config, \JSON_THROW_ON_ERROR));
+file_put_contents($configPath, json_encode($config, \JSON_THROW_ON_ERROR));
