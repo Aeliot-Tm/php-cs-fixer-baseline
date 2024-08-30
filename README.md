@@ -21,6 +21,8 @@ So, it's some work around till baseline will be implemented in the PHP CS Fixer.
    It expects `.php-cs-fixer-finder.php` at the root of the project.
 3. Add filtering of files detected by Finder
    ```php
+   use Aeliot\PhpCsFixerBaseline\Service\FilterFactory;
+
    $finder->filter((new FilterFactory())->createFilter(__DIR__ . '/.php-cs-fixer-baseline.json', $config));
    ```
 4. Generate baseline. Just call script without options when all config files uses default names.
@@ -30,6 +32,15 @@ So, it's some work around till baseline will be implemented in the PHP CS Fixer.
    See options of it below.
 
 You can see how it is configured in this project.
+
+### Autoload classes from PHAR
+
+If you use this project as PHAR file, you need to require autoloader of it to use provided filter.
+Do it in the main config file of PHP CS Fixer (`.php-cs-fixer.dist.php`)
+```php
+Phar::loadPhar('/path/to/pcsf-baseline.phar', 'pcsf-baseline.phar');
+require_once 'phar://pcsf-baseline.phar/vendor/autoload.php';
+```
 
 ### Options of baseline generator
 
