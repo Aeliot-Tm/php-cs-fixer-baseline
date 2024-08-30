@@ -1,71 +1,71 @@
 {
-    "config_hash": 1624530864,
+    "config_hash": 2201517650,
     "hashes": {
         "\/app\/src\/Model\/BaselineContent.php": {
-            "hash": 3738155494
+            "hash": 3089893427
         },
         "\/app\/src\/Model\/BaselineFile.php": {
-            "hash": 4274870345
+            "hash": 1659126021
         },
         "\/app\/src\/Model\/FileHash.php": {
-            "hash": 3484956983
+            "hash": 1152381054
         },
         "\/app\/src\/Service\/Builder.php": {
-            "hash": 2372865702
+            "hash": 3656231083
         },
         "\/app\/src\/Service\/ConfigHashCalculator.php": {
-            "hash": 2974475094
+            "hash": 2283685898
         },
         "\/app\/src\/Service\/FileCacheCalculator.php": {
-            "hash": 1636474985
+            "hash": 2870798551
         },
         "\/app\/src\/Service\/FileComparator.php": {
-            "hash": 3091382749
+            "hash": 853991070
         },
         "\/app\/src\/Service\/FilterFactory.php": {
-            "hash": 1526000466
+            "hash": 4149794329
         },
         "\/app\/src\/Service\/Reader.php": {
-            "hash": 2505433330
+            "hash": 2656604054
         },
         "\/app\/src\/Service\/Saver.php": {
-            "hash": 3962257935
+            "hash": 3559654969
         },
         "\/app\/tests\/Unit\/Model\/BaselineContentTest.php": {
-            "hash": 1974362953
+            "hash": 2931038819
         },
         "\/app\/tests\/Unit\/Model\/BaselineFileTest.php": {
-            "hash": 755822591
+            "hash": 2808930450
         },
         "\/app\/tests\/Unit\/Model\/FileHashTest.php": {
-            "hash": 1223876925
+            "hash": 1263472681
         },
         "\/app\/tests\/Unit\/Service\/BuilderTest.php": {
-            "hash": 4483073
+            "hash": 3029035050
         },
         "\/app\/tests\/Unit\/Service\/ConfigHashCalculatorTest.php": {
-            "hash": 4208531345
+            "hash": 2676045012
         },
         "\/app\/tests\/Unit\/Service\/FileCacheCalculatorTest.php": {
-            "hash": 2147815292
+            "hash": 3550521335
         },
         "\/app\/tests\/Unit\/Service\/FileComparatorTest.php": {
-            "hash": 65770147
+            "hash": 3485325747
         },
         "\/app\/tests\/Unit\/Service\/FilterTest.php": {
-            "hash": 3294571790
+            "hash": 3156548092
         },
         "\/app\/tests\/Unit\/Service\/ReaderTest.php": {
-            "hash": 1321817109
+            "hash": 4109048144
         },
         "\/app\/tests\/Unit\/Service\/SaverTest.php": {
-            "hash": 3304994583
+            "hash": 962967190
         },
         "\/app\/tests\/bootstrap.php": {
-            "hash": 2617998272
+            "hash": 3965414496
         },
         "bin\/pcsf-baseline": {
-            "hash": 349366989
+            "hash": 1634041244
         }
     }
 }
