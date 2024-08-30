@@ -17,19 +17,30 @@ So, it's some work around till baseline will be implemented in the PHP CS Fixer.
     ```shell
     composer require --dev aeliot/php-cs-fixer-baseline
     ```
-2. Extract `Finder` from the config of PHP CS Fixer to the separate file. 
+2. Extract `Finder` from the config of PHP CS Fixer to the separate file.
    It expects `.php-cs-fixer-finder.php` at the root of the project.
 3. Add filtering of files detected by Finder
    ```php
+   use Aeliot\PhpCsFixerBaseline\Service\FilterFactory;
+
    $finder->filter((new FilterFactory())->createFilter(__DIR__ . '/.php-cs-fixer-baseline.json', $config));
    ```
 4. Generate baseline. Just call script without options when all config files uses default names.
    ```shell
-   vendor/bin/pcsf-baseline 
+   vendor/bin/pcsf-baseline
    ```
    See options of it below.
 
 You can see how it is configured in this project.
+
+### Autoload classes from PHAR
+
+If you use this project as PHAR file, you need to require autoloader of it to use provided filter.
+Do it in the main config file of PHP CS Fixer (`.php-cs-fixer.dist.php`)
+```php
+Phar::loadPhar('/path/to/pcsf-baseline.phar', 'pcsf-baseline.phar');
+require_once 'phar://pcsf-baseline.phar/vendor/autoload.php';
+```
 
 ### Options of baseline generator
 
@@ -39,5 +50,5 @@ You can see how it is configured in this project.
 | c          | config    | Name of config file                    | .php-cs-fixer.dist.php      |
 | f          | finder    | Name of file with definition of Finder | .php-cs-fixer-finder.php    |
 
-Path to files can be absolute or related or omitted at all. It the last case it is expected that files 
+Path to files can be absolute or related or omitted at all. It the last case it is expected that files
 in the root directory of project.
