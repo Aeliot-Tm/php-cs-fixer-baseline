@@ -27,10 +27,38 @@ jobs:
                     tools: composer
                     coverage: none
 
+            -   name: Cache Composer packages
+                id: composer-cache
+                uses: actions/cache@v4
+                with:
+                    path: vendor
+                    key: "os-${{ runner.os }}-php-${{ runner.php-version }}-composer-${{ hashFiles('**/composer.lock') }}"
+                    restore-keys: "os-${{ runner.os }}-php-${{ runner.php-version }}-composer-"
+
             -   name: Install Composer dependencies
                 uses: ramsey/composer-install@v3
                 with:
                     composer-options: '--no-dev'
+
+            -   name: Cache tools installed with PHIVE
+                uses: actions/cache@v4
+                with:
+                    path: "${{ runner.temp }}/.phive"
+                    key: "os-${{ runner.os }}-php-${{ runner.php-version }}-phive-${{ hashFiles('**/.phive/phars.xml', '**/.phive/trust-gpg-keys.txt') }}"
+                    restore-keys: "os-${{ runner.os }}-php-${{ runner.php-version }}-phive-"
+
+            -   name: Install PHIVE
+                uses: szepeviktor/phive@v1
+                with:
+                    home: "${{ runner.temp }}/.phive"
+                    binPath: "${{ github.workspace }}/tools/phive"
+
+            -   name: Install PHP tools by PHIVE
+                uses: szepeviktor/phive-install@v1
+                with:
+                    home: "${{ runner.temp }}/.phive"
+                    binPath: "${{ github.workspace }}/tools/phive"
+                    trustGpgKeys: '$(cat ./.phive/trust-gpg-keys.txt)'
 
             -   name: Build PHAR
                 run: composer build
