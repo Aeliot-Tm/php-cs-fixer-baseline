@@ -90,7 +90,6 @@ jobs:
       - name: Upload PHAR to the release
         uses: softprops/action-gh-release@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           files: |
             pcsf-baseline.phar
             pcsf-baseline.phar.asc
