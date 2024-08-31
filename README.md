@@ -13,34 +13,47 @@ So, it's some work around till baseline will be implemented in the PHP CS Fixer.
 
 ### Installation
 
-1. Require package by composer:
-    ```shell
-    composer require --dev aeliot/php-cs-fixer-baseline
-    ```
-2. Extract `Finder` from the config of PHP CS Fixer to the separate file.
+Download PHAR directly to root directory of the project or in another place as you wish.
+```shell
+curl -O https://github.com/Aeliot-Tm/php-cs-fixer-baseline/releases/download/v1.2.0/pcsf-baseline.phar
+```
+
+Or require package by composer:
+```shell
+composer require --dev aeliot/php-cs-fixer-baseline
+```
+
+### Configuration
+
+1. Extract `Finder` from the config of PHP CS Fixer to the separate file.
    It expects `.php-cs-fixer-finder.php` at the root of the project.
-3. Add filtering of files detected by Finder
+2. Add filtering of files detected by Finder.
    ```php
    use Aeliot\PhpCsFixerBaseline\Service\FilterFactory;
 
    $finder->filter((new FilterFactory())->createFilter(__DIR__ . '/.php-cs-fixer-baseline.json', $config));
    ```
-4. Generate baseline. Just call script without options when all config files uses default names.
-   ```shell
-   vendor/bin/pcsf-baseline
+3. Autoload classes from PHAR (optional).
+   If you use this project as PHAR file, you need to require autoloader of it to use provided filter.
+   Do it in the main config file of PHP CS Fixer (`.php-cs-fixer.dist.php`)
+   ```php
+   Phar::loadPhar('/path/to/pcsf-baseline.phar', 'pcsf-baseline.phar');
+   require_once 'phar://pcsf-baseline.phar/vendor/autoload.php';
    ```
-   See options of it below.
 
-You can see how it is configured in this project.
+### Using
+1. Generate baseline. Just call script without options when all config files uses default names.
+   - Call PHAR
+     ```shell
+     php pcsf-baseline.phar
+     ```
+   - Or call script installed via Composer:
+     ```shell
+     vendor/bin/pcsf-baseline
+     ```
+   See options of it below. You can see how it is configured in this project.
+2. Use PHP CS Fixer as usual. All files mentioned in the baseline will be scip till they are not changed.
 
-### Autoload classes from PHAR
-
-If you use this project as PHAR file, you need to require autoloader of it to use provided filter.
-Do it in the main config file of PHP CS Fixer (`.php-cs-fixer.dist.php`)
-```php
-Phar::loadPhar('/path/to/pcsf-baseline.phar', 'pcsf-baseline.phar');
-require_once 'phar://pcsf-baseline.phar/vendor/autoload.php';
-```
 
 ### Options of baseline generator
 
