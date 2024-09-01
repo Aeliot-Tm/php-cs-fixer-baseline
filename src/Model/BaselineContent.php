@@ -76,7 +76,16 @@ final class BaselineContent implements \JsonSerializable
             }
             $hashes = array_combine(
                 array_map(
-                    static fn (string $path): string => substr($path, $workdirLength),
+                    function (string $path) use ($workdirLength): string {
+                        if (str_starts_with($path, $this->workdir)
+                            && mb_strlen($path) > $workdirLength
+                            && \in_array($path[$workdirLength - 1], ['/', '\\'], true)
+                        ) {
+                            $path = substr($path, $workdirLength);
+                        }
+
+                        return $path;
+                    },
                     array_keys($hashes),
                 ),
                 $hashes,
