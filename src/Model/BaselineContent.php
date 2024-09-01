@@ -40,12 +40,33 @@ final class BaselineContent implements \JsonSerializable
 
     public function getHash(string $path): ?FileHash
     {
-        return $this->hashes[$path] ?? null;
+        if (isset($this->hashes[$path])) {
+            return $this->hashes[$path];
+        }
+
+        if ($this->relative) {
+            $realPath = realpath($path);
+            $workdirLength = $this->getWorkdirLength();
+            if ($realPath && $workdirLength) {
+                $relativePath = $this->getRelativePath($realPath, $this->workdir, $workdirLength);
+
+                if (isset($this->hashes[$relativePath])) {
+                    return $this->hashes[$relativePath];
+                }
+            }
+        }
+
+        return null;
     }
 
     public function getHashesCount(): int
     {
         return \count($this->hashes);
+    }
+
+    public function isRelative(): bool
+    {
+        return $this->relative;
     }
 
     public function setRelative(bool $relative): void
@@ -78,22 +99,10 @@ final class BaselineContent implements \JsonSerializable
 
         $baseline['relative'] = $this->relative;
         if ($this->workdir) {
-            $workdirLength = mb_strlen($this->workdir);
-            if (\DIRECTORY_SEPARATOR !== $this->workdir[$workdirLength - 1]) {
-                ++$workdirLength;
-            }
+            $workdirLength = $this->getWorkdirLength();
             $hashes = array_combine(
                 array_map(
-                    function (string $path) use ($workdirLength): string {
-                        if (str_starts_with($path, $this->workdir)
-                            && mb_strlen($path) > $workdirLength
-                            && \in_array($path[$workdirLength - 1], ['/', '\\'], true)
-                        ) {
-                            $path = substr($path, $workdirLength);
-                        }
-
-                        return $path;
-                    },
+                    fn (string $path): string => $this->getRelativePath($path, $this->workdir, $workdirLength),
                     array_keys($hashes),
                 ),
                 $hashes,
@@ -104,5 +113,31 @@ final class BaselineContent implements \JsonSerializable
         $baseline['hashes'] = $hashes;
 
         return $baseline;
+    }
+
+    private function getRelativePath(string $path, string $workdir, int $workdirLength): string
+    {
+        if (str_starts_with($path, $workdir)
+            && mb_strlen($path) > $workdirLength
+            && \in_array($path[$workdirLength - 1], ['/', '\\'], true)
+        ) {
+            $path = substr($path, $workdirLength);
+        }
+
+        return $path;
+    }
+
+    private function getWorkdirLength(): int
+    {
+        if (!$this->workdir) {
+            return 0;
+        }
+
+        $workdirLength = mb_strlen($this->workdir);
+        if (\DIRECTORY_SEPARATOR !== $this->workdir[$workdirLength - 1]) {
+            ++$workdirLength;
+        }
+
+        return $workdirLength;
     }
 }
