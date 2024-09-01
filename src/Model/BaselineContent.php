@@ -48,6 +48,11 @@ final class BaselineContent implements \JsonSerializable
         return \count($this->hashes);
     }
 
+    public function setRelative(bool $relative): void
+    {
+        $this->relative = $relative;
+    }
+
     public function getWorkdir(): ?string
     {
         return $this->workdir;
