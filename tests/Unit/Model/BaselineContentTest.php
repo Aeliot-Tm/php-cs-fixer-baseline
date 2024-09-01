@@ -68,7 +68,7 @@ final class BaselineContentTest extends TestCase
     public function testJsonSerialiseConfigHash(): void
     {
         $baselineContent = new BaselineContent();
-        self::assertSame(['hashes' => []], $baselineContent->jsonSerialize());
+        self::assertSame(['relative' => false, 'hashes' => []], $baselineContent->jsonSerialize());
 
         $baselineContent->setConfigHash(0);
         self::assertSame(['config_hash' => 0, 'hashes' => []], $baselineContent->jsonSerialize());
@@ -77,7 +77,7 @@ final class BaselineContentTest extends TestCase
     public function testJsonSerialiseHashes(): void
     {
         $baselineContent = new BaselineContent();
-        self::assertSame(['hashes' => []], $baselineContent->jsonSerialize());
+        self::assertSame(['relative' => false, 'hashes' => []], $baselineContent->jsonSerialize());
 
         $baselineContent->addHash(new FileHash('/path/to/file-b', 1));
         $expectedData = [
