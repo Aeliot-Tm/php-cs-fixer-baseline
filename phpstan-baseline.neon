@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Parameter \\#1 \\$config of method Aeliot\\\\PhpCsFixerBaseline\\\\Service\\\\ConfigHashCalculator\\:\\:calculate\\(\\) expects PhpCsFixer\\\\Config, PhpCsFixer\\\\ConfigInterface given\\.$#"
+			count: 1
+			path: src/Service/Builder.php
+
+		-
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: tests/Unit/Service/FilterTest.php

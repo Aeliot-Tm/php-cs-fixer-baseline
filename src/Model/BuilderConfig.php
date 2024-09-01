@@ -39,6 +39,15 @@ final class BuilderConfig
      */
     private array $config;
 
+    /**
+     * @param array{
+     *      baselinePath: string,
+     *      config: Config|ConfigInterface,
+     *      finder: Finder,
+     *      relative?: bool,
+     *      workdir?: string|null
+     *  } $config
+     */
     public function __construct(array $config)
     {
         $this->config = $config;
