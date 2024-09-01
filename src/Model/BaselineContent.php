@@ -20,6 +20,7 @@ final class BaselineContent implements \JsonSerializable
      * @var array<string,FileHash>
      */
     private array $hashes = [];
+    private ?string $workdir = null;
 
     public function getConfigHash(): ?int
     {
@@ -46,6 +47,16 @@ final class BaselineContent implements \JsonSerializable
         return \count($this->hashes);
     }
 
+    public function getWorkdir(): ?string
+    {
+        return $this->workdir;
+    }
+
+    public function setWorkdir(?string $workdir): void
+    {
+        $this->workdir = $workdir;
+    }
+
     /**
      * @return array<string,array<string,string>|int>
      */
@@ -57,6 +68,21 @@ final class BaselineContent implements \JsonSerializable
         }
 
         $hashes = array_map(static fn (FileHash $x): array => $x->jsonSerialize(), $this->hashes);
+
+        if ($this->workdir) {
+            $workdirLength = mb_strlen($this->workdir);
+            if (\DIRECTORY_SEPARATOR !== $this->workdir[$workdirLength - 1]) {
+                ++$workdirLength;
+            }
+            $hashes = array_combine(
+                array_map(
+                    static fn (string $path): string => substr($path, $workdirLength),
+                    array_keys($hashes),
+                ),
+                $hashes,
+            );
+        }
+
         ksort($hashes);
         $baseline['hashes'] = $hashes;
 

@@ -15,9 +15,9 @@ namespace Aeliot\PhpCsFixerBaseline\Service;
 
 use Aeliot\PhpCsFixerBaseline\Model\BaselineContent;
 use Aeliot\PhpCsFixerBaseline\Model\BaselineFile;
+use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
-use PhpCsFixer\Config;
-use PhpCsFixer\Finder;
+use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
 
 final class Builder
 {
@@ -30,16 +30,56 @@ final class Builder
         $this->fileCacheCalculator = new FileCacheCalculator();
     }
 
-    public function create(string $path, Config $config, Finder $finder): BaselineFile
+    public function create(BuilderConfig $config): BaselineFile
     {
         $content = new BaselineContent();
-        $content->setConfigHash($this->configHashCalculator->calculate($config));
+        $content->setConfigHash($this->configHashCalculator->calculate($config->getConfig()));
 
-        foreach ($finder as $file) {
+        $isRelative = $config->isRelative();
+
+        $rootDir = null;
+        foreach ($config->getFinder() as $file) {
             $filePath = $file->getPathname();
+            if ($isRelative) {
+                if (!$file instanceof SymfonySplFileInfo) {
+                    $realPath = realpath($filePath);
+                    if ($realPath) {
+                        $filePath = $realPath;
+                    }
+                }
+
+                $rootDir = $this->extractPathPrefix($rootDir, $filePath);
+            }
             $content->addHash(new FileHash($filePath, $this->fileCacheCalculator->calculate($file)));
         }
 
-        return new BaselineFile($path, $content);
+        $content->setWorkdir($config->getWorkdir() ?? $rootDir);
+
+        return new BaselineFile($config->getBaselinePath(), $content);
+    }
+
+    private function extractPathPrefix(?string $rootDir, string $filePath): string
+    {
+        $currentDir = \dirname($filePath);
+        if (null === $rootDir) {
+            return $currentDir;
+        }
+
+        $rootParts = explode(\DIRECTORY_SEPARATOR, $rootDir);
+        $currentParts = explode(\DIRECTORY_SEPARATOR, $currentDir);
+
+        $minSize = min(\count($rootParts), \count($currentParts));
+
+        $rootSliced = \array_slice($rootParts, 0, $minSize);
+        $currentSliced = \array_slice($currentParts, 0, $minSize);
+
+        for ($i = 0; $i < $minSize; ++$i) {
+            if ($rootSliced[$i] !== $currentSliced[$i]) {
+                $rootSliced = \array_slice($rootSliced, 0, $i);
+                break;
+            }
+        }
+
+        return implode(\DIRECTORY_SEPARATOR, $rootSliced);
     }
 }
