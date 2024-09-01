@@ -1,5 +1,6 @@
 {
     "config_hash": 2201517650,
+    "relative": true,
     "hashes": {
         "bin\/pcsf-baseline": {
             "hash": 2175953882
@@ -8,19 +9,19 @@
             "hash": 435157913
         },
         "src\/Model\/BaselineContent.php": {
-            "hash": 2330681828
+            "hash": 2092951785
         },
         "src\/Model\/BaselineFile.php": {
             "hash": 1659126021
         },
         "src\/Model\/BuilderConfig.php": {
-            "hash": 3602724228
+            "hash": 2021502705
         },
         "src\/Model\/FileHash.php": {
             "hash": 1152381054
         },
         "src\/Service\/Builder.php": {
-            "hash": 1081103429
+            "hash": 1864536481
         },
         "src\/Service\/ConfigHashCalculator.php": {
             "hash": 2283685898
@@ -32,10 +33,10 @@
             "hash": 853991070
         },
         "src\/Service\/FilterFactory.php": {
-            "hash": 4149794329
+            "hash": 462037060
         },
         "src\/Service\/Reader.php": {
-            "hash": 2656604054
+            "hash": 4124923888
         },
         "src\/Service\/Saver.php": {
             "hash": 3559654969
