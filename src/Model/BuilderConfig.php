@@ -61,7 +61,7 @@ final class BuilderConfig
 
     public function isRelative(): bool
     {
-        return $this->config['relative'];
+        return $this->config['relative'] || $this->config['workdir'];
     }
 
     public function getWorkdir(): ?string
