@@ -54,14 +54,28 @@ composer require --dev aeliot/php-cs-fixer-baseline
    See options of it below. You can see how it is configured in this project.
 2. Use PHP CS Fixer as usual. All files mentioned in the baseline will be scip till they are not changed.
 
+This script may store relative paths to files in baseline file. It may be useful when baseline used
+in different environments. Pass option `relative` for this when build baseline. Directory where the script called
+will be used in this case. Or you can customise working directory by option `workdir`.
+
+The same with the filter for PHP CS Fixer. You may customize working directory by third option for filter factory.
+Or current working directory will be used.
 
 ### Options of baseline generator
 
-| Short name | Long name | Description                            | Default value               |
-|------------|-----------|----------------------------------------|-----------------------------|
-| b          | baseline  | Name of baseline file                  | .php-cs-fixer-baseline.json |
-| c          | config    | Name of config file                    | .php-cs-fixer.dist.php      |
-| f          | finder    | Name of file with definition of Finder | .php-cs-fixer-finder.php    |
+| Short name | Long name | Description                                                                          | Default value               |
+|------------|-----------|--------------------------------------------------------------------------------------|-----------------------------|
+| b          | baseline  | Name of baseline file                                                                | .php-cs-fixer-baseline.json |
+| c          | config    | Name of config file                                                                  | .php-cs-fixer.dist.php      |
+| f          | finder    | Name of file with definition of Finder                                               | .php-cs-fixer-finder.php    |
+| r          | relative  | Store relative paths in baseline file. Can be omitted when passed option `workdir`.  |                             |
+| w          | workdir   | Working directory. This part will erased when store relative paths in baseline file. |                             |
 
 Path to files can be absolute or related or omitted at all. It the last case it is expected that files
 in the root directory of project.
+
+### Restrictions for using of relative paths
+1. Option `workdir` MUST be absolute. You cannot use "double dots" in it.
+2. Used function `realpath()` for proper cutting of `workdir` out of file path to make it relative.
+   It may return unexpected result based on current user permissions.
+   See [official documentation](https://www.php.net/manual/en/function.realpath.php).
