@@ -17,7 +17,6 @@ use Aeliot\PhpCsFixerBaseline\Model\BaselineContent;
 use Aeliot\PhpCsFixerBaseline\Model\BaselineFile;
 use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
-use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
 
 final class Builder
 {
@@ -39,15 +38,8 @@ final class Builder
 
         $rootDir = null;
         foreach ($config->getFinder() as $file) {
-            $filePath = $file->getPathname();
+            $filePath = $this->getFilePath($file, $isRelative);
             if ($isRelative) {
-                if (!$file instanceof SymfonySplFileInfo) {
-                    $realPath = realpath($filePath);
-                    if ($realPath) {
-                        $filePath = $realPath;
-                    }
-                }
-
                 $rootDir = $this->extractPathPrefix($rootDir, $filePath);
             }
             $content->addHash(new FileHash($filePath, $this->fileCacheCalculator->calculate($file)));
@@ -81,5 +73,18 @@ final class Builder
         }
 
         return implode(\DIRECTORY_SEPARATOR, $rootSliced);
+    }
+
+    public function getFilePath(\SplFileInfo $file, bool $isRelative): string
+    {
+        $filePath = $file->getPathname();
+        if ($isRelative) {
+            $realPath = realpath($filePath);
+            if ($realPath) {
+                $filePath = $realPath;
+            }
+        }
+
+        return $filePath;
     }
 }
