@@ -30,6 +30,10 @@ final class Reader
             $content->setConfigHash($configHash);
         }
 
+        if (isset($json['relative'])) {
+            $content->setRelative($json['relative']);
+        }
+
         foreach ($json['hashes'] ?? [] as $filePath => $hash) {
             $content->addHash(new FileHash($filePath, $hash['hash']));
         }

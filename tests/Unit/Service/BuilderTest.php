@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
+use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
 use Aeliot\PhpCsFixerBaseline\Service\Builder;
 use PhpCsFixer\Config;
@@ -41,7 +42,14 @@ final class BuilderTest extends TestCase
         $finder->method('getIterator')->willReturn(new \ArrayIterator($files));
 
         $builder = new Builder();
-        $baselineFile = $builder->create($path, $config, $finder);
+        $builderConfig = new BuilderConfig([
+            'baselinePath' => $path,
+            'config' => $config,
+            'finder' => $finder,
+            'relative' => false,
+            'workdir' => null,
+        ]);
+        $baselineFile = $builder->create($builderConfig);
 
         self::assertSame($path, $baselineFile->getPath());
         self::assertSame(1, $baselineFile->getLockedFilesCount());

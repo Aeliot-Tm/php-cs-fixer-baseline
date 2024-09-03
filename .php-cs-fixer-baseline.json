@@ -1,71 +1,78 @@
 {
     "config_hash": 2201517650,
+    "relative": true,
     "hashes": {
-        "\/app\/src\/Model\/BaselineContent.php": {
-            "hash": 3089893427
+        "bin\/pcsf-baseline": {
+            "hash": 2175953882
         },
-        "\/app\/src\/Model\/BaselineFile.php": {
+        "scripts\/box\/prepare-config.php": {
+            "hash": 435157913
+        },
+        "src\/Model\/BaselineContent.php": {
+            "hash": 2092951785
+        },
+        "src\/Model\/BaselineFile.php": {
             "hash": 1659126021
         },
-        "\/app\/src\/Model\/FileHash.php": {
+        "src\/Model\/BuilderConfig.php": {
+            "hash": 2021502705
+        },
+        "src\/Model\/FileHash.php": {
             "hash": 1152381054
         },
-        "\/app\/src\/Service\/Builder.php": {
-            "hash": 3656231083
+        "src\/Service\/Builder.php": {
+            "hash": 1864536481
         },
-        "\/app\/src\/Service\/ConfigHashCalculator.php": {
+        "src\/Service\/ConfigHashCalculator.php": {
             "hash": 2283685898
         },
-        "\/app\/src\/Service\/FileCacheCalculator.php": {
+        "src\/Service\/FileCacheCalculator.php": {
             "hash": 2870798551
         },
-        "\/app\/src\/Service\/FileComparator.php": {
+        "src\/Service\/FileComparator.php": {
             "hash": 853991070
         },
-        "\/app\/src\/Service\/FilterFactory.php": {
-            "hash": 4149794329
+        "src\/Service\/FilterFactory.php": {
+            "hash": 462037060
         },
-        "\/app\/src\/Service\/Reader.php": {
-            "hash": 2656604054
+        "src\/Service\/Reader.php": {
+            "hash": 4124923888
         },
-        "\/app\/src\/Service\/Saver.php": {
+        "src\/Service\/Saver.php": {
             "hash": 3559654969
         },
-        "\/app\/tests\/Unit\/Model\/BaselineContentTest.php": {
+        "tests\/Unit\/Model\/BaselineContentTest.php": {
             "hash": 2931038819
         },
-        "\/app\/tests\/Unit\/Model\/BaselineFileTest.php": {
+        "tests\/Unit\/Model\/BaselineFileTest.php": {
             "hash": 2808930450
         },
-        "\/app\/tests\/Unit\/Model\/FileHashTest.php": {
+        "tests\/Unit\/Model\/FileHashTest.php": {
             "hash": 1263472681
         },
-        "\/app\/tests\/Unit\/Service\/BuilderTest.php": {
+        "tests\/Unit\/Service\/BuilderTest.php": {
             "hash": 3029035050
         },
-        "\/app\/tests\/Unit\/Service\/ConfigHashCalculatorTest.php": {
+        "tests\/Unit\/Service\/ConfigHashCalculatorTest.php": {
             "hash": 2676045012
         },
-        "\/app\/tests\/Unit\/Service\/FileCacheCalculatorTest.php": {
+        "tests\/Unit\/Service\/FileCacheCalculatorTest.php": {
             "hash": 3550521335
         },
-        "\/app\/tests\/Unit\/Service\/FileComparatorTest.php": {
+        "tests\/Unit\/Service\/FileComparatorTest.php": {
             "hash": 3485325747
         },
-        "\/app\/tests\/Unit\/Service\/FilterTest.php": {
+        "tests\/Unit\/Service\/FilterTest.php": {
             "hash": 3156548092
         },
-        "\/app\/tests\/Unit\/Service\/ReaderTest.php": {
+        "tests\/Unit\/Service\/ReaderTest.php": {
             "hash": 4109048144
         },
-        "\/app\/tests\/Unit\/Service\/SaverTest.php": {
+        "tests\/Unit\/Service\/SaverTest.php": {
             "hash": 962967190
         },
-        "\/app\/tests\/bootstrap.php": {
+        "tests\/bootstrap.php": {
             "hash": 3965414496
-        },
-        "bin\/pcsf-baseline": {
-            "hash": 1634041244
         }
     }
 }

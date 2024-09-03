@@ -15,9 +15,8 @@ namespace Aeliot\PhpCsFixerBaseline\Service;
 
 use Aeliot\PhpCsFixerBaseline\Model\BaselineContent;
 use Aeliot\PhpCsFixerBaseline\Model\BaselineFile;
+use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
-use PhpCsFixer\Config;
-use PhpCsFixer\Finder;
 
 final class Builder
 {
@@ -30,16 +29,35 @@ final class Builder
         $this->fileCacheCalculator = new FileCacheCalculator();
     }
 
-    public function create(string $path, Config $config, Finder $finder): BaselineFile
+    public function create(BuilderConfig $config): BaselineFile
     {
         $content = new BaselineContent();
-        $content->setConfigHash($this->configHashCalculator->calculate($config));
+        $content->setConfigHash($this->configHashCalculator->calculate($config->getConfig()));
 
-        foreach ($finder as $file) {
-            $filePath = $file->getPathname();
+        $isRelative = $config->isRelative();
+
+        foreach ($config->getFinder() as $file) {
+            $filePath = $this->getFilePath($file, $isRelative);
             $content->addHash(new FileHash($filePath, $this->fileCacheCalculator->calculate($file)));
         }
 
-        return new BaselineFile($path, $content);
+        if ($isRelative) {
+            $content->setWorkdir($config->getWorkdir() ?? getcwd());
+        }
+
+        return new BaselineFile($config->getBaselinePath(), $content);
+    }
+
+    public function getFilePath(\SplFileInfo $file, bool $isRelative): string
+    {
+        $filePath = $file->getPathname();
+        if ($isRelative) {
+            $realPath = realpath($filePath);
+            if ($realPath) {
+                $filePath = $realPath;
+            }
+        }
+
+        return $filePath;
     }
 }

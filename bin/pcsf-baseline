@@ -12,6 +12,7 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
+use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use Aeliot\PhpCsFixerBaseline\Service\Builder;
 use Aeliot\PhpCsFixerBaseline\Service\Saver;
 
@@ -52,30 +53,44 @@ $absolutePathMaker = static function (string $path): string {
 
 $options = (static function () use ($absolutePathMaker): array {
     $values = [];
-    $options = getopt('b:c:f:', ['baseline:', 'config:', 'finder:']);
-    $defaults = [
+    $options = getopt('b:c:f:rw:', ['baseline:', 'config:', 'finder:', 'relative', 'workdir:']);
+    $defaultPaths = [
         '.php-cs-fixer-baseline.json' => ['b', 'baseline'],
         '.php-cs-fixer.dist.php' => ['c', 'config'],
         '.php-cs-fixer-finder.php' => ['f', 'finder'],
     ];
 
-    foreach ($defaults as $default => [$short, $long]) {
+    foreach ($defaultPaths as $default => [$short, $long]) {
         if (isset($options['b'], $options['baseline'])) {
             throw new InvalidArgumentException(sprintf('%s is duplicated', $long));
         }
         $values[$long] = $absolutePathMaker($options[$short] ?? $options[$long] ?? $default);
     }
 
+    $values += [
+        'relative' => isset($options['r']) || isset($options['relative']),
+        'workdir' => $options['w'] ?? $options['workdir'] ?? null,
+    ];
+
+    if ($values['workdir']) {
+        if (!is_dir($values['workdir'])) {
+            throw new InvalidArgumentException('Value of the option "workdir" is not directory');
+        }
+
+        $values['relative'] = true;
+    }
+
     return $values;
 })();
 
-$baselinePath = $options['baseline'];
-/** @var PhpCsFixer\Config $config */
-$config = require $options['config'];
-/** @var PhpCsFixer\Finder $finder */
-$finder = require $options['finder'];
+$config = $options;
+$config['baselinePath'] = $options['baseline'];
+unset($config['baseline']);
+// NOTE: enclose the including of files into functions to avoid conflict of variables
+$config['config'] = (static fn () => require $options['config'])();
+$config['finder'] = (static fn () => require $options['finder'])();
 
-$baseline = (new Builder())->create($baselinePath, $config, $finder);
+$baseline = (new Builder())->create(new BuilderConfig($config));
 (new Saver())->save($baseline);
 
 echo sprintf("Ok, %s files added to baseline\n", $baseline->getLockedFilesCount());
