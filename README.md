@@ -63,19 +63,24 @@ Or current working directory will be used.
 
 ### Options of baseline generator
 
-| Short name | Long name | Description                                                                          | Default value               |
-|------------|-----------|--------------------------------------------------------------------------------------|-----------------------------|
-| b          | baseline  | Name of baseline file                                                                | .php-cs-fixer-baseline.json |
-| c          | config    | Name of config file                                                                  | .php-cs-fixer.dist.php      |
-| f          | finder    | Name of file with definition of Finder                                               | .php-cs-fixer-finder.php    |
-| r          | relative  | Store relative paths in baseline file. Can be omitted when passed option `workdir`.  |                             |
-| w          | workdir   | Working directory. This part will erased when store relative paths in baseline file. |                             |
+| Short name | Long name | Description                                                                               | Default value               |
+|------------|-----------|-------------------------------------------------------------------------------------------|-----------------------------|
+| b          | baseline  | Name of baseline file                                                                     | .php-cs-fixer-baseline.json |
+| c          | config    | Name of config file                                                                       | .php-cs-fixer.dist.php      |
+| f          | finder    | Name of file with definition of Finder                                                    | .php-cs-fixer-finder.php    |
+| r          | relative  | Store relative paths in baseline file. It should be omitted when passed option `workdir`. |                             |
+| w          | workdir   | Working directory. This part will erased when store relative paths in baseline file.      |                             |
 
-Path to files can be absolute or related or omitted at all. It the last case it is expected that files
-in the root directory of project.
+Options `baseline`, `config`, `finder` can be absolute or related or omitted at all. In the last case it expects
+that files are in the root directory of project.
+
+When option `relative` is passed and option `workdir` is omitted then result of function
+[`getcwd()`](https://www.php.net/manual/en/function.getcwd.php) will be used to get current working directory.
 
 ### Restrictions for using of relative paths
 1. Option `workdir` MUST be absolute. You cannot use "double dots" in it.
-2. Used function `realpath()` for proper cutting of `workdir` out of file path to make it relative.
-   It may return unexpected result based on current user permissions.
-   See [official documentation](https://www.php.net/manual/en/function.realpath.php).
+2. Used function `realpath()` for normalisation of paths of files returned by `Finder`. For proper cutting of `workdir`
+   out of file path to make it relative. It may return unexpected result based on current user permissions.
+   Look for restrictions of this function in [official documentation](https://www.php.net/manual/en/function.realpath.php).
+3. When the function `realpath()` returns an empty result or path of file returned by `Finder` is not from working
+   directory then path stored "as is".
