@@ -54,28 +54,28 @@ composer require --dev aeliot/php-cs-fixer-baseline
    See options of it below. You can see how it is configured in this project.
 2. Use PHP CS Fixer as usual. All files mentioned in the baseline will be scip till they are not changed.
 
-This script may store relative paths to files in baseline file. It may be useful when baseline used
-in different environments. Pass option `relative` for this when build baseline. Directory where the script called
-will be used in this case. Or you can customise working directory by option `workdir`.
-
-The same with the filter for PHP CS Fixer. You may customize working directory by third option for filter factory.
-Or current working directory will be used.
+This script store relative paths to files in baseline file by default. It is useful when baseline used
+in different environments.
 
 ### Options of baseline generator
 
-| Short name | Long name | Description                                                                               | Default value               |
-|------------|-----------|-------------------------------------------------------------------------------------------|-----------------------------|
-| b          | baseline  | Name of baseline file                                                                     | .php-cs-fixer-baseline.json |
-| c          | config    | Name of config file                                                                       | .php-cs-fixer.dist.php      |
-| f          | finder    | Name of file with definition of Finder                                                    | .php-cs-fixer-finder.php    |
-| r          | relative  | Store relative paths in baseline file. It should be omitted when passed option `workdir`. |                             |
-| w          | workdir   | Working directory. This part will erased when store relative paths in baseline file.      |                             |
+| Short name | Long name | Description                                                          | Default value               |
+|------------|-----------|----------------------------------------------------------------------|-----------------------------|
+| a          | absolute  | Store absolute paths in baseline file. It does not expect any value. |                             |
+| b          | baseline  | Pathname of baseline file.                                           | .php-cs-fixer-baseline.json |
+| c          | config    | Pathname of config file.                                             | .php-cs-fixer.dist.php      |
+| f          | finder    | Pathname of file with definition of Finder.                          | .php-cs-fixer-finder.php    |
+| w          | workdir   | Working directory.                                                   |                             |
 
 Options `baseline`, `config`, `finder` can be absolute or related or omitted at all. In the last case it expects
 that files are in the root directory of project.
 
-When option `relative` is passed and option `workdir` is omitted then result of function
-[`getcwd()`](https://www.php.net/manual/en/function.getcwd.php) will be used to get current working directory.
+You can use option `workdir` to customize path to working directory. Otherwise, directory where the script called
+is used. The same with the filter for PHP CS Fixer. You may customize working directory by third option for
+filter factory.
+
+Pass option `absolute` when you want to force saving of absolute paths to files of your project in baseline.
+It cannot be used with option `workdir`.
 
 ### Restrictions for using of relative paths
 1. Option `workdir` MUST be absolute. You cannot use "double dots" in it.
