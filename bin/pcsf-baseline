@@ -53,7 +53,7 @@ $absolutePathMaker = static function (string $path): string {
 
 $options = (static function () use ($absolutePathMaker): array {
     $values = [];
-    $options = getopt('b:c:f:rw:', ['baseline:', 'config:', 'finder:', 'relative', 'workdir:']);
+    $options = getopt('ab:c:f:w:', ['absolute', 'baseline:', 'config:', 'finder:', 'workdir:']);
     $defaultPaths = [
         '.php-cs-fixer-baseline.json' => ['b', 'baseline'],
         '.php-cs-fixer.dist.php' => ['c', 'config'],
@@ -68,16 +68,17 @@ $options = (static function () use ($absolutePathMaker): array {
     }
 
     $values += [
-        'relative' => isset($options['r']) || isset($options['relative']),
+        'relative' => !(isset($options['a']) || isset($options['absolute'])),
         'workdir' => $options['w'] ?? $options['workdir'] ?? null,
     ];
 
     if ($values['workdir']) {
+        if (!$values['relative']) {
+            throw new InvalidArgumentException('Both options "absolute" and "workdir" are passed');
+        }
         if (!is_dir($values['workdir'])) {
             throw new InvalidArgumentException('Value of the option "workdir" is not directory');
         }
-
-        $values['relative'] = true;
     }
 
     return $values;
