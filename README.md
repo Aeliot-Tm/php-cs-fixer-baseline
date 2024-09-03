@@ -62,6 +62,8 @@ composer require --dev aeliot/php-cs-fixer-baseline
 | b          | baseline  | Name of baseline file                  | .php-cs-fixer-baseline.json |
 | c          | config    | Name of config file                    | .php-cs-fixer.dist.php      |
 | f          | finder    | Name of file with definition of Finder | .php-cs-fixer-finder.php    |
+| d          | dir       | Config files path                      | ``''``                      |
 
-Path to files can be absolute or related or omitted at all. It the last case it is expected that files
-in the root directory of project.
+Path to files can be absolute or related or omitted at all. In the last case it is expected that files
+
+in the root directory of the project.
