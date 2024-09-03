@@ -2,22 +2,32 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the box project.
+ *
+ * (c) Anatoliy Melnikov <5785276@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
-use InvalidArgumentException;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
 class ConfigReader
 {
     private string $rootDirectory;
+
+    /** @var array<string, string>  */
     private array $option;
 
-    private static self $instance;
+    private static ?self $instance = null;
 
     public function __construct()
     {
-        static::$instance = $this;
+        self::$instance = $this;
         $this->option = getopt('b:c:f:d:', ['baseline:', 'config:', 'finder:', 'dir:']);
         $this->rootDirectory = $this->option['d'] ?? $this->options['dir'] ?? '';
     }
@@ -59,8 +69,8 @@ class ConfigReader
 
     private function getOptionValue(string $short, string $long, string $default): string
     {
-        if (array_key_exists($short, $this->option) && array_key_exists($long, $this->option)) {
-            throw new InvalidArgumentException(sprintf('%s is duplicated', $long));
+        if (\array_key_exists($short, $this->option) && \array_key_exists($long, $this->option)) {
+            throw new \InvalidArgumentException(sprintf('%s is duplicated', $long));
         }
 
         return $this->option[$short] ?? $this->option[$long] ?? $default;
