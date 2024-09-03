@@ -81,6 +81,7 @@ It cannot be used with option `workdir`.
 1. Option `workdir` MUST be absolute. You cannot use "double dots" in it.
 2. Used function `realpath()` for normalisation of paths of files returned by `Finder`. For proper cutting of `workdir`
    out of file path to make it relative. It may return unexpected result based on current user permissions.
-   Look for restrictions of this function in [official documentation](https://www.php.net/manual/en/function.realpath.php).
+   Look for restrictions of this function in [official documentation](https://www.php.net/manual/en/function.realpath.php)
+   of PHP.
 3. When the function `realpath()` returns an empty result or path of file returned by `Finder` is not from working
    directory then path stored "as is".
