@@ -1,7 +1,7 @@
 {
     "name": "aeliot/php-cs-fixer-baseline",
     "type": "library",
-    "description": "Provide base line for CS Fixer",
+    "description": "Baseline for PHP CS Fixer",
     "license": "MIT",
     "authors": [
         {
