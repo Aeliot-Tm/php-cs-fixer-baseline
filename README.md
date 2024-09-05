@@ -13,14 +13,53 @@ So, it's some work around till baseline will be implemented in the PHP CS Fixer.
 
 ### Installation
 
-Download PHAR directly to root directory of the project or in another place as you wish.
+There are few ways of installation:
+1. [Phive](#phive)
+2. [Composer](#composer)
+3. [Downloading of PHAR directly](#downloading-of-phar-directly)
+
+#### Phive
+
+You can install this package with [Phive](https://phar.io/). It permits you to install package by one console command
+without extending dependencies in your composer-files.
 ```shell
-curl -O https://github.com/Aeliot-Tm/php-cs-fixer-baseline/releases/download/v1.2.0/pcsf-baseline.phar
+phive install php-cs-fixer-baseline
 ```
 
-Or require package by composer:
+Sometimes you may need to update database of package-aliases of PHIVE. See [issue #3](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/issues/3)
+So, just call console command for it:
+```shell
+phive update-repository-list
+```
+
+To upgrade this package use the following command:
+```shell
+phive update php-cs-fixer-baseline
+```
+
+#### Composer
+
+You can install this package with [Composer](https://getcomposer.org/doc/03-cli.md#install-i):
 ```shell
 composer require --dev aeliot/php-cs-fixer-baseline
+```
+
+#### Downloading of PHAR directly
+
+Download PHAR directly to root directory of the project or in another place as you wish.
+```shell
+# Do adjust the URL if you need a release other than the latest
+wget -O pcsf-baseline.phar "https://github.com/Aeliot-Tm/php-cs-fixer-baseline/releases/latest/download/pcsf-baseline.phar"
+wget -O pcsf-baseline.phar "https://github.com/Aeliot-Tm/php-cs-fixer-baseline/releases/latest/download/pcsf-baseline.phar.asc"
+
+# Check that the signature matches
+gpg --verify pcsf-baseline.phar.asc pcsf-baseline.phar
+
+# Check the issuer (the ID can also be found from the previous command)
+gpg --keyserver hkps://keys.openpgp.org --recv-keys 83F9945BC33EC39E9710206C8B4927076BA50A83
+
+rm pcsf-baseline.phar
+chmod +x pcsf-baseline.phar
 ```
 
 ### Configuration
