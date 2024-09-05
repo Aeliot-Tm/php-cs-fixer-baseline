@@ -1,8 +1,14 @@
 {
     "name": "aeliot/php-cs-fixer-baseline",
     "type": "library",
-    "description": "Provide base line for CS Fixer",
+    "description": "Baseline for PHP CS Fixer",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Anatoliy Melnikov",
+            "email": "5785276@gmail.com"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
