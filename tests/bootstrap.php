@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the box project.
+ * This file is part of the PHP CS Fixer Baseline project.
  *
  * (c) Anatoliy Melnikov <5785276@gmail.com>
  *
