@@ -3,6 +3,6 @@ services:
         build:
             context: ./
             dockerfile: .docker/php/Dockerfile
-        entrypoint: [ '/app/docker-entrypoint.sh' ]
+#        entrypoint: [ '/app/docker-entrypoint.sh' ]
         volumes:
             - .:/app

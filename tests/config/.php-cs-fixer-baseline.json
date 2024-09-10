@@ -3,76 +3,85 @@
     "relative": true,
     "hashes": {
         "bin\/pcsf-baseline": {
-            "hash": 2175953882
+            "hash": 1855948662
         },
         "scripts\/box\/prepare-config.php": {
-            "hash": 435157913
+            "hash": 3090049080
         },
         "src\/Model\/BaselineContent.php": {
-            "hash": 2092951785
+            "hash": 3423084389
         },
         "src\/Model\/BaselineFile.php": {
-            "hash": 1659126021
+            "hash": 2094646119
         },
         "src\/Model\/BuilderConfig.php": {
-            "hash": 2021502705
+            "hash": 2515803641
         },
         "src\/Model\/FileHash.php": {
-            "hash": 1152381054
+            "hash": 4257916430
         },
         "src\/Service\/Builder.php": {
-            "hash": 1864536481
+            "hash": 3082841652
         },
         "src\/Service\/ConfigHashCalculator.php": {
-            "hash": 2283685898
+            "hash": 2813287795
+        },
+        "src\/Service\/ConsoleOptionsReader.php": {
+            "hash": 2038047688
         },
         "src\/Service\/FileCacheCalculator.php": {
-            "hash": 2870798551
+            "hash": 3398039191
         },
         "src\/Service\/FileComparator.php": {
-            "hash": 853991070
+            "hash": 3892430678
         },
         "src\/Service\/FilterFactory.php": {
-            "hash": 462037060
+            "hash": 1648984523
         },
         "src\/Service\/Reader.php": {
-            "hash": 4124923888
+            "hash": 358197123
         },
         "src\/Service\/Saver.php": {
-            "hash": 3559654969
+            "hash": 2554941219
+        },
+        "tests\/Unit\/Functional\/CommandLineTest.php": {
+            "hash": 4234658578
         },
         "tests\/Unit\/Model\/BaselineContentTest.php": {
-            "hash": 2931038819
+            "hash": 2341438825
         },
         "tests\/Unit\/Model\/BaselineFileTest.php": {
-            "hash": 2808930450
+            "hash": 2099139729
         },
         "tests\/Unit\/Model\/FileHashTest.php": {
-            "hash": 1263472681
+            "hash": 149116272
         },
         "tests\/Unit\/Service\/BuilderTest.php": {
-            "hash": 3029035050
+            "hash": 1906544391
         },
         "tests\/Unit\/Service\/ConfigHashCalculatorTest.php": {
-            "hash": 2676045012
+            "hash": 383209215
         },
         "tests\/Unit\/Service\/FileCacheCalculatorTest.php": {
-            "hash": 3550521335
+            "hash": 1015315862
         },
         "tests\/Unit\/Service\/FileComparatorTest.php": {
-            "hash": 3485325747
+            "hash": 1620923300
         },
         "tests\/Unit\/Service\/FilterTest.php": {
-            "hash": 3156548092
+            "hash": 983934002
         },
         "tests\/Unit\/Service\/ReaderTest.php": {
-            "hash": 4109048144
+            "hash": 2980428721
         },
         "tests\/Unit\/Service\/SaverTest.php": {
-            "hash": 962967190
+            "hash": 3398173121
         },
         "tests\/bootstrap.php": {
-            "hash": 3965414496
+            "hash": 3603886318
+        },
+        "tests\/fixtures\/file-for-calculation-of-hash.php": {
+            "hash": 4266623405
         }
     }
 }

@@ -29,7 +29,9 @@ class ConsoleOptionsReader
     {
         self::$instance = $this;
         $this->option = getopt('ab:c:d:f:w:', ['absolute', 'baseline:', 'config:', 'dir:', 'finder:', 'workdir:']);
-        $this->rootDirectory = $this->option['d'] ?? $this->options['dir'] ?? '';
+        $this->rootDirectory = ($this->option['d'] ?? $this->option['dir']) ?? '';
+
+        var_dump($this->rootDirectory);
     }
 
     public static function getInstance(): self
@@ -39,6 +41,8 @@ class ConsoleOptionsReader
 
     public function getAsArray(): array
     {
+        var_dump($this->getBaselinePath());
+
         return [
             'baselinePath' => $this->getBaselinePath(),
             'config' => $this->getConfig(),
