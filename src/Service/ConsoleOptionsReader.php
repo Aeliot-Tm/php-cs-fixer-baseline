@@ -41,8 +41,6 @@ class ConsoleOptionsReader
 
     public function getAsArray(): array
     {
-        var_dump($this->getBaselinePath());
-
         return [
             'baselinePath' => $this->getBaselinePath(),
             'config' => $this->getConfig(),
