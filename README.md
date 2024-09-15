@@ -55,7 +55,7 @@ Download PHAR directly to root directory of the project or in another place as y
 ```shell
 # Do adjust the URL if you need a release other than the latest
 wget -O pcsf-baseline.phar "https://github.com/Aeliot-Tm/php-cs-fixer-baseline/releases/latest/download/pcsf-baseline.phar"
-wget -O pcsf-baseline.phar "https://github.com/Aeliot-Tm/php-cs-fixer-baseline/releases/latest/download/pcsf-baseline.phar.asc"
+wget -O pcsf-baseline.phar.asc "https://github.com/Aeliot-Tm/php-cs-fixer-baseline/releases/latest/download/pcsf-baseline.phar.asc"
 
 # Check that the signature matches
 gpg --verify pcsf-baseline.phar.asc pcsf-baseline.phar
@@ -63,7 +63,7 @@ gpg --verify pcsf-baseline.phar.asc pcsf-baseline.phar
 # Check the issuer (the ID can also be found from the previous command)
 gpg --keyserver hkps://keys.openpgp.org --recv-keys 83F9945BC33EC39E9710206C8B4927076BA50A83
 
-rm pcsf-baseline.phar
+rm pcsf-baseline.phar.asc
 chmod +x pcsf-baseline.phar
 ```
 
