@@ -14,31 +14,34 @@ declare(strict_types=1);
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
 use PhpCsFixer\Config;
+use PhpCsFixer\ConfigInterface;
 use PhpCsFixer\Finder;
 
-class ConsoleOptionsReader
+final class ConsoleOptionsReader
 {
     private string $rootDirectory;
 
     /** @var array<string, string>  */
     private array $option;
 
-    private static ?self $instance = null;
-
     public function __construct()
     {
-        self::$instance = $this;
-        $this->option = getopt('ab:c:d:f:w:', ['absolute', 'baseline:', 'config:', 'dir:', 'finder:', 'workdir:']);
-        $this->rootDirectory = ($this->option['d'] ?? $this->option['dir']) ?? '';
-
-        var_dump($this->rootDirectory);
+        $this->option = getopt(
+            'ab:c:d:f:w:',
+            ['absolute', 'baseline:', 'config:', 'config-dir:', 'finder:', 'workdir:']
+        );
+        $this->rootDirectory = $this->getOptionValue('d','config-dir', '');
     }
 
-    public static function getInstance(): self
-    {
-        return self::$instance ?: throw new \LogicException('No instance provided');
-    }
-
+    /**
+     * @return array{
+     *      baselinePath: string,
+     *      config: Config|ConfigInterface,
+     *      finder: Finder,
+     *      relative?: bool,
+     *      workdir?: string|null
+     *  }
+     */
     public function getAsArray(): array
     {
         return [

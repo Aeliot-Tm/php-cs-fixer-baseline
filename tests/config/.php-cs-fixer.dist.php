@@ -3,11 +3,6 @@
 use Aeliot\PhpCsFixerBaseline\Service\FilterFactory;
 
 $rules = [
-    '@Symfony' => true,
-    '@Symfony:risky' => true,
-    'concat_space' => [
-        'spacing' => 'one',
-    ],
     'header_comment' => [
         'header' => <<<'EOF'
             This file is part of the box project.

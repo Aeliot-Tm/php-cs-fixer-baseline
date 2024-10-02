@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 
 #[CoversNothing]
-class CommandLineTest extends TestCase
+final class CommandLineTest extends TestCase
 {
     public function testCommandLine(): void
     {
