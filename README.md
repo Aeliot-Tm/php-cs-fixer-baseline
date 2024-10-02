@@ -109,7 +109,7 @@ in different environments.
 | a          | absolute  | Store absolute paths in baseline file. It does not expect any value. |                             |
 | b          | baseline  | Pathname of baseline file.                                           | .php-cs-fixer-baseline.json |
 | c          | config    | Pathname of config file.                                             | .php-cs-fixer.dist.php      |
-| d          | dir       | Config files path                                                    | ''                          |
+| d          | config-dir| Config files path                                                    | ''                          |
 | f          | finder    | Pathname of file with definition of Finder.                          | .php-cs-fixer-finder.php    |
 | w          | workdir   | Working directory.                                                   |                             |
 
