@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the box project.
+ * This file is part of the PHP CS Fixer Baseline project.
  *
  * (c) Anatoliy Melnikov <5785276@gmail.com>
  *
@@ -21,7 +21,7 @@ final class ConsoleOptionsReader
 {
     private string $rootDirectory;
 
-    /** @var array<string, string>  */
+    /** @var array<string, string> */
     private array $option;
 
     public function __construct()
@@ -30,7 +30,7 @@ final class ConsoleOptionsReader
             'ab:c:d:f:w:',
             ['absolute', 'baseline:', 'config:', 'config-dir:', 'finder:', 'workdir:']
         );
-        $this->rootDirectory = $this->getOptionValue('d','config-dir', '');
+        $this->rootDirectory = $this->getOptionValue('d', 'config-dir', '');
     }
 
     /**
@@ -93,7 +93,7 @@ final class ConsoleOptionsReader
         return getcwd() . '/' . $path;
     }
 
-    private function getOptionValue(string $short, string $long, bool|null|string $default): bool|null|string
+    private function getOptionValue(string $short, string $long, bool|string|null $default): bool|string|null
     {
         if (\array_key_exists($short, $this->option) && \array_key_exists($long, $this->option)) {
             throw new \InvalidArgumentException(sprintf('%s is duplicated', $long));
