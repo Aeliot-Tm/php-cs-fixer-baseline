@@ -15,6 +15,7 @@ declare(strict_types=1);
 use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use Aeliot\PhpCsFixerBaseline\Service\Builder;
 use Aeliot\PhpCsFixerBaseline\Service\Saver;
+use Aeliot\PhpCsFixerBaseline\Service\ConsoleOptionsReader;
 
 $autoloaderPath = (static function (): string {
     if (Phar::running()) {
@@ -43,55 +44,7 @@ $autoloaderPath = (static function (): string {
 
 require_once $autoloaderPath;
 
-$absolutePathMaker = static function (string $path): string {
-    if (preg_match('#^(?:[[:alpha:]]:[/\\\\]|/)#', $path)) {
-        return $path;
-    }
-
-    return getcwd() . '/' . $path;
-};
-
-$options = (static function () use ($absolutePathMaker): array {
-    $values = [];
-    $options = getopt('ab:c:f:w:', ['absolute', 'baseline:', 'config:', 'finder:', 'workdir:']);
-    $defaultPaths = [
-        '.php-cs-fixer-baseline.json' => ['b', 'baseline'],
-        '.php-cs-fixer.dist.php' => ['c', 'config'],
-        '.php-cs-fixer-finder.php' => ['f', 'finder'],
-    ];
-
-    foreach ($defaultPaths as $default => [$short, $long]) {
-        if (isset($options['b'], $options['baseline'])) {
-            throw new InvalidArgumentException(sprintf('%s is duplicated', $long));
-        }
-        $values[$long] = $absolutePathMaker($options[$short] ?? $options[$long] ?? $default);
-    }
-
-    $values += [
-        'relative' => !(isset($options['a']) || isset($options['absolute'])),
-        'workdir' => $options['w'] ?? $options['workdir'] ?? null,
-    ];
-
-    if ($values['workdir']) {
-        if (!$values['relative']) {
-            throw new InvalidArgumentException('Both options "absolute" and "workdir" are passed');
-        }
-        if (!is_dir($values['workdir'])) {
-            throw new InvalidArgumentException('Value of the option "workdir" is not directory');
-        }
-    }
-
-    return $values;
-})();
-
-$config = $options;
-$config['baselinePath'] = $options['baseline'];
-unset($config['baseline']);
-// NOTE: enclose the including of files into functions to avoid conflict of variables
-$config['config'] = (static fn () => require $options['config'])();
-$config['finder'] = (static fn () => require $options['finder'])();
-
-$baseline = (new Builder())->create(new BuilderConfig($config));
+$baseline = (new Builder())->create(new BuilderConfig((new ConsoleOptionsReader())->getAsArray()));
 (new Saver())->save($baseline);
 
 echo sprintf("Ok, %s files added to baseline\n", $baseline->getLockedFilesCount());

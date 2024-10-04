@@ -1,0 +1,9 @@
+{
+    "config_hash": 309824811,
+    "relative": true,
+    "hashes": {
+        "tests\/fixtures\/file-for-calculation-of-hash.php": {
+            "hash": 4266623405
+        }
+    }
+}
