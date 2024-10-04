@@ -77,7 +77,7 @@ final class ConsoleOptionsReader
         return $this->getOptionValue('w', 'workdir', null);
     }
 
-    private function getRelative(): ?bool
+    private function getRelative(): bool
     {
         return !$this->getOptionValue('a', 'relative', false);
     }
