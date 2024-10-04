@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use Aeliot\PhpCsFixerBaseline\Service\Builder;
-use Aeliot\PhpCsFixerBaseline\Service\Saver;
 use Aeliot\PhpCsFixerBaseline\Service\ConsoleOptionsReader;
+use Aeliot\PhpCsFixerBaseline\Service\Saver;
 
 $autoloaderPath = (static function (): string {
     if (Phar::running()) {
