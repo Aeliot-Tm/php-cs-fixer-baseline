@@ -7,7 +7,6 @@ on:
 jobs:
   preflight:
     name: Check opened pull requests
-    environment: release
     runs-on: ubuntu-latest
 
     # Define the permissions for the action
@@ -35,7 +34,6 @@ jobs:
   todo-registrar:
     name: Register TODO
     needs: preflight
-    environment: release
     if: 0 == needs.preflight.outputs.count
     runs-on: ubuntu-latest
 
