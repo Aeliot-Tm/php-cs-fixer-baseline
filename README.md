@@ -62,7 +62,7 @@ wget -O pcsf-baseline.phar.asc "https://github.com/Aeliot-Tm/php-cs-fixer-baseli
 gpg --verify pcsf-baseline.phar.asc pcsf-baseline.phar
 
 # Check the issuer (the ID can also be found from the previous command)
-gpg --keyserver hkps://keys.openpgp.org --recv-keys 83F9945BC33EC39E9710206C8B4927076BA50A83
+gpg --keyserver hkps://keys.openpgp.org --recv-keys 9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C
 
 rm pcsf-baseline.phar.asc
 chmod +x pcsf-baseline.phar

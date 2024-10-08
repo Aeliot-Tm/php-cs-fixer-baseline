@@ -73,16 +73,16 @@ jobs:
         if: github.event_name == 'release'
         uses: crazy-max/ghaction-import-gpg@v6
         with:
-          gpg_private_key: ${{ secrets.GPG_KEY_83F9945BC33EC39E9710206C8B4927076BA50A83 }}
-          passphrase: "${{ secrets.GPG_KEY_83F9945BC33EC39E9710206C8B4927076BA50A83_PASSPHRASE }}"
+          gpg_private_key: ${{ secrets.GPG_KEY_9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C }}
+          passphrase: "${{ secrets.GPG_KEY_9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C_PASSPHRASE }}"
 
       - name: Sign the PHAR
         if: github.event_name == 'release'
         run: |
-          gpg --local-user 83F9945BC33EC39E9710206C8B4927076BA50A83 \
+          gpg --local-user 9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C \
               --batch \
               --yes \
-              --passphrase="${{ secrets.GPG_KEY_83F9945BC33EC39E9710206C8B4927076BA50A83_PASSPHRASE }}" \
+              --passphrase="${{ secrets.GPG_KEY_9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C_PASSPHRASE }}" \
               --detach-sign \
               --output pcsf-baseline.phar.asc \
               pcsf-baseline.phar
