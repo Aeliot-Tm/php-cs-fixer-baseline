@@ -71,10 +71,18 @@ jobs:
           key: "os-${{ runner.os }}-php-${{ runner.php-version }}-composer-${{ hashFiles('**/composer.lock') }}"
           restore-keys: "os-${{ runner.os }}-php-${{ runner.php-version }}-composer-"
 
-      - name: Install Composer dependencies
-        uses: ramsey/composer-install@v3
+      - name: Install PHIVE
+        uses: szepeviktor/phive@v1
         with:
-          composer-options: '--no-dev'
+            home: "${{ runner.temp }}/.phive"
+            binPath: "${{ github.workspace }}/tools/phive"
+
+      - name: Install PHP tools by PHIVE
+        uses: szepeviktor/phive-install@v1
+        with:
+            home: "${{ runner.temp }}/.phive"
+            binPath: "${{ github.workspace }}/tools/phive"
+            trustGpgKeys: '$(cat ./.phive/trust-gpg-keys.txt)'
 
       - name: Generate new branch name
         id: branch_name
@@ -84,7 +92,7 @@ jobs:
 
       - name: Register TODOs
         run: |
-          php bin/todo-registrar -c scripts/todo-registrar/config.php
+          php tools/todo-registrar.phar -c scripts/todo-registrar/config.php
 
       - name: Checkout new branch
         run: git checkout -b ${{ steps.branch_name.outputs.branch_name }} 1> /dev/null
