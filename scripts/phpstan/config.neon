@@ -1,5 +1,5 @@
 includes:
-	- phpstan-baseline.neon
+	- ../../scripts/phpstan/baseline.neon
 
 parameters:
     level: 6
@@ -7,9 +7,9 @@ parameters:
     treatPhpDocTypesAsCertain: false
 
     paths:
-        - bin/pcsf-baseline
-        - src/
-        - tests/
+        - ../../bin/pcsf-baseline
+        - ../../src/
+        - ../../tests/
 
     parallel:
         processTimeout: 300.0
