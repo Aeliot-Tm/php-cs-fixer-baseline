@@ -61,10 +61,10 @@
             "@phpstan-clear",
             "@phpstan-analyse"
         ],
-        "phpstan-analyse": "vendor/bin/phpstan analyse --memory-limit=-1",
+        "phpstan-analyse": "vendor/bin/phpstan analyse -c scripts/phpstan/config.neon --memory-limit=-1",
         "phpstan-baseline": [
             "@phpstan-clear",
-            "@phpstan-analyse --generate-baseline phpstan-baseline.neon --allow-empty-baseline"
+            "@phpstan-analyse --generate-baseline scripts/phpstan/baseline.neon --allow-empty-baseline"
         ],
         "phpstan-clear": "vendor/bin/phpstan clear-result-cache",
         "phpunit": "vendor/bin/phpunit"
