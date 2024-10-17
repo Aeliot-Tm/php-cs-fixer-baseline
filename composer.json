@@ -67,6 +67,6 @@
             "@phpstan-analyse --generate-baseline scripts/phpstan/baseline.neon --allow-empty-baseline"
         ],
         "phpstan-clear": "vendor/bin/phpstan clear-result-cache",
-        "phpunit": "vendor/bin/phpunit"
+        "phpunit": "vendor/bin/phpunit -c scripts/phpunit/config.xml"
     }
 }
