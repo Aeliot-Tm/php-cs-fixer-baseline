@@ -1,6 +1,7 @@
 .idea
 /.phpunit.cache/
 /tools/
+/var/
 /vendor/
 /.php-cs-fixer.cache
 pcsf-baseline.phar
