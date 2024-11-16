@@ -96,7 +96,7 @@ final class ConsoleOptionsReader
     private function getOptionValue(string $short, string $long, bool|string|null $default): bool|string|null
     {
         if (\array_key_exists($short, $this->option) && \array_key_exists($long, $this->option)) {
-            throw new \InvalidArgumentException(sprintf('%s is duplicated', $long));
+            throw new \InvalidArgumentException(\sprintf('%s is duplicated', $long));
         }
 
         return $this->option[$short] ?? $this->option[$long] ?? $default;
