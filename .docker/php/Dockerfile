@@ -3,15 +3,11 @@ ARG DEBIAN_RELEASE=bullseye
 
 FROM php:${PHP_VERSION}-fpm-${DEBIAN_RELEASE}
 
-ENV COMPOSER_ALLOW_SUPERUSER 1
-ENV COMPOSER_NO_INTERACTION 1
-ENV COMPOSER_VERSION 2.7.6
-ENV DEBIAN_FRONTEND noninteractive
-ENV DOCKER_PHP_DEPS \
-    gnupg \
-    libxml2-dev \
-    libzip-dev \
-    unzip
+ARG COMPOSER_ALLOW_SUPERUSER=1
+ARG COMPOSER_NO_INTERACTION=1
+ARG COMPOSER_VERSION=2.7.6
+ARG DEBIAN_FRONTEND=noninteractive
+ARG DOCKER_PHP_DEPS='gnupg libxml2-dev libzip-dev unzip'
 
 RUN set -xe; \
     apt-get --allow-releaseinfo-change update && \
