@@ -81,7 +81,7 @@ final class BaselineContent implements \JsonSerializable
 
     public function setWorkdir(?string $workdir): void
     {
-        $this->relative = (bool) $workdir;
+        $this->relative = '' !== (string) $workdir;
         $this->workdir = $workdir;
     }
 
