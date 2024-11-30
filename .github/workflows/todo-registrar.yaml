@@ -2,7 +2,6 @@ name: TODO Registrar
 
 on:
   push:
-    branches: [ "main" ]
 
 jobs:
   preflight:
