@@ -63,27 +63,6 @@ jobs:
           tools: composer
           coverage: none
 
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: "os-${{ runner.os }}-php-${{ runner.php-version }}-composer-${{ hashFiles('**/composer.lock') }}"
-          restore-keys: "os-${{ runner.os }}-php-${{ runner.php-version }}-composer-"
-
-      - name: Install PHIVE
-        uses: szepeviktor/phive@v1
-        with:
-            home: "${{ runner.temp }}/.phive"
-            binPath: "${{ github.workspace }}/tools/phive"
-
-      - name: Install PHP tools by PHIVE
-        uses: szepeviktor/phive-install@v1
-        with:
-            home: "${{ runner.temp }}/.phive"
-            binPath: "${{ github.workspace }}/tools/phive"
-            trustGpgKeys: '$(cat ./.phive/trust-gpg-keys.txt)'
-
       - name: Generate new branch name
         id: branch_name
         run: |
@@ -92,7 +71,7 @@ jobs:
 
       - name: Register TODOs
         run: |
-          php tools/todo-registrar.phar -c scripts/todo-registrar/config.php
+          docker run -v $(pwd):/code ghcr.io/aeliot-tm/todo-registrar:contribute-as-docker -c scripts/todo-registrar/config.php
 
       - name: Checkout new branch
         run: git checkout -b ${{ steps.branch_name.outputs.branch_name }} 1> /dev/null
