@@ -71,7 +71,7 @@ jobs:
       - name: Register TODOs
         run: |
           docker pull ghcr.io/aeliot-tm/todo-registrar:processing-summary
-          docker run -v ${{ github.workspace }}:/code \
+          docker run -T -v ${{ github.workspace }}:/code \
             ghcr.io/aeliot-tm/todo-registrar:processing-summary \
             -c scripts/todo-registrar/config.php -vvv
 
