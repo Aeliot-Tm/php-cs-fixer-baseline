@@ -68,6 +68,9 @@ jobs:
           export TR_NEW_BRANCH=todo-registrar-$(echo "$RANDOM$RANDOM$RANDOM" | base64 | head -c 8; echo)
           echo "branch_name=$TR_NEW_BRANCH" >>  "$GITHUB_OUTPUT"
 
+      - name: Pull docker image
+        run: docker pull ghcr.io/aeliot-tm/todo-registrar:processing-summary
+
       - name: Register TODOs
         uses: addnab/docker-run-action@v3
         with:
