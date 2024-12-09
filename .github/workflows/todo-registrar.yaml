@@ -69,11 +69,12 @@ jobs:
           echo "branch_name=$TR_NEW_BRANCH" >>  "$GITHUB_OUTPUT"
 
       - name: Register TODOs
-        run: |
-          docker pull ghcr.io/aeliot-tm/todo-registrar:processing-summary
-          docker run -T -v ${{ github.workspace }}:/code \
-            ghcr.io/aeliot-tm/todo-registrar:processing-summary \
-            -c scripts/todo-registrar/config.php -vvv
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: ghcr.io
+          image: aeliot-tm/todo-registrar:processing-summary
+          options: -v ${{ github.workspace }}:/code
+          run: -c scripts/todo-registrar/config.php -vvv
 
       - name: Checkout new branch
         run: git checkout -b ${{ steps.branch_name.outputs.branch_name }} 1> /dev/null
