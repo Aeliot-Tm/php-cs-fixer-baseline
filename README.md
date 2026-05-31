@@ -2,6 +2,7 @@
 
 [![GitHub Release](https://img.shields.io/github/v/release/Aeliot-Tm/php-cs-fixer-baseline?label=Release&labelColor=black)](https://packagist.org/packages/aeliot/php-cs-fixer-baseline)
 [![Testing](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions/workflows/automated-testing.yaml/badge.svg?branch=main)](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions/workflows/automated-testing.yaml?query=branch%3Amain)
+[![Security Audit](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions/workflows/security-audit.yaml/badge.svg?branch=main)](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions/workflows/security-audit.yaml?query=branch%3Amain)
 [![GitHub License](https://img.shields.io/github/license/Aeliot-Tm/php-cs-fixer-baseline?label=License&labelColor=black)](LICENSE)
 
 It's simple baseline for [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer).
