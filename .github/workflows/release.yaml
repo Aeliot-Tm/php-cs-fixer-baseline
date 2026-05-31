@@ -14,10 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build PHAR
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -29,36 +26,18 @@ jobs:
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: vendor
           key: "os-${{ runner.os }}-php-${{ runner.php-version }}-composer-${{ hashFiles('**/composer.lock') }}"
           restore-keys: "os-${{ runner.os }}-php-${{ runner.php-version }}-composer-"
 
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v3
+        uses: ramsey/composer-install@v4
         with:
           composer-options: '--no-dev'
 
-      - name: Cache tools installed with PHIVE
-        uses: actions/cache@v4
-        with:
-          path: "${{ runner.temp }}/.phive"
-          key: "os-${{ runner.os }}-php-${{ runner.php-version }}-phive-${{ hashFiles('**/.phive/phars.xml', '**/.phive/trust-gpg-keys.txt') }}"
-          restore-keys: "os-${{ runner.os }}-php-${{ runner.php-version }}-phive-"
-
-      - name: Install PHIVE
-        uses: szepeviktor/phive@v1
-        with:
-          home: "${{ runner.temp }}/.phive"
-          binPath: "${{ github.workspace }}/tools/phive"
-
-      - name: Install PHP tools by PHIVE
-        uses: szepeviktor/phive-install@v1
-        with:
-          home: "${{ runner.temp }}/.phive"
-          binPath: "${{ github.workspace }}/tools/phive"
-          trustGpgKeys: '$(cat ./.phive/trust-gpg-keys.txt)'
+      - uses: ./.github/actions/setup-phive
 
       - name: Build PHAR
         run: composer build
@@ -71,7 +50,7 @@ jobs:
       # The following section is done only for releases
       - name: Import GPG key
         if: github.event_name == 'release'
-        uses: crazy-max/ghaction-import-gpg@v6
+        uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{ secrets.GPG_KEY_9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C }}
           passphrase: "${{ secrets.GPG_KEY_9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C_PASSPHRASE }}"
@@ -88,7 +67,7 @@ jobs:
               pcsf-baseline.phar
 
       - name: Upload PHAR to the release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
           files: |

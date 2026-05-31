@@ -1,9 +1,8 @@
 ## Baseline for PHP CS Fixer
 
 [![GitHub Release](https://img.shields.io/github/v/release/Aeliot-Tm/php-cs-fixer-baseline?label=Release&labelColor=black)](https://packagist.org/packages/aeliot/php-cs-fixer-baseline)
-[![WFS](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions/workflows/automated_testing.yml/badge.svg?branch=main)](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions)
-[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/Aeliot-Tm/php-cs-fixer-baseline)](https://codeclimate.com/github/Aeliot-Tm/php-cs-fixer-baseline)
-[![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr-closed/Aeliot-Tm/php-cs-fixer-baseline?label=Pull%20Requests&labelColor=black)](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/pulls?q=is%3Apr+is%3Aclosed)
+[![Testing](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions/workflows/automated-testing.yaml/badge.svg?branch=main)](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions/workflows/automated-testing.yaml?query=branch%3Amain)
+[![Security Audit](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions/workflows/security-audit.yaml/badge.svg?branch=main)](https://github.com/Aeliot-Tm/php-cs-fixer-baseline/actions/workflows/security-audit.yaml?query=branch%3Amain)
 [![GitHub License](https://img.shields.io/github/license/Aeliot-Tm/php-cs-fixer-baseline?label=License&labelColor=black)](LICENSE)
 
 It's simple baseline for [PHP CS Fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer).
