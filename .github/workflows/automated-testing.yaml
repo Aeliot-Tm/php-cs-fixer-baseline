@@ -25,18 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-php
-
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: "${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}"
-          restore-keys: |
-            ${{ runner.os }}-php-
-
-      - name: Install dependencies
-        uses: ramsey/composer-install@v3
+      - uses: ./.github/actions/setup-composer
 
       - name: Check code style
         run: composer run cs-fixer-check -- --show-progress=none
@@ -48,18 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-php
-
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: "${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}"
-          restore-keys: |
-            ${{ runner.os }}-php-
-
-      - name: Install dependencies
-        uses: ramsey/composer-install@v3
+      - uses: ./.github/actions/setup-composer
 
       - name: Static analyze with PHPStan
         run: |
@@ -73,18 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-php
-
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: "${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}"
-          restore-keys: |
-            ${{ runner.os }}-php-
-
-      - name: Install dependencies
-        uses: ramsey/composer-install@v3
+      - uses: ./.github/actions/setup-composer
 
       - name: 'Run all PHPUnit tests'
         run: composer run phpunit
