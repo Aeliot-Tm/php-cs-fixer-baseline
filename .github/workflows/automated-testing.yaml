@@ -13,9 +13,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
+      - uses: ./.github/actions/setup-php
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
@@ -26,9 +24,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
+      - uses: ./.github/actions/setup-php
 
       - name: Cache Composer packages
         id: composer-cache
@@ -51,9 +47,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
+      - uses: ./.github/actions/setup-php
 
       - name: Cache Composer packages
         id: composer-cache
@@ -78,9 +72,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.2
+      - uses: ./.github/actions/setup-php
 
       - name: Cache Composer packages
         id: composer-cache
