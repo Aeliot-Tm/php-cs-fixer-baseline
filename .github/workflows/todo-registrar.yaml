@@ -17,15 +17,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
 
       - name: Register TODOs
-        uses: Aeliot-Tm/todo-registrar-action@1.6.5
+        uses: Aeliot-Tm/todo-registrar-action@2.1.0
         env:
           GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_TODO_REGISTRAR_ACCESS_TOKEN }}
         with:
-          check_opened: 'true'
           config: |
             paths:
               in: .
@@ -58,5 +55,3 @@ jobs:
           env_vars: |
             GH_PERSONAL_ACCESS_TOKEN
           new_branch_name: 'todo-registrar'
-          user_email: 'action@github.com'
-          user_name: 'GitHub Action'
