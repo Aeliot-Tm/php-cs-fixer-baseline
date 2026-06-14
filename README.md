@@ -77,6 +77,26 @@ chmod +x pcsf-baseline.phar
 
    $finder->filter((new FilterFactory())->createFilter(__DIR__ . '/.php-cs-fixer-baseline.json', $config));
    ```
+
+   Filter options (optional):
+   ```php
+   use Aeliot\PhpCsFixerBaseline\Dto\FilterOptions;
+   use Aeliot\PhpCsFixerBaseline\Service\FilterFactory;
+
+   $finder->filter((new FilterFactory())->createFilter(
+       __DIR__ . '/.php-cs-fixer-baseline.json',
+       $config,
+       new FilterOptions(
+           mode: FilterFactory::MODE_MENTIONED,
+           workdir: '/path/to/project',
+       ),
+   ));
+   ```
+
+   | Mode | Description |
+   |------|-------------|
+   | `by_hash` (default) | Skip files from baseline only when their content hash matches |
+   | `mentioned` | Skip all files listed in baseline, even if they were modified |
 3. Autoload classes from PHAR (optional).
    If you use this project as PHAR file, you need to require autoloader of it to use provided filter.
    Do it in the main config file of PHP CS Fixer (`.php-cs-fixer.dist.php`)

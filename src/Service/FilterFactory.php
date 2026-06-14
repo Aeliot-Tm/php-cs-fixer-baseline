@@ -40,6 +40,7 @@ final class FilterFactory
             throw new \InvalidArgumentException('Fixer config must be an instance of PhpCsFixer\Config or PhpCsFixer\ConfigInterface');
         }
 
+        $mode = $this->resolveMode($options?->getMode());
         $baseline = $this->reader->read($path)->getContent();
         $isSameConfig = $baseline->getConfigHash() === $this->configHashCalculator->calculate($fixerConfig);
 
@@ -49,8 +50,19 @@ final class FilterFactory
 
         $comparator = $this->fileComparator;
 
-        return static function (\SplFileInfo $file) use ($isSameConfig, $baseline, $comparator): bool {
-            return !$isSameConfig || !$comparator->isInBaseLine($baseline, $file);
+        return static function (\SplFileInfo $file) use ($isSameConfig, $baseline, $comparator, $mode): bool {
+            return !$isSameConfig || !$comparator->isInBaseLine($baseline, $file, $mode);
         };
+    }
+
+    private function resolveMode(?string $mode): string
+    {
+        $mode ??= FileComparator::MODE_BY_HASH;
+
+        if (!\in_array($mode, FileComparator::MODES, true)) {
+            throw new \InvalidArgumentException(\sprintf('Invalid filter mode "%s". Allowed: %s.', $mode, implode(', ', FileComparator::MODES)));
+        }
+
+        return $mode;
     }
 }

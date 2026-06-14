@@ -17,15 +17,26 @@ use Aeliot\PhpCsFixerBaseline\Model\BaselineContent;
 
 final class FileComparator
 {
+    public const MODE_BY_HASH = 'by_hash';
+    public const MODE_MENTIONED = 'mentioned';
+    public const MODES = [
+        self::MODE_BY_HASH,
+        self::MODE_MENTIONED,
+    ];
+
     public function __construct(
         private FileCacheCalculator $fileCacheCalculator = new FileCacheCalculator(),
     ) {
     }
 
-    public function isInBaseLine(BaselineContent $content, \SplFileInfo $file): bool
+    public function isInBaseLine(BaselineContent $content, \SplFileInfo $file, string $mode): bool
     {
         $hash = $content->getHash($file->getPathname())?->getHash();
 
-        return $hash && $hash === $this->fileCacheCalculator->calculate($file);
+        return match ($mode) {
+            self::MODE_BY_HASH => $hash && $hash === $this->fileCacheCalculator->calculate($file),
+            self::MODE_MENTIONED => null !== $hash,
+            default => false,
+        };
     }
 }

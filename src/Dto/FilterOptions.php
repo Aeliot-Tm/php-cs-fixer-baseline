@@ -1,17 +1,29 @@
 <?php
+
 declare(strict_types=1);
+
+/*
+ * This file is part of the PHP CS Fixer Baseline project.
+ *
+ * (c) Anatoliy Melnikov <5785276@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Aeliot\PhpCsFixerBaseline\Dto;
 
 final readonly class FilterOptions
 {
-    private ?string $workdir;
-
     public function __construct(
-        ?string $workdir = null
-    )
+        private ?string $mode = null,
+        private ?string $workdir = null,
+    ) {
+    }
+
+    public function getMode(): ?string
     {
-        $this->workdir = $workdir;
+        return $this->mode;
     }
 
     public function getWorkdir(): ?string
