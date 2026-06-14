@@ -31,7 +31,7 @@ $rules = [
 ];
 
 $config = (new PhpCsFixer\Config())
-    ->setCacheFile(dirname(__DIR__, 2) . '/var/php-cs-fixer/cache.json')
+    ->setCacheFile(dirname(__DIR__, 3) . '/var/php-cs-fixer/cache.json')
     ->setRiskyAllowed(true)
     ->setRules($rules);
 

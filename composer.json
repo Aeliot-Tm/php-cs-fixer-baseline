@@ -49,24 +49,24 @@
     ],
     "scripts": {
         "build": [
-            "php scripts/box/prepare-config.php",
-            "tools/box.phar compile --config=scripts/box/config.json"
+            "php .infra/scripts/box/prepare-config.php",
+            "tools/box.phar compile --config=.infra/scripts/box/config.json"
         ],
         "cs-check": "@cs-fixer-check",
         "cs-fix": "@cs-fixer-fix",
         "cs-fixer-check": "@cs-fixer-fix --dry-run",
-        "cs-fixer-fix": "vendor/bin/php-cs-fixer fix -vv --config=scripts/php-cs-fixer/config.php",
+        "cs-fixer-fix": "vendor/bin/php-cs-fixer fix -vv --config=.infra/scripts/php-cs-fixer/config.php",
         "phive-install": "phive install --trust-gpg-keys $(cat .phive/trust-gpg-keys.txt)",
         "phpstan": [
             "@phpstan-clear",
             "@phpstan-analyse"
         ],
-        "phpstan-analyse": "vendor/bin/phpstan analyse -c scripts/phpstan/config.neon --memory-limit=-1",
+        "phpstan-analyse": "vendor/bin/phpstan analyse -c .infra/scripts/phpstan/config.neon --memory-limit=-1",
         "phpstan-baseline": [
             "@phpstan-clear",
-            "@phpstan-analyse --generate-baseline scripts/phpstan/baseline.neon --allow-empty-baseline"
+            "@phpstan-analyse --generate-baseline .infra/scripts/phpstan/baseline.neon --allow-empty-baseline"
         ],
         "phpstan-clear": "vendor/bin/phpstan clear-result-cache",
-        "phpunit": "vendor/bin/phpunit -c scripts/phpunit/config.xml"
+        "phpunit": "vendor/bin/phpunit -c .infra/scripts/phpunit/config.xml"
     }
 }
