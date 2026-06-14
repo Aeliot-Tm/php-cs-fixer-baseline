@@ -2,7 +2,7 @@ services:
   php-fpm:
     build:
       context: ./
-      dockerfile: .docker/php/Dockerfile
+      dockerfile: .infra/docker/php/Dockerfile
     entrypoint: [ '/app/docker-entrypoint.sh' ]
     volumes:
       - .:/app
