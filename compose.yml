@@ -1,9 +1,8 @@
 services:
-  php-fpm:
+  php-cli:
     build:
       context: ./
       dockerfile: .infra/docker/php/Dockerfile
-    entrypoint: [ '/app/docker-entrypoint.sh' ]
     expose:
       - '9003'
     extra_hosts:
