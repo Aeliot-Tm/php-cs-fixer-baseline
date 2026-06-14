@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the TODO Registrar project.
+ * This file is part of the PHP CS Fixer Baseline project.
  *
  * (c) Anatoliy Melnikov <5785276@gmail.com>
  *
@@ -12,7 +12,8 @@ declare(strict_types=1);
  */
 
 use ComposerUnused\ComposerUnused\Configuration\Configuration;
+use ComposerUnused\ComposerUnused\Configuration\NamedFilter;
 
 return static function (Configuration $config): Configuration {
-    return $config;
+    return $config->addNamedFilter(NamedFilter::fromString('symfony/yaml'));
 };
