@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Console;
 
-use Composer\InstalledVersions;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command;
