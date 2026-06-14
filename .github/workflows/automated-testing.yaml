@@ -18,6 +18,32 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
+  composer-require-checker:
+    name: Check composer requirements
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-php
+      - uses: ./.github/actions/setup-composer
+      - uses: ./.github/actions/setup-phive
+
+      - name: Check composer requirements
+        run: composer require-check
+
+  composer-unused:
+    name: Check unused composer requirements
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup-php
+      - uses: ./.github/actions/setup-composer
+      - uses: ./.github/actions/setup-phive
+
+      - name: Check unused composer requirements
+        run: composer unused
+
   cs-fixer:
     name: Check code style with CS Fixer
     runs-on: ubuntu-latest
@@ -28,7 +54,7 @@ jobs:
       - uses: ./.github/actions/setup-composer
 
       - name: Check code style
-        run: composer run cs-fixer-check -- --show-progress=none
+        run: composer cs-fixer-check -- --show-progress=none
 
   phpstan:
     name: Static analyze with PHPStan
@@ -41,8 +67,8 @@ jobs:
 
       - name: Static analyze with PHPStan
         run: |
-          composer run phpstan-clear && \
-          composer run phpstan-analyse -- --no-progress
+          composer phpstan-clear && \
+          composer phpstan-analyse -- --no-progress
 
   phpunit:
     name: 'Tests: Unit'
@@ -54,4 +80,4 @@ jobs:
       - uses: ./.github/actions/setup-composer
 
       - name: 'Run all PHPUnit tests'
-        run: composer run phpunit
+        run: composer phpunit
