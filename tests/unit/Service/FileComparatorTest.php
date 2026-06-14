@@ -30,7 +30,7 @@ final class FileComparatorTest extends TestCase
 
         $comparator = new FileComparator();
 
-        self::assertTrue($comparator->isInBaseLine($baselineContent, $file));
+        self::assertTrue($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_BY_HASH));
     }
 
     public function testNotInBaseLine(): void
@@ -39,7 +39,38 @@ final class FileComparatorTest extends TestCase
         $baselineContent = new BaselineContent();
         $comparator = new FileComparator();
 
-        self::assertFalse($comparator->isInBaseLine($baselineContent, $file));
+        self::assertFalse($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_BY_HASH));
+    }
+
+    public function testInBaseLineByHashWhenHashChanged(): void
+    {
+        $file = $this->mockSplFileInfo();
+        $baselineContent = new BaselineContent();
+        $baselineContent->addHash(new FileHash($file->getPathname(), 99999999));
+
+        $comparator = new FileComparator();
+
+        self::assertFalse($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_BY_HASH));
+    }
+
+    public function testInBaseLineMentionedWhenHashChanged(): void
+    {
+        $file = $this->mockSplFileInfo();
+        $baselineContent = new BaselineContent();
+        $baselineContent->addHash(new FileHash($file->getPathname(), 99999999));
+
+        $comparator = new FileComparator();
+
+        self::assertTrue($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_MENTIONED));
+    }
+
+    public function testNotInBaseLineMentionedWhenFileNotListed(): void
+    {
+        $file = $this->mockSplFileInfo();
+        $baselineContent = new BaselineContent();
+        $comparator = new FileComparator();
+
+        self::assertFalse($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_MENTIONED));
     }
 
     private function mockSplFileInfo(): \SplFileInfo

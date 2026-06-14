@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
-use PhpCsFixer\Config;
+use Aeliot\PhpCsFixerBaseline\Dto\FilterOptions;
 
 final class FilterFactory
 {
@@ -31,19 +31,38 @@ final class FilterFactory
         $this->fileComparator = $fileComparator ?? new FileComparator();
     }
 
-    public function createFilter(string $path, Config $config, ?string $workdir = null): \Closure
+    /**
+     * @param \PhpCsFixer\Config|\PhpCsFixer\ConfigInterface $fixerConfig
+     */
+    public function createFilter(string $path, $fixerConfig, ?FilterOptions $options = null): \Closure
     {
+        if (!(is_a($fixerConfig, 'PhpCsFixer\Config') || is_a($fixerConfig, 'PhpCsFixer\ConfigInterface'))) {
+            throw new \InvalidArgumentException('Fixer config must be an instance of PhpCsFixer\Config or PhpCsFixer\ConfigInterface');
+        }
+
+        $mode = $this->resolveMode($options?->getMode());
         $baseline = $this->reader->read($path)->getContent();
-        $isSameConfig = $baseline->getConfigHash() === $this->configHashCalculator->calculate($config);
+        $isSameConfig = $baseline->getConfigHash() === $this->configHashCalculator->calculate($fixerConfig);
 
         if ($baseline->isRelative()) {
-            $baseline->setWorkdir($workdir ?? getcwd());
+            $baseline->setWorkdir($options?->getWorkdir() ?? getcwd());
         }
 
         $comparator = $this->fileComparator;
 
-        return static function (\SplFileInfo $file) use ($isSameConfig, $baseline, $comparator): bool {
-            return !$isSameConfig || !$comparator->isInBaseLine($baseline, $file);
+        return static function (\SplFileInfo $file) use ($isSameConfig, $baseline, $comparator, $mode): bool {
+            return !$isSameConfig || !$comparator->isInBaseLine($baseline, $file, $mode);
         };
+    }
+
+    private function resolveMode(?string $mode): string
+    {
+        $mode ??= FileComparator::MODE_BY_HASH;
+
+        if (!\in_array($mode, FileComparator::MODES, true)) {
+            throw new \InvalidArgumentException(\sprintf('Invalid filter mode "%s". Allowed: %s.', $mode, implode(', ', FileComparator::MODES)));
+        }
+
+        return $mode;
     }
 }
