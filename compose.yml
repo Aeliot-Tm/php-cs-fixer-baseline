@@ -1,0 +1,13 @@
+services:
+  php-cli:
+    build:
+      context: ./
+      dockerfile: .infra/docker/php/Dockerfile
+    expose:
+      - '9003'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
