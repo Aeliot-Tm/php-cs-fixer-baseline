@@ -255,7 +255,7 @@ final class ApplicationTest extends TestCase
             new ArrayInput([
                 'command' => 'update',
                 '--config-dir' => 'tests/config/',
-                '--path' => $paths,
+                'path' => $paths,
             ]),
             $output,
         );
