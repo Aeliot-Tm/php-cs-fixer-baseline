@@ -1,0 +1,15 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Aeliot\PhpCsFixerBaseline\:
+    resource: '../src/*'
+    exclude:
+      - '../src/Console/Application.php'
+      - '../src/Console/ContainerBuilder.php'
+      - '../src/Model'
+
+  Aeliot\PhpCsFixerBaseline\Console\Command\GenerateCommand:
+    public: true
+    tags: ['console.command']

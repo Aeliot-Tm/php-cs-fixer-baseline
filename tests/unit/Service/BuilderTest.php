@@ -16,6 +16,8 @@ namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
 use Aeliot\PhpCsFixerBaseline\Service\Builder;
+use Aeliot\PhpCsFixerBaseline\Service\ConfigHashCalculator;
+use Aeliot\PhpCsFixerBaseline\Service\FileCacheCalculator;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -41,7 +43,7 @@ final class BuilderTest extends TestCase
         $finder = $this->createMock(Finder::class);
         $finder->method('getIterator')->willReturn(new \ArrayIterator($files));
 
-        $builder = new Builder();
+        $builder = new Builder(new ConfigHashCalculator(), new FileCacheCalculator());
         $builderConfig = new BuilderConfig([
             'baselinePath' => $path,
             'config' => $config,

@@ -20,13 +20,10 @@ use Aeliot\PhpCsFixerBaseline\Model\FileHash;
 
 final class Builder
 {
-    private ConfigHashCalculator $configHashCalculator;
-    private FileCacheCalculator $fileCacheCalculator;
-
-    public function __construct()
-    {
-        $this->configHashCalculator = new ConfigHashCalculator();
-        $this->fileCacheCalculator = new FileCacheCalculator();
+    public function __construct(
+        private readonly ConfigHashCalculator $configHashCalculator,
+        private readonly FileCacheCalculator $fileCacheCalculator,
+    ) {
     }
 
     public function create(BuilderConfig $config): BaselineFile

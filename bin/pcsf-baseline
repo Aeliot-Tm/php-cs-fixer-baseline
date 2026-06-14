@@ -12,10 +12,8 @@ declare(strict_types=1);
  * with this source code in the file LICENSE.
  */
 
-use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
-use Aeliot\PhpCsFixerBaseline\Service\Builder;
-use Aeliot\PhpCsFixerBaseline\Service\ConsoleOptionsReader;
-use Aeliot\PhpCsFixerBaseline\Service\Saver;
+use Aeliot\PhpCsFixerBaseline\Console\Application;
+use Aeliot\PhpCsFixerBaseline\Console\ContainerBuilder;
 
 $autoloaderPath = (static function (): string {
     if (Phar::running()) {
@@ -44,7 +42,8 @@ $autoloaderPath = (static function (): string {
 
 require_once $autoloaderPath;
 
-$baseline = (new Builder())->create(new BuilderConfig((new ConsoleOptionsReader())->getAsArray()));
-(new Saver())->save($baseline);
+$container = ContainerBuilder::build();
+$application = new Application($container);
+$application->setDefaultCommand('generate', true);
 
-echo sprintf("Ok, %s files added to baseline\n", $baseline->getLockedFilesCount());
+exit($application->run());

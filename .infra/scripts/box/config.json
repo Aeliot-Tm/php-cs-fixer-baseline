@@ -2,6 +2,7 @@
     "alias": "pcsf-baseline.phar",
     "base-path": "/app/",
     "directories": [
+        "config",
         "src"
     ],
     "files": [
