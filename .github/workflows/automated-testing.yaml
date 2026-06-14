@@ -28,7 +28,7 @@ jobs:
       - uses: ./.github/actions/setup-composer
 
       - name: Check code style
-        run: composer run cs-fixer-check -- --show-progress=none
+        run: composer cs-fixer-check -- --show-progress=none
 
   phpstan:
     name: Static analyze with PHPStan
@@ -41,8 +41,8 @@ jobs:
 
       - name: Static analyze with PHPStan
         run: |
-          composer run phpstan-clear && \
-          composer run phpstan-analyse -- --no-progress
+          composer phpstan-clear && \
+          composer phpstan-analyse -- --no-progress
 
   phpunit:
     name: 'Tests: Unit'
@@ -54,4 +54,4 @@ jobs:
       - uses: ./.github/actions/setup-composer
 
       - name: 'Run all PHPUnit tests'
-        run: composer run phpunit
+        run: composer phpunit
