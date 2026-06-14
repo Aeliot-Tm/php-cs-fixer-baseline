@@ -8,15 +8,19 @@ ARG COMPOSER_NO_INTERACTION=1
 ARG COMPOSER_VERSION=2.7.6
 ARG DEBIAN_FRONTEND=noninteractive
 ARG DOCKER_PHP_DEPS='gnupg libxml2-dev libzip-dev unzip'
+ARG XDEBUG_VERSION=3.4.7
 
 RUN set -xe; \
     apt-get --allow-releaseinfo-change update && \
     apt-get install -y -qq ${DOCKER_PHP_DEPS} --no-install-suggests --no-install-recommends && \
     docker-php-ext-install -j$(nproc) xml && \
-    docker-php-ext-install -j$(nproc) zip
-
-RUN rm -rf /var/lib/apt/lists/* && \
+    docker-php-ext-install -j$(nproc) zip && \
+    pecl install xdebug-${XDEBUG_VERSION} && docker-php-ext-enable xdebug && \
+    rm -rf /var/lib/apt/lists/* && \
     apt-get clean
+
+# Copy php configs
+COPY .infra/docker/php/conf.d/*.ini /usr/local/etc/php/conf.d/
 
 # Install composer
 RUN set -xe; \

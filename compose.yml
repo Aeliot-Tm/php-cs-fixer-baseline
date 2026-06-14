@@ -4,5 +4,9 @@ services:
       context: ./
       dockerfile: .infra/docker/php/Dockerfile
     entrypoint: [ '/app/docker-entrypoint.sh' ]
+    expose:
+      - '9003'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - .:/app
