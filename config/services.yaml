@@ -10,6 +10,7 @@ services:
       - '../src/Console/ContainerBuilder.php'
       - '../src/Model'
 
-  Aeliot\PhpCsFixerBaseline\Console\Command\GenerateCommand:
+  Aeliot\PhpCsFixerBaseline\Console\Command\:
     public: true
+    resource: '../src/Console/Command/*'
     tags: ['console.command']

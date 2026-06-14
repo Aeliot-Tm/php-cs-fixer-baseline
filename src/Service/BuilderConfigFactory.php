@@ -23,12 +23,10 @@ final class BuilderConfigFactory
     public function createFromInput(InputInterface $input): BuilderConfig
     {
         $rootDirectory = $this->getStringOption($input, 'config-dir', '');
+        $baselineOptions = $this->resolveBaselineOptions($input);
 
         return new BuilderConfig([
-            'baselinePath' => $this->resolvePath(
-                $rootDirectory,
-                $this->getStringOption($input, 'baseline', '.php-cs-fixer-baseline.json'),
-            ),
+            'baselinePath' => $baselineOptions['baselinePath'],
             'config' => $this->loadConfig(
                 $rootDirectory,
                 $this->getStringOption($input, 'config', '.php-cs-fixer.dist.php'),
@@ -37,9 +35,26 @@ final class BuilderConfigFactory
                 $rootDirectory,
                 $this->getStringOption($input, 'finder', '.php-cs-fixer-finder.php'),
             ),
+            'relative' => $baselineOptions['relative'],
+            'workdir' => $baselineOptions['workdir'],
+        ]);
+    }
+
+    /**
+     * @return array{baselinePath: string, relative: bool, workdir: ?string}
+     */
+    public function resolveBaselineOptions(InputInterface $input): array
+    {
+        $rootDirectory = $this->getStringOption($input, 'config-dir', '');
+
+        return [
+            'baselinePath' => $this->resolvePath(
+                $rootDirectory,
+                $this->getStringOption($input, 'baseline', '.php-cs-fixer-baseline.json'),
+            ),
             'relative' => !$input->getOption('absolute'),
             'workdir' => $this->getNullableStringOption($input, 'workdir'),
-        ]);
+        ];
     }
 
     private function getNullableStringOption(InputInterface $input, string $name): ?string
