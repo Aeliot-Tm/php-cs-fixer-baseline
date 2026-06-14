@@ -80,4 +80,4 @@ jobs:
       - uses: ./.github/actions/setup-composer
 
       - name: 'Run all PHPUnit tests'
-        run: composer phpunit
+        run: composer test-all

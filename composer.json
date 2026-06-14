@@ -75,6 +75,9 @@
         "phpstan-clear": "vendor/bin/phpstan clear-result-cache",
         "phpunit": "vendor/bin/phpunit -c .infra/scripts/phpunit/config.xml",
         "require-check": "tools/composer-require-checker.phar check --config-file=.infra/scripts/composer-require-checker/config.json composer.json --output=text",
+        "test-all": "@phpunit",
+        "test-func": "@phpunit --testsuite functional",
+        "test-unit": "@phpunit --testsuite unit",
         "unused": "XDEBUG_MODE=off tools/composer-unused.phar unused -c .infra/scripts/composer-unused/config.php"
     }
 }
