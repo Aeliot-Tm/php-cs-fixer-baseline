@@ -17,16 +17,30 @@ use PhpCsFixer\Config;
 
 final class FilterFactory
 {
+    private readonly Reader $reader;
+    private readonly ConfigHashCalculator $configHashCalculator;
+    private readonly FileComparator $fileComparator;
+
+    public function __construct(
+        ?Reader $reader = null,
+        ?ConfigHashCalculator $configHashCalculator = null,
+        ?FileComparator $fileComparator = null,
+    ) {
+        $this->reader = $reader ?? new Reader();
+        $this->configHashCalculator = $configHashCalculator ?? new ConfigHashCalculator();
+        $this->fileComparator = $fileComparator ?? new FileComparator();
+    }
+
     public function createFilter(string $path, Config $config, ?string $workdir = null): \Closure
     {
-        $baseline = (new Reader())->read($path)->getContent();
-        $isSameConfig = $baseline->getConfigHash() === (new ConfigHashCalculator())->calculate($config);
+        $baseline = $this->reader->read($path)->getContent();
+        $isSameConfig = $baseline->getConfigHash() === $this->configHashCalculator->calculate($config);
 
         if ($baseline->isRelative()) {
             $baseline->setWorkdir($workdir ?? getcwd());
         }
 
-        $comparator = new FileComparator();
+        $comparator = $this->fileComparator;
 
         return static function (\SplFileInfo $file) use ($isSameConfig, $baseline, $comparator): bool {
             return !$isSameConfig || !$comparator->isInBaseLine($baseline, $file);
