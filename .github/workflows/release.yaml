@@ -1,20 +1,127 @@
-name: Release
+name: Prepare Release
 
 on:
-  release:
-    types: [ created ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 2.2.0 or v2.2.0)'
+        required: true
+        type: string
 
 # See https://stackoverflow.com/a/72408109
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build-phar:
+  validate-and-prepare:
+    name: Validate and Prepare Release
     runs-on: ubuntu-latest
-    name: Build PHAR
+
+    permissions:
+      contents: write
+
+    outputs:
+      version: ${{ steps.set_version.outputs.version }}
+
     steps:
-      - uses: actions/checkout@v6
+      - name: Check branch
+        run: |
+          if [ "${{ github.ref }}" != "refs/heads/main" ]; then
+            echo "❌ This workflow must be run on the main branch"
+            exit 1
+          fi
+
+      - name: Validate version format
+        id: validate
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+
+          if ! echo "$VERSION" | grep -qE '^[a-zA-Z0-9][a-zA-Z0-9._-]*[a-zA-Z0-9]$'; then
+            echo "❌ Invalid version format: $VERSION"
+            echo ""
+            echo "Version must:"
+            echo "  - Start with a letter or digit"
+            echo "  - End with a letter or digit"
+            echo "  - Contain only: letters (a-z, A-Z), digits (0-9), dots (.), dashes (-), underscores (_)"
+            echo ""
+            echo "Valid examples: 2.2.0, v2.2.0, 1.0.0-beta, 2024.01.15"
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_RELEASE_TOKEN }}
+
+      - name: Check if tag exists
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          if git ls-remote --tags origin | grep -q "refs/tags/${VERSION}$"; then
+            echo "❌ Tag ${VERSION} already exists!"
+            exit 1
+          fi
+          echo "✅ Tag ${VERSION} does not exist yet"
+
+      - name: Set version output
+        id: set_version
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Version set to: ${VERSION}"
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create and push tag
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          git tag "${VERSION}"
+          git push origin "${VERSION}"
+          echo "✅ Created and pushed tag: ${VERSION}"
+
+  create-draft-release:
+    name: Create Draft Release
+    needs: validate-and-prepare
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Create draft release
+        uses: softprops/action-gh-release@v3
+        with:
+          token: ${{ secrets.GH_RELEASE_TOKEN }}
+          tag_name: ${{ needs.validate-and-prepare.outputs.version }}
+          name: Release ${{ needs.validate-and-prepare.outputs.version }}
+          draft: true
+          generate_release_notes: true
+
+  build-phar:
+    name: Build and Sign PHAR
+    needs: [validate-and-prepare, create-draft-release]
+    runs-on: ubuntu-latest
+
+    env:
+      PCSF_BASELINE_PHAR: pcsf-baseline.phar
+      PCSF_BASELINE_SIGN: pcsf-baseline.phar.asc
+
+    permissions:
+      artifact-metadata: write
+      attestations: write
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.validate-and-prepare.outputs.version }}
+          fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -45,31 +152,52 @@ jobs:
       # Smoke test.
       # It is recommended ot have some sorts of tests for your PHAR.
       #- name: Ensure the PHAR works
-      #  run: pcsf-baseline.phar --version
+      #  run: ${{ env.PCSF_BASELINE_PHAR }} --version
 
-      # The following section is done only for releases
       - name: Import GPG key
-        if: github.event_name == 'release'
         uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{ secrets.GPG_KEY_9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C }}
           passphrase: "${{ secrets.GPG_KEY_9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C_PASSPHRASE }}"
 
       - name: Sign the PHAR
-        if: github.event_name == 'release'
         run: |
           gpg --local-user 9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C \
               --batch \
               --yes \
               --passphrase="${{ secrets.GPG_KEY_9D0DD6FCB92C84688B777DF59204DEE8CAE9C22C_PASSPHRASE }}" \
               --detach-sign \
-              --output pcsf-baseline.phar.asc \
-              pcsf-baseline.phar
+              --output ${{ env.PCSF_BASELINE_SIGN }} \
+              ${{ env.PCSF_BASELINE_PHAR }}
 
-      - name: Upload PHAR to the release
+      - name: Verify signature
+        run: gpg --verify ${{ env.PCSF_BASELINE_SIGN }} ${{ env.PCSF_BASELINE_PHAR }}
+
+      - name: Upload PHAR artifact
+        uses: actions/upload-artifact@v7
+        id: upload_phar
+        with:
+          name: ${{ env.PCSF_BASELINE_PHAR }}
+          path: ${{ env.PCSF_BASELINE_PHAR }}
+
+      - name: Upload signature artifact
+        uses: actions/upload-artifact@v7
+        id: upload_sign
+        with:
+          name: ${{ env.PCSF_BASELINE_SIGN }}
+          path: ${{ env.PCSF_BASELINE_SIGN }}
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-name: ${{ env.PCSF_BASELINE_PHAR }}
+          subject-digest: sha256:${{ steps.upload_phar.outputs.artifact-digest }}
+
+      - name: Attach PHAR and signature to draft release
         uses: softprops/action-gh-release@v3
         with:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
+          tag_name: ${{ needs.validate-and-prepare.outputs.version }}
           files: |
-            pcsf-baseline.phar
-            pcsf-baseline.phar.asc
+            ${{ env.PCSF_BASELINE_PHAR }}
+            ${{ env.PCSF_BASELINE_SIGN }}
