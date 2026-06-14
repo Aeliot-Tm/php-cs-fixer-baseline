@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
-use PhpCsFixer\Config;
-
 final class FilterFactory
 {
     private readonly Reader $reader;
@@ -31,10 +29,17 @@ final class FilterFactory
         $this->fileComparator = $fileComparator ?? new FileComparator();
     }
 
-    public function createFilter(string $path, Config $config, ?string $workdir = null): \Closure
+    /**
+     * @param \PhpCsFixer\Config|\PhpCsFixer\ConfigInterface $fixerConfig
+     */
+    public function createFilter(string $path, $fixerConfig, ?string $workdir = null): \Closure
     {
+        if (!(is_a($fixerConfig, 'PhpCsFixer\Config') || is_a($fixerConfig, 'PhpCsFixer\ConfigInterface'))) {
+            throw new \InvalidArgumentException('Fixer config must be an instance of PhpCsFixer\Config or PhpCsFixer\ConfigInterface');
+        }
+
         $baseline = $this->reader->read($path)->getContent();
-        $isSameConfig = $baseline->getConfigHash() === $this->configHashCalculator->calculate($config);
+        $isSameConfig = $baseline->getConfigHash() === $this->configHashCalculator->calculate($fixerConfig);
 
         if ($baseline->isRelative()) {
             $baseline->setWorkdir($workdir ?? getcwd());
