@@ -86,6 +86,14 @@ chmod +x pcsf-baseline.phar
    ```
 
 ### Using
+
+#### Commands
+
+| Command | Description |
+|---------|-------------|
+| `generate` (default) | Generate or regenerate the full baseline from Finder |
+| `update` | Update hash for files already present in baseline |
+
 1. Generate baseline. Just call script without options when all config files uses default names.
    - Call PHAR
      ```shell
@@ -95,13 +103,18 @@ chmod +x pcsf-baseline.phar
      ```shell
      vendor/bin/pcsf-baseline
      ```
-   See options of it below. You can see how it is configured in this project.
-2. Use PHP CS Fixer as usual. All files mentioned in the baseline will be scip till they are not changed.
+   See options below. You can see how it is configured in this project.
+2. After fixing files with PHP CS Fixer, update their hash in baseline without regenerating it entirely:
+   ```shell
+   vendor/bin/pcsf-baseline update --path src/Foo.php --path src/Bar.php
+   ```
+   The baseline file must already exist. Only files **already listed** in baseline are updated; `config_hash` is not recalculated.
+3. Use PHP CS Fixer as usual. All files mentioned in the baseline will be scip till they are not changed.
 
 This script store relative paths to files in baseline file by default. It is useful when baseline used
 in different environments.
 
-### Options of baseline generator
+### Options of `generate` command
 
 | Short name | Long name | Description                                                          | Default value               |
 |------------|-----------|----------------------------------------------------------------------|-----------------------------|
@@ -121,6 +134,22 @@ filter factory.
 
 Pass option `absolute` when you want to force saving of absolute paths to files of your project in baseline.
 It cannot be used with option `workdir`.
+
+### Options of `update` command
+
+| Short name | Long name | Description | Default value |
+|------------|-----------|-------------|---------------|
+| a | absolute | Baseline uses absolute paths (must match existing baseline) | |
+| b | baseline | Pathname of baseline file | .php-cs-fixer-baseline.json |
+| d | config-dir | Config files path prefix | '' |
+| w | workdir | Working directory | |
+| p | path | Path to file already in baseline (**repeatable**, required) | |
+
+Example:
+
+```shell
+vendor/bin/pcsf-baseline update -p src/Service/Foo.php -p src/Service/Bar.php
+```
 
 ### Restrictions for using of relative paths
 1. Option `workdir` MUST be absolute. You cannot use "double dots" in it.
