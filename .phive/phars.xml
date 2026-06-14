@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
+  <phar name="composer-require-checker" version="^4.13.0" installed="4.13.0" location="./tools/composer-require-checker.phar" copy="true"/>
   <phar name="humbug/box" version="^4.6.2" installed="4.6.2" location="./tools/box.phar" copy="true"/>
 </phive>

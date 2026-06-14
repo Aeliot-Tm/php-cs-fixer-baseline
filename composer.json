@@ -67,6 +67,7 @@
             "@phpstan-analyse --generate-baseline .infra/scripts/phpstan/baseline.neon --allow-empty-baseline"
         ],
         "phpstan-clear": "vendor/bin/phpstan clear-result-cache",
-        "phpunit": "vendor/bin/phpunit -c .infra/scripts/phpunit/config.xml"
+        "phpunit": "vendor/bin/phpunit -c .infra/scripts/phpunit/config.xml",
+        "require-check": "tools/composer-require-checker.phar check --config-file=.infra/scripts/composer-require-checker/config.json composer.json --output=text"
     }
 }
