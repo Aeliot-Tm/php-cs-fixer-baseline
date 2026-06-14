@@ -30,7 +30,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Aeliot\\PhpCsFixerBaseline\\Test\\": "tests/"
+            "Aeliot\\PhpCsFixerBaseline\\Test\\Unit\\": "tests/unit/"
         }
     },
     "bin": [
