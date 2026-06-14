@@ -106,7 +106,7 @@ chmod +x pcsf-baseline.phar
    See options below. You can see how it is configured in this project.
 2. After fixing files with PHP CS Fixer, update their hash in baseline without regenerating it entirely:
    ```shell
-   vendor/bin/pcsf-baseline update --path src/Foo.php --path src/Bar.php
+   vendor/bin/pcsf-baseline update src/Foo.php src/Bar.php
    ```
    The baseline file must already exist. Only files **already listed** in baseline are updated; `config_hash` is not recalculated.
 3. Use PHP CS Fixer as usual. All files mentioned in the baseline will be scip till they are not changed.
@@ -143,12 +143,11 @@ It cannot be used with option `workdir`.
 | b | baseline | Pathname of baseline file | .php-cs-fixer-baseline.json |
 | d | config-dir | Config files path prefix | '' |
 | w | workdir | Working directory | |
-| p | path | Path to file already in baseline (**repeatable**, required) | |
 
-Example:
+File paths are passed as **arguments** (one or more):
 
 ```shell
-vendor/bin/pcsf-baseline update -p src/Service/Foo.php -p src/Service/Bar.php
+vendor/bin/pcsf-baseline update src/Service/Foo.php src/Service/Bar.php
 ```
 
 ### Restrictions for using of relative paths

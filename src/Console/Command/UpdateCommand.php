@@ -18,6 +18,7 @@ use Aeliot\PhpCsFixerBaseline\Service\Saver;
 use Aeliot\PhpCsFixerBaseline\Service\Updater;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -65,21 +66,20 @@ final class UpdateCommand extends Command
                 InputOption::VALUE_REQUIRED,
                 'Working directory',
             )
-            ->addOption(
+            ->addArgument(
                 'path',
-                'p',
-                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 'Path to file already in baseline (repeatable)',
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var list<string>|null $filePaths */
-        $filePaths = $input->getOption('path');
+        /** @var list<string> $filePaths */
+        $filePaths = $input->getArgument('path');
 
-        if (null === $filePaths || [] === $filePaths) {
-            throw new \InvalidArgumentException('At least one --path is required.');
+        if ([] === $filePaths) {
+            throw new \InvalidArgumentException('At least one path argument is required.');
         }
 
         $context = $this->builderConfigFactory->resolveBaselineOptions($input);
