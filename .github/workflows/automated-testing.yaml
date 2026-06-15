@@ -55,19 +55,15 @@ jobs:
         run: composer unused
 
   cs-fixer:
-    name: 'PHP CS Fixer: ${{ matrix.lock-file }}'
+    name: 'PHP CS Fixer'
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        lock-file:
-          - composer.3.0.lock
-          - composer.3.95.lock
 
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-php
-      - run: cp ${{ matrix.lock-file }} composer.lock
+        with:
+          php-version: 8.2
+      - run: cp composer.3.64.lock composer.lock
       - uses: ./.github/actions/setup-composer
 
       - name: Check code style
