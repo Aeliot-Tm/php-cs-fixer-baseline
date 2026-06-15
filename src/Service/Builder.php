@@ -21,10 +21,10 @@ use Aeliot\PhpCsFixerBaseline\Model\FileHash;
 final class Builder
 {
     public function __construct(
-        private readonly ConfigHashCalculator $configHashCalculator,
-        private readonly FileCacheCalculator $fileCacheCalculator,
-        private readonly InvalidFilesDetector $invalidFilesDetector,
-        private readonly PathNormalizer $pathNormalizer,
+        private ConfigHashCalculator $configHashCalculator,
+        private FileCacheCalculator $fileCacheCalculator,
+        private InvalidFilesDetector $invalidFilesDetector,
+        private PathNormalizer $pathNormalizer,
     ) {
     }
 

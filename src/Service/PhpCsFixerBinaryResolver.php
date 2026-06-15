@@ -18,7 +18,7 @@ use Aeliot\PhpCsFixerBaseline\Exception\RuntimeException;
 final class PhpCsFixerBinaryResolver
 {
     public function __construct(
-        private readonly VendorPathResolver $vendorPathResolver,
+        private VendorPathResolver $vendorPathResolver,
     ) {
     }
 

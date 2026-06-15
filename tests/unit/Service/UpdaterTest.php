@@ -17,10 +17,11 @@ use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 use Aeliot\PhpCsFixerBaseline\Service\FileCacheCalculator;
 use Aeliot\PhpCsFixerBaseline\Service\Reader;
 use Aeliot\PhpCsFixerBaseline\Service\Updater;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Updater::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\Updater
+ */
 final class UpdaterTest extends TestCase
 {
     private string $fixtureFile;

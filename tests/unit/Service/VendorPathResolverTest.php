@@ -15,10 +15,11 @@ namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
 use Aeliot\PhpCsFixerBaseline\Exception\RuntimeException;
 use Aeliot\PhpCsFixerBaseline\Service\VendorPathResolver;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(VendorPathResolver::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\VendorPathResolver
+ */
 final class VendorPathResolverTest extends TestCase
 {
     private VendorPathResolver $resolver;

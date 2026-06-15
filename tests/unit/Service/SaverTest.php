@@ -16,10 +16,11 @@ namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 use Aeliot\PhpCsFixerBaseline\Model\BaselineFile;
 use Aeliot\PhpCsFixerBaseline\Service\Reader;
 use Aeliot\PhpCsFixerBaseline\Service\Saver;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Saver::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\Saver
+ */
 final class SaverTest extends TestCase
 {
     public function testSave(): void

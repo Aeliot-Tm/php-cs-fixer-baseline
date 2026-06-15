@@ -15,10 +15,11 @@ namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
 use Aeliot\PhpCsFixerBaseline\Service\PhpCsFixerBinaryResolver;
 use Aeliot\PhpCsFixerBaseline\Service\VendorPathResolver;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(PhpCsFixerBinaryResolver::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\PhpCsFixerBinaryResolver
+ */
 final class PhpCsFixerBinaryResolverTest extends TestCase
 {
     /** @var array<string, string|false> */

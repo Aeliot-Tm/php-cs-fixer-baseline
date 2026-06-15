@@ -15,10 +15,11 @@ namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Model;
 
 use Aeliot\PhpCsFixerBaseline\Model\BaselineContent;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(BaselineContent::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Model\BaselineContent
+ */
 final class BaselineContentTest extends TestCase
 {
     public function testGetConfigHash(): void

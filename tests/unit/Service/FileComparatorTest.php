@@ -17,10 +17,11 @@ use Aeliot\PhpCsFixerBaseline\Model\BaselineContent;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
 use Aeliot\PhpCsFixerBaseline\Service\FileCacheCalculator;
 use Aeliot\PhpCsFixerBaseline\Service\FileComparator;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FileComparator::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\FileComparator
+ */
 final class FileComparatorTest extends TestCase
 {
     public function testInBaseLine(): void

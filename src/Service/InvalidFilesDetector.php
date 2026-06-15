@@ -20,8 +20,8 @@ use PhpCsFixer\Finder;
 final class InvalidFilesDetector
 {
     public function __construct(
-        private readonly PhpCsFixerBinaryResolver $binaryResolver,
-        private readonly PathNormalizer $pathNormalizer,
+        private PhpCsFixerBinaryResolver $binaryResolver,
+        private PathNormalizer $pathNormalizer,
     ) {
     }
 

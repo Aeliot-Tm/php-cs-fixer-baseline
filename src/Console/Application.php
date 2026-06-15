@@ -41,7 +41,7 @@ final class Application extends SymfonyApplication
                             $commandMap[$name] = $serviceId;
                         }
                     }
-                } catch (\Throwable) {
+                } catch (\Throwable $exception) {
                     continue;
                 }
             }

@@ -18,9 +18,9 @@ use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 
 final class FilterFactory
 {
-    private readonly Reader $reader;
-    private readonly ConfigHashCalculator $configHashCalculator;
-    private readonly FileComparator $fileComparator;
+    private Reader $reader;
+    private ConfigHashCalculator $configHashCalculator;
+    private FileComparator $fileComparator;
 
     public function __construct(
         ?Reader $reader = null,

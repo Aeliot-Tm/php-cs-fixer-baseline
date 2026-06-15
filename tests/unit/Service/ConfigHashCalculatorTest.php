@@ -15,17 +15,18 @@ namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
 use Aeliot\PhpCsFixerBaseline\Service\ConfigHashCalculator;
 use PhpCsFixer\Config;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ConfigHashCalculator::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\ConfigHashCalculator
+ */
 final class ConfigHashCalculatorTest extends TestCase
 {
     /**
      * @param array<string, array<string, mixed>|bool> $rules
+     *
+     * @dataProvider getDataForTestCalculate
      */
-    #[DataProvider('getDataForTestCalculate')]
     public function testCalculate(int $expectedHash, array $rules, bool $isRiskyAllowed): void
     {
         $config = $this->createMock(Config::class);

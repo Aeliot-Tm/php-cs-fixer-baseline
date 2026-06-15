@@ -23,10 +23,11 @@ use Aeliot\PhpCsFixerBaseline\Service\FileComparator;
 use Aeliot\PhpCsFixerBaseline\Service\FilterFactory;
 use Aeliot\PhpCsFixerBaseline\Service\Reader;
 use PhpCsFixer\Config;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FilterFactory::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\FilterFactory
+ */
 final class FilterTest extends TestCase
 {
     public function testFilterWithSameConfig(): void
