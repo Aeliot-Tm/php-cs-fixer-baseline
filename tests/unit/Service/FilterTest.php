@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
 use Aeliot\PhpCsFixerBaseline\Dto\FilterOptions;
+use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 use Aeliot\PhpCsFixerBaseline\Model\BaselineContent;
 use Aeliot\PhpCsFixerBaseline\Model\BaselineFile;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
@@ -77,7 +78,7 @@ final class FilterTest extends TestCase
     {
         $config = $this->createMock(Config::class);
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid filter mode "unknown". Allowed: by_hash, mentioned.');
 
         (new FilterFactory())->createFilter(

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
+use Aeliot\PhpCsFixerBaseline\Exception\RuntimeException;
+
 final class PhpCsFixerBinaryResolver
 {
     public function __construct(
@@ -39,7 +41,7 @@ final class PhpCsFixerBinaryResolver
             return $pathBinary;
         }
 
-        throw new \RuntimeException('Cannot find php-cs-fixer binary. Install friendsofphp/php-cs-fixer or set PHP_CS_FIXER_BINARY.');
+        throw new RuntimeException('Cannot find php-cs-fixer binary. Install friendsofphp/php-cs-fixer or set PHP_CS_FIXER_BINARY.');
     }
 
     private function findInPath(string $binary): ?string

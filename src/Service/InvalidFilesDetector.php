@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
+use Aeliot\PhpCsFixerBaseline\Exception\RuntimeException;
 use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use PhpCsFixer\Finder;
 
@@ -31,7 +32,7 @@ final class InvalidFilesDetector
     {
         $workdir = $config->getWorkdir() ?? getcwd();
         if (false === $workdir) {
-            throw new \RuntimeException('Unable to resolve working directory.');
+            throw new RuntimeException('Unable to resolve working directory.');
         }
 
         $filePaths = $this->collectFilePaths($config->getFinder(), $workdir);
@@ -79,7 +80,7 @@ final class InvalidFilesDetector
 
         $process = proc_open($command, $descriptors, $pipes, $workdir);
         if (!\is_resource($process)) {
-            throw new \RuntimeException('Failed to start php-cs-fixer process.');
+            throw new RuntimeException('Failed to start php-cs-fixer process.');
         }
 
         fclose($pipes[0]);
@@ -91,11 +92,11 @@ final class InvalidFilesDetector
         $exitCode = proc_close($process);
 
         if (!\in_array($exitCode, [0, 8], true)) {
-            throw new \RuntimeException(\sprintf('php-cs-fixer check failed with exit code %d: %s', $exitCode, trim((string) $stderr)));
+            throw new RuntimeException(\sprintf('php-cs-fixer check failed with exit code %d: %s', $exitCode, trim((string) $stderr)));
         }
 
         if (false === $stdout || '' === trim($stdout)) {
-            throw new \RuntimeException('php-cs-fixer check returned empty output.');
+            throw new RuntimeException('php-cs-fixer check returned empty output.');
         }
 
         return $stdout;

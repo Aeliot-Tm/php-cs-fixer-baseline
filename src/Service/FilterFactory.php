@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
 use Aeliot\PhpCsFixerBaseline\Dto\FilterOptions;
+use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 
 final class FilterFactory
 {
@@ -37,7 +38,7 @@ final class FilterFactory
     public function createFilter(string $path, $fixerConfig, ?FilterOptions $options = null): \Closure
     {
         if (!(is_a($fixerConfig, 'PhpCsFixer\Config') || is_a($fixerConfig, 'PhpCsFixer\ConfigInterface'))) {
-            throw new \InvalidArgumentException('Fixer config must be an instance of PhpCsFixer\Config or PhpCsFixer\ConfigInterface');
+            throw new InvalidArgumentException('Fixer config must be an instance of PhpCsFixer\Config or PhpCsFixer\ConfigInterface');
         }
 
         $mode = $this->resolveMode($options?->getMode());
@@ -60,7 +61,7 @@ final class FilterFactory
         $mode ??= FileComparator::MODE_BY_HASH;
 
         if (!\in_array($mode, FileComparator::MODES, true)) {
-            throw new \InvalidArgumentException(\sprintf('Invalid filter mode "%s". Allowed: %s.', $mode, implode(', ', FileComparator::MODES)));
+            throw new InvalidArgumentException(\sprintf('Invalid filter mode "%s". Allowed: %s.', $mode, implode(', ', FileComparator::MODES)));
         }
 
         return $mode;

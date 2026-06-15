@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
+use Aeliot\PhpCsFixerBaseline\Exception\RuntimeException;
 use Aeliot\PhpCsFixerBaseline\Service\VendorPathResolver;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -85,7 +86,7 @@ final class VendorPathResolverTest extends TestCase
         $root = sys_get_temp_dir() . '/pcsf-baseline-' . uniqid('', true);
         mkdir($root . '/bin', 0777, true);
 
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot find autoloader');
 
         try {

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Console\Command;
 
+use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 use Aeliot\PhpCsFixerBaseline\Service\BuilderConfigFactory;
 use Aeliot\PhpCsFixerBaseline\Service\Saver;
 use Aeliot\PhpCsFixerBaseline\Service\Updater;
@@ -79,7 +80,7 @@ final class UpdateCommand extends Command
         $filePaths = $input->getArgument('path');
 
         if ([] === $filePaths) {
-            throw new \InvalidArgumentException('At least one path argument is required.');
+            throw new InvalidArgumentException('At least one path argument is required.');
         }
 
         $context = $this->builderConfigFactory->resolveBaselineOptions($input);

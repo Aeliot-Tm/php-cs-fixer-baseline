@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
+use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 use Aeliot\PhpCsFixerBaseline\Service\FileCacheCalculator;
 use Aeliot\PhpCsFixerBaseline\Service\Reader;
 use Aeliot\PhpCsFixerBaseline\Service\Updater;
@@ -149,7 +150,7 @@ final class UpdaterTest extends TestCase
         ]);
         $anotherFile = $this->createTemporaryPhpFile('outside-baseline');
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('is not in baseline');
 
         (new Updater(new Reader(), new FileCacheCalculator()))->update(
@@ -204,7 +205,7 @@ final class UpdaterTest extends TestCase
             ],
         ]);
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('does not exist');
 
         (new Updater(new Reader(), new FileCacheCalculator()))->update(
@@ -219,7 +220,7 @@ final class UpdaterTest extends TestCase
 
     public function testNonExistentBaselineThrowsException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Baseline file');
 
         (new Updater(new Reader(), new FileCacheCalculator()))->update(

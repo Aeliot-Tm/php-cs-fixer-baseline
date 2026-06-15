@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
+use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
@@ -105,7 +106,7 @@ final class BuilderConfigFactory
             }
         }
 
-        throw new \InvalidArgumentException('Cannot find config file');
+        throw new InvalidArgumentException('Cannot find config file');
     }
 
     private function resolvePath(string $rootDirectory, string $path): string
