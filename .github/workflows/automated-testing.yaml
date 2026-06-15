@@ -18,6 +18,16 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
+      - name: Validate composer.3.0.lock
+        run: |
+          cp composer.3.0.lock composer.lock
+          composer validate --strict
+
+      - name: Validate composer.3.95.lock
+        run: |
+          cp composer.3.95.lock composer.lock
+          composer validate --strict
+
   composer-require-checker:
     name: Check composer requirements
     runs-on: ubuntu-latest
@@ -45,24 +55,38 @@ jobs:
         run: composer unused
 
   cs-fixer:
-    name: Check code style with CS Fixer
+    name: 'PHP CS Fixer: ${{ matrix.lock-file }}'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lock-file:
+          - composer.3.0.lock
+          - composer.3.95.lock
 
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-php
+      - run: cp ${{ matrix.lock-file }} composer.lock
       - uses: ./.github/actions/setup-composer
 
       - name: Check code style
         run: composer cs-fixer-check -- --show-progress=none
 
   phpstan:
-    name: Static analyze with PHPStan
+    name: 'PHPStan: ${{ matrix.lock-file }}'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lock-file:
+          - composer.3.0.lock
+          - composer.3.95.lock
 
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-php
+      - run: cp ${{ matrix.lock-file }} composer.lock
       - uses: ./.github/actions/setup-composer
 
       - name: Static analyze with PHPStan
@@ -71,12 +95,19 @@ jobs:
           composer phpstan-analyse -- --no-progress
 
   phpunit:
-    name: 'Tests: Unit'
+    name: 'PHPUnit: ${{ matrix.lock-file }}'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lock-file:
+          - composer.3.0.lock
+          - composer.3.95.lock
 
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-php
+      - run: cp ${{ matrix.lock-file }} composer.lock
       - uses: ./.github/actions/setup-composer
 
       - name: 'Run all PHPUnit tests'

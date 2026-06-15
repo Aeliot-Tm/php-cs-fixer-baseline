@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
-use PhpCsFixer\Config;
+use PhpCsFixer\ConfigInterface;
 
 final class ConfigHashCalculator
 {
-    public function calculate(Config $config): int
+    public function calculate(ConfigInterface $config): int
     {
         $rules = $config->getRules();
         sort($rules);
