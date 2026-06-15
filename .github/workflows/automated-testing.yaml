@@ -35,6 +35,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-php
+        with:
+          php-version: 8.2
+      - run: cp composer.3.64.lock composer.lock
       - uses: ./.github/actions/setup-composer
       - uses: ./.github/actions/setup-phive
 
@@ -48,6 +51,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-php
+        with:
+          php-version: 8.2
+      - run: cp composer.3.64.lock composer.lock
       - uses: ./.github/actions/setup-composer
       - uses: ./.github/actions/setup-phive
 
