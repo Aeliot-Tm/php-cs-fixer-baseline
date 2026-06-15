@@ -15,6 +15,11 @@ namespace Aeliot\PhpCsFixerBaseline\Service;
 
 final class PhpCsFixerBinaryResolver
 {
+    public function __construct(
+        private readonly VendorPathResolver $vendorPathResolver,
+    ) {
+    }
+
     public function resolve(): string
     {
         $env = getenv('PHP_CS_FIXER_BINARY');
@@ -22,7 +27,7 @@ final class PhpCsFixerBinaryResolver
             return $env;
         }
 
-        foreach ($this->getProjectRoots() as $root) {
+        foreach ($this->vendorPathResolver->getVendorRoots(\dirname(__DIR__, 2)) as $root) {
             $candidate = $root . '/vendor/bin/php-cs-fixer';
             if (is_file($candidate)) {
                 return $candidate;
@@ -35,24 +40,6 @@ final class PhpCsFixerBinaryResolver
         }
 
         throw new \RuntimeException('Cannot find php-cs-fixer binary. Install friendsofphp/php-cs-fixer or set PHP_CS_FIXER_BINARY.');
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function getProjectRoots(): array
-    {
-        $roots = [\dirname(__DIR__, 2)];
-
-        if ('' !== \Phar::running()) {
-            $roots[] = \dirname(\Phar::running(false));
-        }
-
-        if (isset($GLOBALS['_composer_autoload_path']) && \is_string($GLOBALS['_composer_autoload_path'])) {
-            $roots[] = \dirname($GLOBALS['_composer_autoload_path'], 2);
-        }
-
-        return array_values(array_unique($roots));
     }
 
     private function findInPath(string $binary): ?string

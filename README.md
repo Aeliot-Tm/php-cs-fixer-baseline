@@ -21,7 +21,8 @@ So, it's some work around till baseline will be implemented in the PHP CS Fixer.
 There are few ways of installation:
 1. [Phive](#phive)
 2. [Composer](#composer)
-3. [Downloading of PHAR directly](#downloading-of-phar-directly)
+3. [Composer bin plugin](#composer-bin-plugin)
+4. [Downloading of PHAR directly](#downloading-of-phar-directly)
 
 #### Phive
 
@@ -48,6 +49,47 @@ You can install this package with [Composer](https://getcomposer.org/doc/03-cli.
 ```shell
 composer require --dev aeliot/php-cs-fixer-baseline
 ```
+
+#### Composer bin plugin
+
+You can install this package in an isolated `vendor-bin` namespace with
+[bamarni/composer-bin-plugin](https://github.com/bamarni/composer-bin-plugin).
+It helps when PHP CS Fixer dependencies conflict with your project vendors.
+
+1. Enable the plugin in `composer.json`:
+   ```json
+   {
+       "config": {
+           "allow-plugins": {
+               "bamarni/composer-bin-plugin": true
+           }
+       }
+   }
+   ```
+2. Install the plugin:
+   ```shell
+   composer require --dev bamarni/composer-bin-plugin
+   ```
+3. Install this package into a bin namespace:
+   ```shell
+   composer bin pcsf-baseline require --dev aeliot/php-cs-fixer-baseline
+   ```
+4. Use the CLI as usual:
+   ```shell
+   vendor/bin/pcsf-baseline
+   ```
+
+When `bin-links` is disabled, run the binary from `vendor-bin/pcsf-baseline/vendor/bin/pcsf-baseline`
+or add a Composer script alias.
+
+Because PHP CS Fixer loads your project config in a separate process, require the bin autoloader
+in `.php-cs-fixer.dist.php` before using `FilterFactory`:
+```php
+require_once __DIR__ . '/vendor-bin/pcsf-baseline/vendor/autoload.php';
+```
+
+Add `/vendor-bin/**/vendor/` to `.gitignore` and consider `extra.bamarni-bin.forward-command = true`
+so `composer install` also installs bin namespaces.
 
 #### Downloading of PHAR directly
 

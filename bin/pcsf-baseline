@@ -14,33 +14,10 @@ declare(strict_types=1);
 
 use Aeliot\PhpCsFixerBaseline\Console\Application;
 use Aeliot\PhpCsFixerBaseline\Console\ContainerBuilder;
+use Aeliot\PhpCsFixerBaseline\Service\VendorPathResolver;
 
-$autoloaderPath = (static function (): string {
-    if (Phar::running()) {
-        return __DIR__ . '/../vendor/autoload.php';
-    }
-
-    if (isset($GLOBALS['_composer_autoload_path'])) {
-        return $GLOBALS['_composer_autoload_path'];
-    }
-
-    $paths = [
-        __DIR__ . '/../../../../vendor/autoload.php',
-        __DIR__ . '/../vendor/autoload.php',
-        __DIR__ . '/../../vendor/autoload.php',
-        __DIR__ . '/../../../vendor/autoload.php',
-    ];
-
-    foreach ($paths as $path) {
-        if (file_exists($path)) {
-            return $path;
-        }
-    }
-
-    throw new RuntimeException('Cannot find autoloader');
-})();
-
-require_once $autoloaderPath;
+require_once __DIR__ . '/../src/Service/VendorPathResolver.php';
+require_once (new VendorPathResolver())->resolveAutoloaderPath(__DIR__);
 
 $container = ContainerBuilder::build();
 $application = new Application($container);
