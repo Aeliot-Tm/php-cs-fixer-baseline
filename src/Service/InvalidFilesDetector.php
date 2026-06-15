@@ -62,7 +62,8 @@ final class InvalidFilesDetector
         $command = [
             \PHP_BINARY,
             $this->binaryResolver->resolve(),
-            'check',
+            'fix',
+            '--dry-run',
             '--config=' . $configPath,
             '--using-cache=no',
             '--format=json',
