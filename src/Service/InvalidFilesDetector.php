@@ -103,11 +103,7 @@ final class InvalidFilesDetector
 
         $output = $this->extractJsonOutput((string) $stdout, (string) $stderr);
         if ('' === $output) {
-            throw new RuntimeException(\sprintf(
-                'php-cs-fixer check returned empty JSON output. stdout: %s stderr: %s',
-                trim((string) $stdout),
-                trim((string) $stderr),
-            ));
+            throw new RuntimeException(\sprintf('php-cs-fixer check returned empty JSON output. stdout: %s stderr: %s', trim((string) $stdout), trim((string) $stderr)));
         }
 
         return $output;

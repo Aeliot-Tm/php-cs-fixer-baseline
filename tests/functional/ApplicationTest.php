@@ -26,6 +26,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * @coversNothing
+ *
  * @large
  */
 final class ApplicationTest extends TestCase
