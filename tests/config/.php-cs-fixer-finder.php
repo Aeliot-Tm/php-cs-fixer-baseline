@@ -8,7 +8,8 @@ return $finder = (new PhpCsFixer\Finder())
         'file-for-calculation-of-hash.php',
         'file-for-calculation-of-hash-second.php',
     ])
-    ->in(__DIR__ . '/../fixtures/');
+    ->in(__DIR__ . '/../fixtures/')
+    ->exclude(['invalid-only']);
 
 
 

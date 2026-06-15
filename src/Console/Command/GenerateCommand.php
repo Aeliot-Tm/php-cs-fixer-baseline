@@ -78,6 +78,12 @@ final class GenerateCommand extends Command
                 'w',
                 InputOption::VALUE_REQUIRED,
                 'Working directory',
+            )
+            ->addOption(
+                'invalid-only',
+                null,
+                InputOption::VALUE_NONE,
+                'Include in baseline only files that would be changed by PHP CS Fixer (dry-run)',
             );
     }
 

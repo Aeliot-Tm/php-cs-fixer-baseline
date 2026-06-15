@@ -12,6 +12,11 @@ parameters:
 
 		-
 			message: "#^Return type of call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:createMock\\(\\) contains unresolvable type\\.$#"
+			count: 2
+			path: ../../../tests/unit/Service/BuilderTest.php
+
+		-
+			message: "#^Return type of call to method PHPUnit\\\\Framework\\\\TestCase\\:\\:createMock\\(\\) contains unresolvable type\\.$#"
 			count: 4
 			path: ../../../tests/unit/Service/FilterTest.php
 

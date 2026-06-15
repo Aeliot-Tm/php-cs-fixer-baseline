@@ -32,7 +32,9 @@ final class BuilderConfig
      * @var array{
      *     baselinePath: string,
      *     config: Config|ConfigInterface,
+     *     configPath: string,
      *     finder: Finder,
+     *     invalidOnly: bool,
      *     relative: bool,
      *     workdir: string|null
      * }
@@ -43,7 +45,9 @@ final class BuilderConfig
      * @param array{
      *      baselinePath: string,
      *      config: Config|ConfigInterface,
+     *      configPath: string,
      *      finder: Finder,
+     *      invalidOnly?: bool,
      *      relative?: bool,
      *      workdir?: string|null
      *  } $config
@@ -63,9 +67,19 @@ final class BuilderConfig
         return $this->config['config'];
     }
 
+    public function getConfigPath(): string
+    {
+        return $this->config['configPath'];
+    }
+
     public function getFinder(): Finder
     {
         return $this->config['finder'];
+    }
+
+    public function isInvalidOnly(): bool
+    {
+        return $this->config['invalidOnly'] ?? false;
     }
 
     public function isRelative(): bool

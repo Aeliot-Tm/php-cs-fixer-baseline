@@ -23,6 +23,8 @@ final class Builder
     public function __construct(
         private readonly ConfigHashCalculator $configHashCalculator,
         private readonly FileCacheCalculator $fileCacheCalculator,
+        private readonly InvalidFilesDetector $invalidFilesDetector,
+        private readonly PathNormalizer $pathNormalizer,
     ) {
     }
 
@@ -32,8 +34,22 @@ final class Builder
         $content->setConfigHash($this->configHashCalculator->calculate($config->getConfig()));
 
         $isRelative = $config->isRelative();
+        $allowedPaths = $config->isInvalidOnly()
+            ? $this->invalidFilesDetector->detect($config)
+            : null;
 
         foreach ($config->getFinder() as $file) {
+            if (null !== $allowedPaths) {
+                $normalizedPath = $this->pathNormalizer->normalize(
+                    $file->getPathname(),
+                    $config->getWorkdir() ?? getcwd() ?: null,
+                );
+
+                if (!isset($allowedPaths[$normalizedPath])) {
+                    continue;
+                }
+            }
+
             $filePath = $this->getFilePath($file, $isRelative);
             $content->addHash(new FileHash($filePath, $this->fileCacheCalculator->calculate($file)));
         }

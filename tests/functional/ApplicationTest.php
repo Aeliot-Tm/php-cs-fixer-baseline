@@ -207,6 +207,38 @@ final class ApplicationTest extends TestCase
         self::assertTrue($filter($file));
     }
 
+    public function testGenerateCommandWithInvalidOnlyIncludesOnlyNonCompliantFiles(): void
+    {
+        [$exitCode, $output] = $this->runGenerateCommand([
+            '--finder' => '.php-cs-fixer-finder-invalid-only.php',
+            '--invalid-only' => true,
+        ]);
+
+        self::assertSame(0, $exitCode);
+        self::assertFileExists($this->baselinePath);
+        self::assertStringContainsString('Ok, 2 files added to baseline', $output);
+
+        $content = json_decode((string) file_get_contents($this->baselinePath), true, 512, \JSON_THROW_ON_ERROR);
+        self::assertCount(2, $content['hashes']);
+
+        $compliantPaths = [
+            'tests/fixtures/invalid-only/compliant-first.php',
+            'tests/fixtures/invalid-only/compliant-second.php',
+        ];
+        $nonCompliantPaths = [
+            'tests/fixtures/invalid-only/non-compliant-first.php',
+            'tests/fixtures/invalid-only/non-compliant-second.php',
+        ];
+
+        foreach ($compliantPaths as $compliantPath) {
+            self::assertArrayNotHasKey($compliantPath, $content['hashes']);
+        }
+
+        foreach ($nonCompliantPaths as $nonCompliantPath) {
+            self::assertArrayHasKey($nonCompliantPath, $content['hashes']);
+        }
+    }
+
     /**
      * @return array<string, int>
      */
@@ -221,9 +253,11 @@ final class ApplicationTest extends TestCase
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
      * @return array{0: int, 1: string}
      */
-    private function runGenerateCommand(): array
+    private function runGenerateCommand(array $options = []): array
     {
         $container = ContainerBuilder::build();
         $application = new Application($container);
@@ -232,7 +266,7 @@ final class ApplicationTest extends TestCase
 
         $output = new BufferedOutput();
         $exitCode = $application->run(
-            new ArrayInput(['--config-dir' => 'tests/config/']),
+            new ArrayInput(array_merge(['--config-dir' => 'tests/config/'], $options)),
             $output,
         );
 
