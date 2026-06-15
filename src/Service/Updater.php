@@ -19,8 +19,8 @@ use Aeliot\PhpCsFixerBaseline\Model\FileHash;
 final class Updater
 {
     public function __construct(
-        private readonly Reader $reader = new Reader(),
-        private readonly FileCacheCalculator $fileCacheCalculator = new FileCacheCalculator(),
+        private readonly Reader $reader,
+        private readonly FileCacheCalculator $fileCacheCalculator,
     ) {
     }
 

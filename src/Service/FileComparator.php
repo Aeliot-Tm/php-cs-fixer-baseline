@@ -25,7 +25,7 @@ final class FileComparator
     ];
 
     public function __construct(
-        private FileCacheCalculator $fileCacheCalculator = new FileCacheCalculator(),
+        private FileCacheCalculator $fileCacheCalculator,
     ) {
     }
 

@@ -28,7 +28,7 @@ final class FilterFactory
     ) {
         $this->reader = $reader ?? new Reader();
         $this->configHashCalculator = $configHashCalculator ?? new ConfigHashCalculator();
-        $this->fileComparator = $fileComparator ?? new FileComparator();
+        $this->fileComparator = $fileComparator ?? new FileComparator(new FileCacheCalculator());
     }
 
     /**
