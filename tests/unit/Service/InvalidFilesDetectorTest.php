@@ -37,7 +37,7 @@ final class InvalidFilesDetectorTest extends TestCase
         $config = require $this->projectRoot . '/tests/config/.php-cs-fixer-detector.php';
 
         /** @var \PhpCsFixer\Finder $finder */
-        $finder = require $this->projectRoot . '/tests/config/.php-cs-fixer-finder-with-compliant.php';
+        $finder = require $this->projectRoot . '/tests/config/.php-cs-fixer-finder-invalid-only.php';
 
         $builderConfig = new BuilderConfig([
             'baselinePath' => $this->projectRoot . '/tests/config/.php-cs-fixer-baseline.json',
@@ -56,19 +56,23 @@ final class InvalidFilesDetectorTest extends TestCase
             $pathNormalizer,
         ))->detect($builderConfig);
 
-        $firstFixturePath = $pathNormalizer->normalize(
-            $this->projectRoot . '/tests/fixtures/file-for-calculation-of-hash.php',
-        );
-        $secondFixturePath = $pathNormalizer->normalize(
-            $this->projectRoot . '/tests/fixtures/file-for-calculation-of-hash-second.php',
-        );
-        $compliantFixturePath = $pathNormalizer->normalize(
-            $this->projectRoot . '/tests/fixtures/compliant/file-compliant.php',
-        );
+        $compliantPaths = [
+            $pathNormalizer->normalize($this->projectRoot . '/tests/fixtures/invalid-only/compliant-first.php'),
+            $pathNormalizer->normalize($this->projectRoot . '/tests/fixtures/invalid-only/compliant-second.php'),
+        ];
+        $nonCompliantPaths = [
+            $pathNormalizer->normalize($this->projectRoot . '/tests/fixtures/invalid-only/non-compliant-first.php'),
+            $pathNormalizer->normalize($this->projectRoot . '/tests/fixtures/invalid-only/non-compliant-second.php'),
+        ];
 
-        self::assertArrayHasKey($firstFixturePath, $detectedPaths);
-        self::assertArrayHasKey($secondFixturePath, $detectedPaths);
-        self::assertArrayNotHasKey($compliantFixturePath, $detectedPaths);
+        foreach ($compliantPaths as $compliantPath) {
+            self::assertArrayNotHasKey($compliantPath, $detectedPaths);
+        }
+
+        foreach ($nonCompliantPaths as $nonCompliantPath) {
+            self::assertArrayHasKey($nonCompliantPath, $detectedPaths);
+        }
+
         self::assertCount(2, $detectedPaths);
     }
 }

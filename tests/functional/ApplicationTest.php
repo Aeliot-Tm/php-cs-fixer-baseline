@@ -210,7 +210,7 @@ final class ApplicationTest extends TestCase
     public function testGenerateCommandWithInvalidOnlyIncludesOnlyNonCompliantFiles(): void
     {
         [$exitCode, $output] = $this->runGenerateCommand([
-            '--finder' => '.php-cs-fixer-finder-with-compliant.php',
+            '--finder' => '.php-cs-fixer-finder-invalid-only.php',
             '--invalid-only' => true,
         ]);
 
@@ -220,7 +220,23 @@ final class ApplicationTest extends TestCase
 
         $content = json_decode((string) file_get_contents($this->baselinePath), true, 512, \JSON_THROW_ON_ERROR);
         self::assertCount(2, $content['hashes']);
-        self::assertArrayNotHasKey('tests/fixtures/compliant/file-compliant.php', $content['hashes']);
+
+        $compliantPaths = [
+            'tests/fixtures/invalid-only/compliant-first.php',
+            'tests/fixtures/invalid-only/compliant-second.php',
+        ];
+        $nonCompliantPaths = [
+            'tests/fixtures/invalid-only/non-compliant-first.php',
+            'tests/fixtures/invalid-only/non-compliant-second.php',
+        ];
+
+        foreach ($compliantPaths as $compliantPath) {
+            self::assertArrayNotHasKey($compliantPath, $content['hashes']);
+        }
+
+        foreach ($nonCompliantPaths as $nonCompliantPath) {
+            self::assertArrayHasKey($nonCompliantPath, $content['hashes']);
+        }
     }
 
     /**
