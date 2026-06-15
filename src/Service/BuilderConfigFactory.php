@@ -20,21 +20,23 @@ use Symfony\Component\Console\Input\InputInterface;
 
 final class BuilderConfigFactory
 {
+    private const DEFAULT_FIXER_CONFIG_FILES = ['.php-cs-fixer.dist.php', '.php-cs-fixer.php'];
+
     public function createFromInput(InputInterface $input): BuilderConfig
     {
         $rootDirectory = $this->getStringOption($input, 'config-dir', '');
+        $configPath = $this->resolveFixerPath($rootDirectory, $input);
         $baselineOptions = $this->resolveBaselineOptions($input);
 
         return new BuilderConfig([
             'baselinePath' => $baselineOptions['baselinePath'],
-            'config' => $this->loadConfig(
-                $rootDirectory,
-                $this->getStringOption($input, 'config', '.php-cs-fixer.dist.php'),
-            ),
+            'config' => $this->loadConfig($configPath),
+            'configPath' => $configPath,
             'finder' => $this->loadFinder(
                 $rootDirectory,
                 $this->getStringOption($input, 'finder', '.php-cs-fixer-finder.php'),
             ),
+            'invalidOnly' => (bool) $input->getOption('invalid-only'),
             'relative' => $baselineOptions['relative'],
             'workdir' => $baselineOptions['workdir'],
         ]);
@@ -71,10 +73,10 @@ final class BuilderConfigFactory
         return \is_string($value) ? $value : $default;
     }
 
-    private function loadConfig(string $rootDirectory, string $path): Config
+    private function loadConfig(string $path): Config
     {
         /** @var Config $config */
-        $config = require $this->resolvePath($rootDirectory, $path);
+        $config = require $path;
 
         return $config;
     }
@@ -85,6 +87,25 @@ final class BuilderConfigFactory
         $finder = require $this->resolvePath($rootDirectory, $path);
 
         return $finder;
+    }
+
+    private function resolveFixerPath(string $rootDirectory, InputInterface $input): string
+    {
+        $files = self::DEFAULT_FIXER_CONFIG_FILES;
+        $inputPath = $this->getStringOption($input, 'config', '');
+        if ('' !== $inputPath) {
+            array_unshift($files, $inputPath);
+        }
+
+        foreach ($files as $file) {
+            $configPath = $this->resolvePath($rootDirectory, $file);
+
+            if (file_exists($configPath)) {
+                return $configPath;
+            }
+        }
+
+        throw new \InvalidArgumentException('Cannot find config file');
     }
 
     private function resolvePath(string $rootDirectory, string $path): string

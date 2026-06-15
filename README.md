@@ -144,6 +144,7 @@ in different environments.
 | d          | config-dir| Config files path                                                    | ''                          |
 | f          | finder    | Pathname of file with definition of Finder.                          | .php-cs-fixer-finder.php    |
 | w          | workdir   | Working directory.                                                   |                             |
+|            | invalid-only | Include in baseline only files that would be changed by PHP CS Fixer (dry-run). |                             |
 
 Options `baseline`, `config`, `finder` can be absolute or related or omitted at all. In the last case it expects
 that files are in the root directory of project.
@@ -154,6 +155,13 @@ filter factory.
 
 Pass option `absolute` when you want to force saving of absolute paths to files of your project in baseline.
 It cannot be used with option `workdir`.
+
+Use option `invalid-only` to generate a baseline only for files that currently violate PHP CS Fixer rules.
+This is useful when you want to adopt a baseline gradually: compliant files are not added, so PHP CS Fixer
+will still check them. The command always overwrites the whole baseline file. If every file is already
+compliant, the result is an empty baseline (`Ok, 0 files added to baseline`). Detection runs `php-cs-fixer check`
+via CLI (`vendor/bin/php-cs-fixer` by default). Override the binary path with the `PHP_CS_FIXER_BINARY`
+environment variable if needed.
 
 ### Options of `update` command
 
