@@ -113,10 +113,12 @@ final class BuilderConfigFactory
     {
         $path = $rootDirectory . $path;
 
-        if (preg_match('#^(?:[[:alpha:]]:[/\\\\]|/)#', $path)) {
-            return $path;
+        if (!preg_match('#^(?:[[:alpha:]]:[/\\\\]|/)#', $path)) {
+            $path = getcwd() . '/' . $path;
         }
 
-        return getcwd() . '/' . $path;
+        $realPath = realpath($path);
+
+        return false !== $realPath ? $realPath : $path;
     }
 }

@@ -40,8 +40,8 @@ final class Builder
 
         foreach ($config->getFinder() as $file) {
             if (null !== $allowedPaths) {
-                $normalizedPath = $this->pathNormalizer->normalize(
-                    $file->getPathname(),
+                $normalizedPath = $this->pathNormalizer->normalizeSplFileInfo(
+                    $file,
                     $config->getWorkdir() ?? getcwd() ?: null,
                 );
 

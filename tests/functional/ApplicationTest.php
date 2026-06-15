@@ -213,6 +213,7 @@ final class ApplicationTest extends TestCase
             '--config' => '.php-cs-fixer-detector.php',
             '--finder' => '.php-cs-fixer-finder-invalid-only.php',
             '--invalid-only' => true,
+            '--workdir' => $this->projectRoot,
         ]);
 
         self::assertSame(0, $exitCode);

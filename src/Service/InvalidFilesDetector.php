@@ -35,6 +35,7 @@ final class InvalidFilesDetector
             throw new RuntimeException('Unable to resolve working directory.');
         }
 
+        $workdir = $this->pathNormalizer->normalize($workdir);
         $filePaths = $this->collectFilePaths($config->getFinder(), $workdir);
         if ([] === $filePaths) {
             return [];
@@ -42,7 +43,7 @@ final class InvalidFilesDetector
 
         $output = $this->runCheck(
             $workdir,
-            $config->getConfigPath(),
+            $this->pathNormalizer->normalize($config->getConfigPath()),
             $config->getConfig()->getRiskyAllowed(),
             $filePaths,
         );
@@ -73,6 +74,10 @@ final class InvalidFilesDetector
             ...$filePaths,
         ];
 
+        if ($this->supportsSequentialFlag()) {
+            $command[] = '--sequential';
+        }
+
         $descriptors = [
             0 => ['pipe', 'r'],
             1 => ['pipe', 'w'],
@@ -96,11 +101,79 @@ final class InvalidFilesDetector
             throw new RuntimeException(\sprintf('php-cs-fixer check failed with exit code %d: %s', $exitCode, trim((string) $stderr)));
         }
 
-        if (false === $stdout || '' === trim($stdout)) {
-            throw new RuntimeException('php-cs-fixer check returned empty output.');
+        $output = $this->extractJsonOutput((string) $stdout, (string) $stderr);
+        if ('' === $output) {
+            throw new RuntimeException(\sprintf(
+                'php-cs-fixer check returned empty JSON output. stdout: %s stderr: %s',
+                trim((string) $stdout),
+                trim((string) $stderr),
+            ));
         }
 
-        return $stdout;
+        return $output;
+    }
+
+    private function supportsSequentialFlag(): bool
+    {
+        $command = [
+            \PHP_BINARY,
+            $this->binaryResolver->resolve(),
+            '--version',
+        ];
+
+        $versionOutput = $this->runCommandOutput($command);
+        if (null === $versionOutput) {
+            return false;
+        }
+
+        if (!preg_match('/(\d+)\.(\d+)\.(\d+)/', $versionOutput, $matches)) {
+            return false;
+        }
+
+        return version_compare($matches[1] . '.' . $matches[2] . '.' . $matches[3], '3.50.0', '>=');
+    }
+
+    /**
+     * @param list<string> $command
+     */
+    private function runCommandOutput(array $command): ?string
+    {
+        $descriptors = [
+            0 => ['pipe', 'r'],
+            1 => ['pipe', 'w'],
+            2 => ['pipe', 'w'],
+        ];
+
+        $process = proc_open($command, $descriptors, $pipes);
+        if (!\is_resource($process)) {
+            return null;
+        }
+
+        fclose($pipes[0]);
+        $output = stream_get_contents($pipes[1]) . stream_get_contents($pipes[2]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        proc_close($process);
+
+        return trim($output);
+    }
+
+    private function extractJsonOutput(string $stdout, string $stderr): string
+    {
+        foreach ([$stdout, $stderr, $stdout . "\n" . $stderr] as $stream) {
+            foreach (array_reverse(explode("\n", trim($stream))) as $line) {
+                $line = trim($line);
+                if ('' === $line || !str_starts_with($line, '{')) {
+                    continue;
+                }
+
+                if (str_contains($line, '"files"')) {
+                    return $line;
+                }
+            }
+        }
+
+        return '';
     }
 
     /**
@@ -130,22 +203,9 @@ final class InvalidFilesDetector
     private function collectFilePaths(Finder $finder, string $workdir): array
     {
         $paths = [];
-        $normalizedWorkdir = $this->pathNormalizer->normalize($workdir);
 
         foreach ($finder as $file) {
-            $realPath = $file->getRealPath();
-            if (false === $realPath) {
-                continue;
-            }
-
-            $normalizedPath = $this->pathNormalizer->normalize($realPath);
-            if (str_starts_with($normalizedPath, $normalizedWorkdir . '/')) {
-                $paths[] = substr($normalizedPath, \strlen($normalizedWorkdir) + 1);
-
-                continue;
-            }
-
-            $paths[] = $normalizedPath;
+            $paths[] = $this->pathNormalizer->normalizeSplFileInfo($file, $workdir);
         }
 
         return $paths;
