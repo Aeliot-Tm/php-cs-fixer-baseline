@@ -210,6 +210,7 @@ final class ApplicationTest extends TestCase
     public function testGenerateCommandWithInvalidOnlyIncludesOnlyNonCompliantFiles(): void
     {
         [$exitCode, $output] = $this->runGenerateCommand([
+            '--config' => '.php-cs-fixer-detector.php',
             '--finder' => '.php-cs-fixer-finder-invalid-only.php',
             '--invalid-only' => true,
         ]);
