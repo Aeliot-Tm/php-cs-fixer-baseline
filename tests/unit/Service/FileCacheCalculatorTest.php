@@ -14,10 +14,11 @@ declare(strict_types=1);
 namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
 use Aeliot\PhpCsFixerBaseline\Service\FileCacheCalculator;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FileCacheCalculator::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\FileCacheCalculator
+ */
 final class FileCacheCalculatorTest extends TestCase
 {
     public function testCalculate(): void

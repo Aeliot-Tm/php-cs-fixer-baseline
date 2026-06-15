@@ -9,6 +9,7 @@ services:
       - '../src/Console/Application.php'
       - '../src/Console/ContainerBuilder.php'
       - '../src/Dto'
+      - '../src/Exception'
       - '../src/Model'
 
   Aeliot\PhpCsFixerBaseline\Console\Command\:

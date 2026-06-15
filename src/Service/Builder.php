@@ -21,10 +21,10 @@ use Aeliot\PhpCsFixerBaseline\Model\FileHash;
 final class Builder
 {
     public function __construct(
-        private readonly ConfigHashCalculator $configHashCalculator,
-        private readonly FileCacheCalculator $fileCacheCalculator,
-        private readonly InvalidFilesDetector $invalidFilesDetector,
-        private readonly PathNormalizer $pathNormalizer,
+        private ConfigHashCalculator $configHashCalculator,
+        private FileCacheCalculator $fileCacheCalculator,
+        private InvalidFilesDetector $invalidFilesDetector,
+        private PathNormalizer $pathNormalizer,
     ) {
     }
 
@@ -40,8 +40,8 @@ final class Builder
 
         foreach ($config->getFinder() as $file) {
             if (null !== $allowedPaths) {
-                $normalizedPath = $this->pathNormalizer->normalize(
-                    $file->getPathname(),
+                $normalizedPath = $this->pathNormalizer->normalizeSplFileInfo(
+                    $file,
                     $config->getWorkdir() ?? getcwd() ?: null,
                 );
 

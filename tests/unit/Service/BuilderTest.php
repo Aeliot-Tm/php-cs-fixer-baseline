@@ -22,10 +22,11 @@ use Aeliot\PhpCsFixerBaseline\Service\InvalidFilesDetector;
 use Aeliot\PhpCsFixerBaseline\Service\PathNormalizer;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Builder::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\Builder
+ */
 final class BuilderTest extends TestCase
 {
     public function testCreate(): void

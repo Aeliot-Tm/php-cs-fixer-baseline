@@ -4,4 +4,5 @@
 /var/
 /vendor/
 /.php-cs-fixer.cache
+.phpunit.result.cache
 pcsf-baseline.phar

@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * @internal
  */
-final readonly class ContainerBuilder
+final class ContainerBuilder
 {
     /**
      * @throws \Exception

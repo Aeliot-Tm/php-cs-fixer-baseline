@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Dto;
 
-final readonly class FilterOptions
+final class FilterOptions
 {
     public function __construct(
         private ?string $mode = null,

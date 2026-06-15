@@ -14,12 +14,13 @@ declare(strict_types=1);
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
 use Aeliot\PhpCsFixerBaseline\Dto\FilterOptions;
+use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 
 final class FilterFactory
 {
-    private readonly Reader $reader;
-    private readonly ConfigHashCalculator $configHashCalculator;
-    private readonly FileComparator $fileComparator;
+    private Reader $reader;
+    private ConfigHashCalculator $configHashCalculator;
+    private FileComparator $fileComparator;
 
     public function __construct(
         ?Reader $reader = null,
@@ -28,7 +29,7 @@ final class FilterFactory
     ) {
         $this->reader = $reader ?? new Reader();
         $this->configHashCalculator = $configHashCalculator ?? new ConfigHashCalculator();
-        $this->fileComparator = $fileComparator ?? new FileComparator();
+        $this->fileComparator = $fileComparator ?? new FileComparator(new FileCacheCalculator());
     }
 
     /**
@@ -37,7 +38,7 @@ final class FilterFactory
     public function createFilter(string $path, $fixerConfig, ?FilterOptions $options = null): \Closure
     {
         if (!(is_a($fixerConfig, 'PhpCsFixer\Config') || is_a($fixerConfig, 'PhpCsFixer\ConfigInterface'))) {
-            throw new \InvalidArgumentException('Fixer config must be an instance of PhpCsFixer\Config or PhpCsFixer\ConfigInterface');
+            throw new InvalidArgumentException('Fixer config must be an instance of PhpCsFixer\Config or PhpCsFixer\ConfigInterface');
         }
 
         $mode = $this->resolveMode($options?->getMode());
@@ -60,7 +61,7 @@ final class FilterFactory
         $mode ??= FileComparator::MODE_BY_HASH;
 
         if (!\in_array($mode, FileComparator::MODES, true)) {
-            throw new \InvalidArgumentException(\sprintf('Invalid filter mode "%s". Allowed: %s.', $mode, implode(', ', FileComparator::MODES)));
+            throw new InvalidArgumentException(\sprintf('Invalid filter mode "%s". Allowed: %s.', $mode, implode(', ', FileComparator::MODES)));
         }
 
         return $mode;

@@ -16,7 +16,6 @@ namespace Aeliot\PhpCsFixerBaseline\Console\Command;
 use Aeliot\PhpCsFixerBaseline\Service\Builder;
 use Aeliot\PhpCsFixerBaseline\Service\BuilderConfigFactory;
 use Aeliot\PhpCsFixerBaseline\Service\Saver;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,13 +24,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @internal
  */
-#[AsCommand(name: 'generate', description: 'Generate PHP CS Fixer baseline file')]
 final class GenerateCommand extends Command
 {
+    protected static $defaultName = 'generate';
+
     public function __construct(
-        private readonly BuilderConfigFactory $builderConfigFactory,
-        private readonly Builder $builder,
-        private readonly Saver $saver,
+        private BuilderConfigFactory $builderConfigFactory,
+        private Builder $builder,
+        private Saver $saver,
     ) {
         parent::__construct();
     }
@@ -39,6 +39,7 @@ final class GenerateCommand extends Command
     protected function configure(): void
     {
         $this
+            ->setDescription('Generate PHP CS Fixer baseline file')
             ->addOption(
                 'absolute',
                 'a',
@@ -94,6 +95,6 @@ final class GenerateCommand extends Command
         $this->saver->save($baseline);
         $output->writeln(\sprintf('Ok, %s files added to baseline', $baseline->getLockedFilesCount()));
 
-        return self::SUCCESS;
+        return 0;
     }
 }

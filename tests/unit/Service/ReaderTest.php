@@ -15,10 +15,11 @@ namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
 use Aeliot\PhpCsFixerBaseline\Service\Reader;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Reader::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\Reader
+ */
 final class ReaderTest extends TestCase
 {
     public function testNotExistingPath(): void

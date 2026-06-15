@@ -19,10 +19,11 @@ use Aeliot\PhpCsFixerBaseline\Service\PathNormalizer;
 use Aeliot\PhpCsFixerBaseline\Service\PhpCsFixerBinaryResolver;
 use Aeliot\PhpCsFixerBaseline\Service\VendorPathResolver;
 use PhpCsFixer\Config;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(InvalidFilesDetector::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\InvalidFilesDetector
+ */
 final class InvalidFilesDetectorTest extends TestCase
 {
     private string $projectRoot;

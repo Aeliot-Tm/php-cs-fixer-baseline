@@ -14,10 +14,11 @@ declare(strict_types=1);
 namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Model;
 
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FileHash::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Model\FileHash
+ */
 final class FileHashTest extends TestCase
 {
     public function testGetters(): void

@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Console\Command;
 
+use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 use Aeliot\PhpCsFixerBaseline\Service\BuilderConfigFactory;
 use Aeliot\PhpCsFixerBaseline\Service\Saver;
 use Aeliot\PhpCsFixerBaseline\Service\Updater;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,13 +26,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @internal
  */
-#[AsCommand(name: 'update', description: 'Update hash for files already in baseline')]
 final class UpdateCommand extends Command
 {
+    protected static $defaultName = 'update';
+
     public function __construct(
-        private readonly BuilderConfigFactory $builderConfigFactory,
-        private readonly Updater $updater,
-        private readonly Saver $saver,
+        private BuilderConfigFactory $builderConfigFactory,
+        private Updater $updater,
+        private Saver $saver,
     ) {
         parent::__construct();
     }
@@ -40,6 +41,7 @@ final class UpdateCommand extends Command
     protected function configure(): void
     {
         $this
+            ->setDescription('Update hash for files already in baseline')
             ->addOption(
                 'absolute',
                 'a',
@@ -79,7 +81,7 @@ final class UpdateCommand extends Command
         $filePaths = $input->getArgument('path');
 
         if ([] === $filePaths) {
-            throw new \InvalidArgumentException('At least one path argument is required.');
+            throw new InvalidArgumentException('At least one path argument is required.');
         }
 
         $context = $this->builderConfigFactory->resolveBaselineOptions($input);
@@ -87,6 +89,6 @@ final class UpdateCommand extends Command
         $this->saver->save($baseline);
         $output->writeln(\sprintf('Ok, %d file(s) updated in baseline', \count($filePaths)));
 
-        return self::SUCCESS;
+        return 0;
     }
 }

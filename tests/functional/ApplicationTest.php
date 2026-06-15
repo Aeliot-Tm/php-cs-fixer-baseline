@@ -20,14 +20,15 @@ use Aeliot\PhpCsFixerBaseline\Console\ContainerBuilder;
 use Aeliot\PhpCsFixerBaseline\Service\FileCacheCalculator;
 use Aeliot\PhpCsFixerBaseline\Service\FilterFactory;
 use PhpCsFixer\Config;
-use PHPUnit\Framework\Attributes\CoversNothing;
-use PHPUnit\Framework\Attributes\Large;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-#[CoversNothing]
-#[Large]
+/**
+ * @coversNothing
+ *
+ * @large
+ */
 final class ApplicationTest extends TestCase
 {
     private string $projectRoot;
@@ -210,8 +211,10 @@ final class ApplicationTest extends TestCase
     public function testGenerateCommandWithInvalidOnlyIncludesOnlyNonCompliantFiles(): void
     {
         [$exitCode, $output] = $this->runGenerateCommand([
+            '--config' => '.php-cs-fixer-detector.php',
             '--finder' => '.php-cs-fixer-finder-invalid-only.php',
             '--invalid-only' => true,
+            '--workdir' => $this->projectRoot,
         ]);
 
         self::assertSame(0, $exitCode);

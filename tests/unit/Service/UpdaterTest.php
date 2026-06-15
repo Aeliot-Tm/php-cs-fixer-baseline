@@ -13,12 +13,15 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
+use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 use Aeliot\PhpCsFixerBaseline\Service\FileCacheCalculator;
+use Aeliot\PhpCsFixerBaseline\Service\Reader;
 use Aeliot\PhpCsFixerBaseline\Service\Updater;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Updater::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\Updater
+ */
 final class UpdaterTest extends TestCase
 {
     private string $fixtureFile;
@@ -53,7 +56,7 @@ final class UpdaterTest extends TestCase
         file_put_contents($this->fixtureFile, $originalContent . "\n");
 
         try {
-            $baselineFile = (new Updater())->update(
+            $baselineFile = (new Updater(new Reader(), new FileCacheCalculator()))->update(
                 [
                     'baselinePath' => $baselinePath,
                     'relative' => false,
@@ -91,7 +94,7 @@ final class UpdaterTest extends TestCase
         file_put_contents($firstFile, "<?php\n// changed\n");
         file_put_contents($secondFile, "<?php\n// changed too\n");
 
-        $baselineFile = (new Updater())->update(
+        $baselineFile = (new Updater(new Reader(), new FileCacheCalculator()))->update(
             [
                 'baselinePath' => $baselinePath,
                 'relative' => false,
@@ -124,7 +127,7 @@ final class UpdaterTest extends TestCase
         file_put_contents($this->fixtureFile, $originalContent . "\n");
 
         try {
-            $baselineFile = (new Updater())->update(
+            $baselineFile = (new Updater(new Reader(), new FileCacheCalculator()))->update(
                 [
                     'baselinePath' => $baselinePath,
                     'relative' => false,
@@ -148,10 +151,10 @@ final class UpdaterTest extends TestCase
         ]);
         $anotherFile = $this->createTemporaryPhpFile('outside-baseline');
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('is not in baseline');
 
-        (new Updater())->update(
+        (new Updater(new Reader(), new FileCacheCalculator()))->update(
             [
                 'baselinePath' => $baselinePath,
                 'relative' => false,
@@ -176,7 +179,7 @@ final class UpdaterTest extends TestCase
         file_put_contents($this->fixtureFile, $originalContent . "\n");
 
         try {
-            $baselineFile = (new Updater())->update(
+            $baselineFile = (new Updater(new Reader(), new FileCacheCalculator()))->update(
                 [
                     'baselinePath' => $baselinePath,
                     'relative' => true,
@@ -203,10 +206,10 @@ final class UpdaterTest extends TestCase
             ],
         ]);
 
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('does not exist');
 
-        (new Updater())->update(
+        (new Updater(new Reader(), new FileCacheCalculator()))->update(
             [
                 'baselinePath' => $baselinePath,
                 'relative' => false,
@@ -218,10 +221,10 @@ final class UpdaterTest extends TestCase
 
     public function testNonExistentBaselineThrowsException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Baseline file');
 
-        (new Updater())->update(
+        (new Updater(new Reader(), new FileCacheCalculator()))->update(
             [
                 'baselinePath' => sys_get_temp_dir() . '/missing-baseline.json',
                 'relative' => false,

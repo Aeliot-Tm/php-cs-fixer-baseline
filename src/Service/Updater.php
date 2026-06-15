@@ -13,14 +13,15 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
+use Aeliot\PhpCsFixerBaseline\Exception\InvalidArgumentException;
 use Aeliot\PhpCsFixerBaseline\Model\BaselineFile;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
 
 final class Updater
 {
     public function __construct(
-        private readonly Reader $reader = new Reader(),
-        private readonly FileCacheCalculator $fileCacheCalculator = new FileCacheCalculator(),
+        private Reader $reader,
+        private FileCacheCalculator $fileCacheCalculator,
     ) {
     }
 
@@ -33,7 +34,7 @@ final class Updater
         $baselinePath = $context['baselinePath'];
 
         if (!file_exists($baselinePath)) {
-            throw new \InvalidArgumentException(\sprintf('Baseline file "%s" does not exist.', $baselinePath));
+            throw new InvalidArgumentException(\sprintf('Baseline file "%s" does not exist.', $baselinePath));
         }
 
         $baselineFile = $this->reader->read($baselinePath);
@@ -47,13 +48,13 @@ final class Updater
             $absolutePath = realpath($filePath);
 
             if (false === $absolutePath || !is_file($absolutePath)) {
-                throw new \InvalidArgumentException(\sprintf('File "%s" does not exist.', $filePath));
+                throw new InvalidArgumentException(\sprintf('File "%s" does not exist.', $filePath));
             }
 
             $existing = $content->getHash($absolutePath);
 
             if (null === $existing) {
-                throw new \InvalidArgumentException(\sprintf('File "%s" is not in baseline.', $filePath));
+                throw new InvalidArgumentException(\sprintf('File "%s" is not in baseline.', $filePath));
             }
 
             $hash = $this->fileCacheCalculator->calculate(new \SplFileInfo($absolutePath));

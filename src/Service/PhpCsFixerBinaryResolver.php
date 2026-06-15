@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
+use Aeliot\PhpCsFixerBaseline\Exception\RuntimeException;
+
 final class PhpCsFixerBinaryResolver
 {
     public function __construct(
-        private readonly VendorPathResolver $vendorPathResolver,
+        private VendorPathResolver $vendorPathResolver,
     ) {
     }
 
@@ -34,12 +36,14 @@ final class PhpCsFixerBinaryResolver
             }
         }
 
-        $pathBinary = $this->findInPath('php-cs-fixer');
-        if (null !== $pathBinary) {
-            return $pathBinary;
+        if (!isset($GLOBALS['_composer_autoload_path'])) {
+            $pathBinary = $this->findInPath('php-cs-fixer');
+            if (null !== $pathBinary) {
+                return $pathBinary;
+            }
         }
 
-        throw new \RuntimeException('Cannot find php-cs-fixer binary. Install friendsofphp/php-cs-fixer or set PHP_CS_FIXER_BINARY.');
+        throw new RuntimeException('Cannot find php-cs-fixer binary. Install friendsofphp/php-cs-fixer or set PHP_CS_FIXER_BINARY.');
     }
 
     private function findInPath(string $binary): ?string

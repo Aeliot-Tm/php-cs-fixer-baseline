@@ -16,6 +16,18 @@ Base project has requires for it but not implemented yet: https://github.com/PHP
 
 So, it's some work around till baseline will be implemented in the PHP CS Fixer.
 
+### Compatibility
+
+This package requires `friendsofphp/php-cs-fixer: ^3.0` (tested with 3.0.x and 3.95.x).
+
+| PHP CS Fixer | Symfony (transitive) |
+|--------------|----------------------|
+| 3.0.x        | 4.4 or 5.x           |
+| 3.50+        | 5.4+                 |
+| 3.95.x       | 5.4+, 6.x, 7.x, or 8.x |
+
+When PHP CS Fixer 3.95 is installed, Composer resolves Symfony 5.4 or newer. Projects on PHP CS Fixer 3.0.x can still use Symfony 4.4.
+
 ### Installation
 
 There are few ways of installation:

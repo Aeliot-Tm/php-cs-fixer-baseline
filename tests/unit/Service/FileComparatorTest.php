@@ -15,11 +15,13 @@ namespace Aeliot\PhpCsFixerBaseline\Test\Unit\Service;
 
 use Aeliot\PhpCsFixerBaseline\Model\BaselineContent;
 use Aeliot\PhpCsFixerBaseline\Model\FileHash;
+use Aeliot\PhpCsFixerBaseline\Service\FileCacheCalculator;
 use Aeliot\PhpCsFixerBaseline\Service\FileComparator;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FileComparator::class)]
+/**
+ * @covers \Aeliot\PhpCsFixerBaseline\Service\FileComparator
+ */
 final class FileComparatorTest extends TestCase
 {
     public function testInBaseLine(): void
@@ -28,7 +30,7 @@ final class FileComparatorTest extends TestCase
         $baselineContent = new BaselineContent();
         $baselineContent->addHash(new FileHash($file->getPathname(), 4266623405));
 
-        $comparator = new FileComparator();
+        $comparator = new FileComparator(new FileCacheCalculator());
 
         self::assertTrue($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_BY_HASH));
     }
@@ -37,7 +39,7 @@ final class FileComparatorTest extends TestCase
     {
         $file = $this->mockSplFileInfo();
         $baselineContent = new BaselineContent();
-        $comparator = new FileComparator();
+        $comparator = new FileComparator(new FileCacheCalculator());
 
         self::assertFalse($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_BY_HASH));
     }
@@ -48,7 +50,7 @@ final class FileComparatorTest extends TestCase
         $baselineContent = new BaselineContent();
         $baselineContent->addHash(new FileHash($file->getPathname(), 99999999));
 
-        $comparator = new FileComparator();
+        $comparator = new FileComparator(new FileCacheCalculator());
 
         self::assertFalse($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_BY_HASH));
     }
@@ -59,7 +61,7 @@ final class FileComparatorTest extends TestCase
         $baselineContent = new BaselineContent();
         $baselineContent->addHash(new FileHash($file->getPathname(), 99999999));
 
-        $comparator = new FileComparator();
+        $comparator = new FileComparator(new FileCacheCalculator());
 
         self::assertTrue($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_MENTIONED));
     }
@@ -68,7 +70,7 @@ final class FileComparatorTest extends TestCase
     {
         $file = $this->mockSplFileInfo();
         $baselineContent = new BaselineContent();
-        $comparator = new FileComparator();
+        $comparator = new FileComparator(new FileCacheCalculator());
 
         self::assertFalse($comparator->isInBaseLine($baselineContent, $file, FileComparator::MODE_MENTIONED));
     }

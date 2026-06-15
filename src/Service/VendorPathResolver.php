@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Aeliot\PhpCsFixerBaseline\Service;
 
+use Aeliot\PhpCsFixerBaseline\Exception\RuntimeException;
+
 final class VendorPathResolver
 {
     public function resolveAutoloaderPath(string $binaryDirectory): string
@@ -35,7 +37,7 @@ final class VendorPathResolver
             return false !== $realPath ? $realPath : $path;
         }
 
-        throw new \RuntimeException('Cannot find autoloader');
+        throw new RuntimeException('Cannot find autoloader');
     }
 
     /**
