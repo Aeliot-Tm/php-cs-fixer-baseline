@@ -17,6 +17,7 @@ use Aeliot\PhpCsFixerBaseline\Model\BuilderConfig;
 use Aeliot\PhpCsFixerBaseline\Service\InvalidFilesDetector;
 use Aeliot\PhpCsFixerBaseline\Service\PathNormalizer;
 use Aeliot\PhpCsFixerBaseline\Service\PhpCsFixerBinaryResolver;
+use Aeliot\PhpCsFixerBaseline\Service\VendorPathResolver;
 use PhpCsFixer\Config;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -52,7 +53,7 @@ final class InvalidFilesDetectorTest extends TestCase
         $pathNormalizer = new PathNormalizer();
 
         $detectedPaths = (new InvalidFilesDetector(
-            new PhpCsFixerBinaryResolver(),
+            new PhpCsFixerBinaryResolver(new VendorPathResolver()),
             $pathNormalizer,
         ))->detect($builderConfig);
 
